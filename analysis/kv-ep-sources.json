@@ -1,0 +1,166 @@
+{
+  "inspected_on": "2026-09-12",
+  "scope": "Source analysis only; no binary version pairing or NPU execution verified",
+  "repositories": [
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "files": [
+        {
+          "path": "vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py",
+          "sha256": "f30572890014d0244bf31d8e15dc5d93fb84147df37e0b2c1d1b01cbba6dd533",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py"
+        },
+        {
+          "path": "vllm_ascend/ops/fused_moe/token_dispatcher.py",
+          "sha256": "cc128250739f9558d0a21af3f8deb938ae995c04615d7bd7d7698a1b1847de02",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/ops/fused_moe/token_dispatcher.py"
+        },
+        {
+          "path": "vllm_ascend/ops/fused_moe/prepare_finalize.py",
+          "sha256": "19d7d17ccff6ff1d55c391142dbe1f4c5e849a6e0132fa7ad0872999ebb7aa53",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/ops/fused_moe/prepare_finalize.py"
+        },
+        {
+          "path": "vllm_ascend/models/deepseek_v4/compressor.py",
+          "sha256": "40eb149a3eee63c60e268733d0635440b7fb29dd4fefc6ce3910fe18dc825b85",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v4/compressor.py"
+        },
+        {
+          "path": "vllm_ascend/models/deepseek_v4/indexer.py",
+          "sha256": "7d4b3d5b2ebfbc48f469576ea4b8f02d0f8f9476a814b9fb37fc89dae4843b5f",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v4/indexer.py"
+        },
+        {
+          "path": "vllm_ascend/models/deepseek_v4/model.py",
+          "sha256": "54433f7d4e133a3f37ddab2d234a10fb7e58c929b1348efab3613c5f30c78889",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v4/model.py"
+        },
+        {
+          "path": "vllm_ascend/models/layer/attention/layer.py",
+          "sha256": "b70b78a87f08b2ffc6b3beb42fea738eb8fe00028ce30db80dc99c7c656a358d",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/layer/attention/layer.py"
+        },
+        {
+          "path": "vllm_ascend/ops/kimi_kda.py",
+          "sha256": "35365b3b353fc492b4dc5d75b88916431f6802c21bf51b61b4893d39d54f11f3",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/ops/kimi_kda.py"
+        }
+      ]
+    },
+    {
+      "repository": "https://github.com/vllm-project/vllm-ascend",
+      "revision": "842b030f8375e630eb639e0560eac7735d04f700",
+      "files": [
+        {
+          "path": "vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py",
+          "sha256": "cd469efd9984c725073e44465a1657db09f08985b7ab08bd987e22c8484c8a6c",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/842b030f8375e630eb639e0560eac7735d04f700/vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py"
+        },
+        {
+          "path": "vllm_ascend/ops/kimi_kda_state.py",
+          "sha256": "75af4572e9801846c40ddbd6173e37c9e4daf7e332404b4592756ea203bad0e3",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/842b030f8375e630eb639e0560eac7735d04f700/vllm_ascend/ops/kimi_kda_state.py"
+        },
+        {
+          "path": "vllm_ascend/attention/context_parallel/dsa_cp.py",
+          "sha256": "529518fe98432ad6231d9e6e79ce8245dc6cd28ad032c95754a6a82080fc3367",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/842b030f8375e630eb639e0560eac7735d04f700/vllm_ascend/attention/context_parallel/dsa_cp.py"
+        },
+        {
+          "path": "vllm_ascend/attention/sfa_v1.py",
+          "sha256": "0e5b591eede16a89cf517c83de95bc5278be515bd191adbe18be6fb2fbf844e2",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/842b030f8375e630eb639e0560eac7735d04f700/vllm_ascend/attention/sfa_v1.py"
+        },
+        {
+          "path": "vllm_ascend/core/kv_cache_interface.py",
+          "sha256": "cbd7cabf66fa2d61b576c6d3a1d86778d23ab8d8d6ce30100af934d800fca70f",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/842b030f8375e630eb639e0560eac7735d04f700/vllm_ascend/core/kv_cache_interface.py"
+        }
+      ]
+    },
+    {
+      "repository": "https://github.com/vllm-project/vllm",
+      "revision": "c8438a3d40168ce1d9eade0dc15ccbe5d27adb68",
+      "files": [
+        {
+          "path": "vllm/model_executor/models/deepseek_v2.py",
+          "sha256": "7b67c31fd4bc470b1d5012719fdcf15ace1997ef9718b0f6d1c0f88a62f7e200",
+          "url": "https://github.com/vllm-project/vllm/blob/c8438a3d40168ce1d9eade0dc15ccbe5d27adb68/vllm/model_executor/models/deepseek_v2.py"
+        },
+        {
+          "path": "vllm/model_executor/layers/mamba/mamba_utils.py",
+          "sha256": "b1e57f7f034996be4ed477224141d4caa7df76ad99f558beb71524d048d5cb87",
+          "url": "https://github.com/vllm-project/vllm/blob/c8438a3d40168ce1d9eade0dc15ccbe5d27adb68/vllm/model_executor/layers/mamba/mamba_utils.py"
+        },
+        {
+          "path": "vllm/models/deepseek_v4/compressor.py",
+          "sha256": "ee1898a185eb5d0b0fdf010c8bd49d5b1ebd301c44da9b3525a6506f31ecfba3",
+          "url": "https://github.com/vllm-project/vllm/blob/c8438a3d40168ce1d9eade0dc15ccbe5d27adb68/vllm/models/deepseek_v4/compressor.py"
+        }
+      ]
+    },
+    {
+      "repository": "https://gitcode.com/cann/hccl",
+      "revision": "170ddeec539b4d693028ce6e0cf5c58933e4d46d",
+      "files": [
+        {
+          "path": "include/hccl_mc2.h",
+          "sha256": "006c54151da774da37c097b318b863f3d2d5f7eb4233ef9fc822819195c21db7",
+          "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/include/hccl_mc2.h"
+        },
+        {
+          "path": "src/common/hccl_mc2.cc",
+          "sha256": "dfeeaaf72fb9add614c51d2059f4cb76972b4748b7bb9449d16063e51cd237b0",
+          "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/src/common/hccl_mc2.cc"
+        },
+        {
+          "path": "docs/zh/api_ref/comm_op_interface/HcclAlltoAllV.md",
+          "sha256": "b821f11f8b14ff89815fa287e94f4aa5e4eb2c39ff2857a3f10d511190763ecd",
+          "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/docs/zh/api_ref/comm_op_interface/HcclAlltoAllV.md"
+        },
+        {
+          "path": "docs/zh/user_guide/coll_algo_intro/Ring.md",
+          "sha256": "2357fd64e09d6a81e37d74267bd2a6bd008d0edb98fa1d84ce31a32656951a9b",
+          "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/docs/zh/user_guide/coll_algo_intro/Ring.md"
+        }
+      ]
+    },
+    {
+      "repository": "https://gitcode.com/cann/ops-transformer",
+      "revision": "f48a9346d7b638ed2854bb98eafeb6e825e75cff",
+      "files": [
+        {
+          "path": "mc2/moe_distribute_dispatch_v2/docs/aclnnMoeDistributeDispatchV2.md",
+          "sha256": "2703e7a7c0647bd7dd4ff4b824b23bbe831a9a862511f53f43ebbb435041383a",
+          "url": "https://gitcode.com/cann/ops-transformer/blob/f48a9346d7b638ed2854bb98eafeb6e825e75cff/mc2/moe_distribute_dispatch_v2/docs/aclnnMoeDistributeDispatchV2.md"
+        },
+        {
+          "path": "mc2/moe_distribute_dispatch_v2/op_kernel/arch22/moe_distribute_dispatch_v2_full_mesh.h",
+          "sha256": "b2835b2981ec2ea11729ca5f67656d3f7d102e34385beaf9af41ebdd42f65f5a",
+          "url": "https://gitcode.com/cann/ops-transformer/blob/f48a9346d7b638ed2854bb98eafeb6e825e75cff/mc2/moe_distribute_dispatch_v2/op_kernel/arch22/moe_distribute_dispatch_v2_full_mesh.h"
+        },
+        {
+          "path": "mc2/moe_distribute_dispatch_v2/op_kernel/moe_distribute_dispatch_v2_quant.h",
+          "sha256": "cae5666d40b39e42fb976d073fb031069862c16294ca1a472dcd606a24dcf4bb",
+          "url": "https://gitcode.com/cann/ops-transformer/blob/f48a9346d7b638ed2854bb98eafeb6e825e75cff/mc2/moe_distribute_dispatch_v2/op_kernel/moe_distribute_dispatch_v2_quant.h"
+        },
+        {
+          "path": "mc2/moe_distribute_dispatch_v2/op_kernel/moe_distribute_dispatch_v2.h",
+          "sha256": "d348a2a9305fc307000ff90f91fbff4ce87e7663daada86392efb2c666c1a9ec",
+          "url": "https://gitcode.com/cann/ops-transformer/blob/f48a9346d7b638ed2854bb98eafeb6e825e75cff/mc2/moe_distribute_dispatch_v2/op_kernel/moe_distribute_dispatch_v2.h"
+        },
+        {
+          "path": "mc2/moe_distribute_dispatch_v2/op_kernel/arch22/moe_distribute_dispatch_v2_a3.cpp",
+          "sha256": "352b411fb783d76e944a1aa2acf1aa9a453bcef0923903f7f34622cbc2d2971f",
+          "url": "https://gitcode.com/cann/ops-transformer/blob/f48a9346d7b638ed2854bb98eafeb6e825e75cff/mc2/moe_distribute_dispatch_v2/op_kernel/arch22/moe_distribute_dispatch_v2_a3.cpp"
+        },
+        {
+          "path": "mc2/moe_distribute_combine_v2/op_kernel/arch22/moe_distribute_combine_v2.h",
+          "sha256": "df0f9c443fbef7c82ba6f33707d0f1ad223f3bbe54c7c7b4721b3e79524402d1",
+          "url": "https://gitcode.com/cann/ops-transformer/blob/f48a9346d7b638ed2854bb98eafeb6e825e75cff/mc2/moe_distribute_combine_v2/op_kernel/arch22/moe_distribute_combine_v2.h"
+        }
+      ]
+    }
+  ]
+}

@@ -4,12 +4,14 @@ import { modelSpec, elementCount } from "./model-analysis-specs.mjs";
 import { loadCommunicationRequirements } from "../lib/communication-requirements.mjs";
 import { estimateCollective, estimateAllToAllV, jsonBytes } from "../lib/collectives.mjs";
 import { v41Step, v41Cache, v41Topology, v41EngramRouting } from '../lib/deepseek-v41.mjs';
+import { loadKvEpSpecs } from '../lib/kv-ep-specs.mjs';
 
 const [command, input] = process.argv.slice(2);
 if (!command || ["help", "--help", "-h"].includes(command)) {
   console.log(`Usage:
   node scripts/export-analysis.mjs weights [MODEL_SLUG]
   node scripts/export-analysis.mjs communication [deepseek-v4.1-flash]
+  node scripts/export-analysis.mjs kv-ep
   node scripts/export-analysis.mjs engram EVENT.json
   node scripts/export-analysis.mjs collective EVENT.json
 
@@ -44,6 +46,8 @@ MODEL_CONFIG_ROOT optionally selects a directory containing <slug>/config.json.`
     }));
   } else if (input) throw new Error(`Unknown communication example: ${input}`);
   else console.log(jsonBytes(await loadCommunicationRequirements()));
+} else if (command === 'kv-ep') {
+  console.log(jsonBytes(await loadKvEpSpecs()));
 } else if (command === 'engram') {
   if (!input) throw new Error('engram requires EVENT.json');
   console.log(jsonBytes(v41EngramRouting(JSON.parse(await fs.readFile(input, 'utf8')))));

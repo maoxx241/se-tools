@@ -6,6 +6,7 @@
 
 - **看结论与场景**：[分析记录](analysis/SESSION.md)。包含范围、模型差异、最终 P/D 拓扑和保留的问题。
 - **DeepSeek V4.1 Flash**：[模型及 Excel](models/deepseek-v4.1-flash/)、[VA main 实现分析](analysis/DEEPSEEK-V4.1.md)。独立处理跨层缓存、DSA CP、Engram 和源权重/驻留格式差异。
+- **EP32 / EP256 新规格**：[五模型通信与 KV 存取对比](examples/kv-ep-sweep/)、[公式和源码依据](analysis/KV-EP-SPECS.md)。随 DP 域扩大刷新 Prefill AllToAllV、Decode MC2，并分列 Prefill 生成与 P→D 拉取量。
 - **直接使用 Excel**：[模型目录](models/)内每个模型各有一份 Prefill / Decode 工作簿；[256K 通信需求案例](examples/communication-256k/)包含跨模型结果和复算输出。
 - **看计算依据**：[权重与通信方法](analysis/METHODOLOGY.md)、[HCCL 校正](analysis/HCCL.md)、[来源版本](analysis/EVIDENCE.md)。
 - **接入新模型或 Profiling**：[扩展与复算指南](analysis/REPRODUCING.md)。
@@ -22,12 +23,14 @@ cd se-tools
 npm test
 node scripts/export-analysis.mjs weights kimi-k3
 node scripts/export-analysis.mjs communication
+node scripts/export-analysis.mjs kv-ep
 node scripts/export-analysis.mjs weights deepseek-v4.1-flash
 node scripts/export-analysis.mjs communication deepseek-v4.1-flash
 node scripts/export-analysis.mjs engram examples/hccl/engram.json
 node scripts/export-analysis.mjs collective examples/hccl/allreduce.json
 node scripts/export-analysis.mjs collective examples/hccl/alltoallv.json
 python3 scripts/verify-archive.py
+python3 scripts/verify-kv-ep.py
 ```
 
 `weights` 输出 Tensor 形状、dtype、总字节数和切分规则；不带模型参数的 `communication` 复算历史六模型场景，指定 V4.1 则输出新增案例；`collective` 按 HCCL API count 口径计算；`engram` 计算查询和反向响应的不均衡流量。JSON 中大字节数用十进制字符串表示。
@@ -37,9 +40,11 @@ python3 scripts/verify-archive.py
 ```text
 models/<model>/                    config.json、历史 Excel、模型说明
 examples/communication-256k/       最终 P/D 场景、历史 Excel、复算数值
+examples/kv-ep-sweep/              EP32/256、DP 域变化、KV 存取公式及 Excel
 examples/hccl/                     API count 与非均衡 AlltoAllV 示例
 lib/collectives.mjs                HCCL count、Ring、AlltoAllV 公共计算
 lib/communication-requirements.mjs  256K 场景与 P→D 缓存计算
+lib/kv-ep-specs.mjs                五模型逐组件 KV 与 AllToAllV / MC2 估算
 lib/model-catalog.mjs              模型与来源 revision
 scripts/model-analysis-specs.mjs   模型专属 Tensor 清单
 scripts/                          导出、可选 Excel 构建及验证
@@ -53,6 +58,7 @@ analysis/                         结论、方法、证据与扩展指南
 ```bash
 node scripts/build-analysis-workbook.mjs outputs/models
 node scripts/verify-analysis-workbook.mjs outputs/models
+node scripts/build-kv-ep-workbook.mjs outputs/kv-ep
 MODEL=kimi-k3 node scripts/build-analysis-workbook.mjs outputs/models
 # 使用已有通信需求表布局重新填值；仅写六个模型的 I4:I18
 node scripts/fill-communication-requirement.mjs \
