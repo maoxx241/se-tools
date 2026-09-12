@@ -6,6 +6,7 @@
 - [config.json](config.json)：官方原始配置。
 - [权重元数据](weight-metadata.json)：48 个分片的 header 哈希、96,085 个 Tensor 的 116 类形状/精度/数量、完整覆盖及大小校验；仅通过 HTTP Range 读取头部，没有下载权重载荷。
 - [通信复算结果](communication-example.json)、[实现分析与公式](../../analysis/DEEPSEEK-V4.1.md)、[来源及哈希](sources.json)。
+- [EP32 / EP256 通信与 KV 存取扩展](../../examples/kv-ep-sweep/)：逐组件生成、保留、P→D 规划量和 DP 域汇总；Excel 公式可编辑。当前 main 未支持迁移，规划量与实际可用路径分开标注。
 
 模型为 40 层、H=5120、64 个 Attention Head、Head Dim=512；每层 384 个 Routed Expert、TopK=6、1 个 Shared Expert。包含两张 Engram 表、32 层视觉编码器、3 层 DSpark draft（128 Expert、TopK=3）。参数名称、shape、norm、scale 分别建模。
 

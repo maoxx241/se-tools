@@ -1682,5 +1682,439 @@
         "denominator": "256"
       }
     }
+  },
+  {
+    "model": "DS V4.1 Flash",
+    "slug": "deepseek-v4.1-flash",
+    "profile": "deepseek_v41",
+    "ep": 32,
+    "facts": {
+      "H": 5120,
+      "vocab": 129280,
+      "layers": 40,
+      "attentionLayers": 40,
+      "tpAttentionLayers": 40,
+      "dcpAttentionLayers": 0,
+      "denseLayers": 0,
+      "moeLayers": 40,
+      "heads": 64,
+      "headDim": 512,
+      "kvHeads": 1,
+      "kvRank": 512,
+      "ropeDim": 64,
+      "experts": 384,
+      "topK": 6,
+      "indexTopK": 512,
+      "indexerLayers": 8,
+      "engramTables": 2,
+      "engramColumns": 24,
+      "engramWidth": 256,
+      "auxLayers": 3
+    },
+    "options": {
+      "promptTokens": 262144,
+      "requestsPerDP": 16,
+      "prefillTP": 8,
+      "blockSize": 128,
+      "speculativeSlots": 7,
+      "prefillTokensPerDP": 16384,
+      "decodeTokensPerDP": 128,
+      "dispatchBytes": 2,
+      "dispatchScaleBytes": 0,
+      "combineBytes": 2,
+      "countBytes": 4
+    },
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "4",
+      "decodeTP": "1",
+      "decodeDP": "32"
+    },
+    "stepWorkload": {
+      "prefillTokensPerRank": "2048",
+      "decodeTokensPerRank": "128",
+      "prefillTokensPerEPGroup": "65536",
+      "decodeTokensPerEPGroup": "4096",
+      "independentMoEDPAllGather": false,
+      "scope": "All2All/MC2 token shards already span all DP ranks; do not add the alternative AllGather backend"
+    },
+    "placementStatus": "even-expert-count; runtime unverified",
+    "redundantExpertsRequired": "0",
+    "cache": {
+      "prefillTokens": "262144",
+      "prefillTP": "8",
+      "decodeTP": "1",
+      "components": [
+        {
+          "component": "SWA KV / BF16",
+          "kind": "kv",
+          "layers": "40",
+          "rowBytes": "1024",
+          "generatedRows": "262144",
+          "retainedRows": "128",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "85899345920",
+          "retainedBytes": "41943040",
+          "pullBytes": null,
+          "plannedPullRows": "256",
+          "plannedPullBytes": "10485760"
+        },
+        {
+          "component": "C2 shared KV / BF16",
+          "kind": "kv",
+          "layers": "3",
+          "rowBytes": "1024",
+          "generatedRows": "131072",
+          "retainedRows": "131072",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "3221225472",
+          "retainedBytes": "3221225472",
+          "pullBytes": null,
+          "plannedPullRows": "131072",
+          "plannedPullBytes": "402653184"
+        },
+        {
+          "component": "C2 shared Indexer / INT8 + FP16 scale",
+          "kind": "index",
+          "layers": "3",
+          "rowBytes": "130",
+          "generatedRows": "131072",
+          "retainedRows": "131072",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "408944640",
+          "retainedBytes": "408944640",
+          "pullBytes": null,
+          "plannedPullRows": "131072",
+          "plannedPullBytes": "51118080"
+        },
+        {
+          "component": "C1 shared KV / BF16",
+          "kind": "kv",
+          "layers": "1",
+          "rowBytes": "1024",
+          "generatedRows": "262144",
+          "retainedRows": "262144",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "2147483648",
+          "retainedBytes": "2147483648",
+          "pullBytes": null,
+          "plannedPullRows": "262144",
+          "plannedPullBytes": "268435456"
+        },
+        {
+          "component": "C1 shared Indexer / INT8 + FP16 scale",
+          "kind": "index",
+          "layers": "1",
+          "rowBytes": "130",
+          "generatedRows": "262144",
+          "retainedRows": "262144",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "272629760",
+          "retainedBytes": "272629760",
+          "pullBytes": null,
+          "plannedPullRows": "262144",
+          "plannedPullBytes": "34078720"
+        },
+        {
+          "component": "C2 circular ring / FP32 KV+score",
+          "kind": "state",
+          "layers": "3",
+          "rowBytes": "4096",
+          "generatedRows": "32",
+          "retainedRows": "32",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "3145728",
+          "retainedBytes": "3145728",
+          "pullBytes": null,
+          "plannedPullRows": "32",
+          "plannedPullBytes": "393216"
+        }
+      ],
+      "generatedBytes": "91952775168",
+      "retainedBytes": "6095372288",
+      "pullBytes": null,
+      "plannedPullBytes": "767164416",
+      "transferStatus": "unsupported-in-pinned-main; planned tensor requirement only",
+      "handoff": "snapshot after S prefill tokens; D TP1; unique long/index planes, SWA tail-block bound, full 32-row rings; no prefix hit or draft",
+      "transferExclusions": [
+        "allocator/shared-slot padding",
+        "protocol and request metadata",
+        "Engram history",
+        "DSpark/draft state"
+      ],
+      "basis": "per request, all P or D TP ranks; generated KV rows plus one final auxiliary state; no cache hits; backbone only",
+      "physicalPrefillHBMWriteBytes": null,
+      "physicalPDLinkBytes": null
+    },
+    "batch": {
+      "requests": "16",
+      "generatedBytes": "1471244402688",
+      "retainedBytes": "97525956608",
+      "pullBytes": null,
+      "plannedPullBytes": "12274630656"
+    },
+    "wholePrefillGroup": {
+      "requests": "64",
+      "generatedBytes": "5884977610752",
+      "pullBytes": null,
+      "plannedPullBytes": "49098522624"
+    },
+    "prefillEP": {
+      "dispatchPayload": "156028108800",
+      "combinePayload": "156028108800",
+      "histogramRingBytes": "60948480",
+      "modeledBytes": "312117166080"
+    },
+    "decodeEP": {
+      "branch": "A3 dispatch FullMesh + BF16 CombineV2",
+      "dispatchRecordBytes": "11264",
+      "dispatchPackedBytes": "10726932480",
+      "dispatchCountBytes": "15237120",
+      "combinePayload": "9751756800",
+      "combineFlagBytes": "30474240",
+      "modeledRemoteWriteBytes": "20524400640",
+      "ordinaryDispatchRecordBytes": "10252",
+      "physicalLinkBytes": null,
+      "pollingReadBytes": null
+    },
+    "epPerRank": {
+      "prefillMeanBytes": {
+        "numerator": "312117166080",
+        "denominator": "32"
+      },
+      "decodeMeanBytes": {
+        "numerator": "20524400640",
+        "denominator": "32"
+      }
+    }
+  },
+  {
+    "model": "DS V4.1 Flash",
+    "slug": "deepseek-v4.1-flash",
+    "profile": "deepseek_v41",
+    "ep": 256,
+    "facts": {
+      "H": 5120,
+      "vocab": 129280,
+      "layers": 40,
+      "attentionLayers": 40,
+      "tpAttentionLayers": 40,
+      "dcpAttentionLayers": 0,
+      "denseLayers": 0,
+      "moeLayers": 40,
+      "heads": 64,
+      "headDim": 512,
+      "kvHeads": 1,
+      "kvRank": 512,
+      "ropeDim": 64,
+      "experts": 384,
+      "topK": 6,
+      "indexTopK": 512,
+      "indexerLayers": 8,
+      "engramTables": 2,
+      "engramColumns": 24,
+      "engramWidth": 256,
+      "auxLayers": 3
+    },
+    "options": {
+      "promptTokens": 262144,
+      "requestsPerDP": 16,
+      "prefillTP": 8,
+      "blockSize": 128,
+      "speculativeSlots": 7,
+      "prefillTokensPerDP": 16384,
+      "decodeTokensPerDP": 128,
+      "dispatchBytes": 2,
+      "dispatchScaleBytes": 0,
+      "combineBytes": 2,
+      "countBytes": 4
+    },
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "32",
+      "decodeTP": "1",
+      "decodeDP": "256"
+    },
+    "stepWorkload": {
+      "prefillTokensPerRank": "2048",
+      "decodeTokensPerRank": "128",
+      "prefillTokensPerEPGroup": "524288",
+      "decodeTokensPerEPGroup": "32768",
+      "independentMoEDPAllGather": false,
+      "scope": "All2All/MC2 token shards already span all DP ranks; do not add the alternative AllGather backend"
+    },
+    "placementStatus": "conditional: requires expert remap/EPLB; raw config incompatible",
+    "redundantExpertsRequired": "128",
+    "cache": {
+      "prefillTokens": "262144",
+      "prefillTP": "8",
+      "decodeTP": "1",
+      "components": [
+        {
+          "component": "SWA KV / BF16",
+          "kind": "kv",
+          "layers": "40",
+          "rowBytes": "1024",
+          "generatedRows": "262144",
+          "retainedRows": "128",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "85899345920",
+          "retainedBytes": "41943040",
+          "pullBytes": null,
+          "plannedPullRows": "256",
+          "plannedPullBytes": "10485760"
+        },
+        {
+          "component": "C2 shared KV / BF16",
+          "kind": "kv",
+          "layers": "3",
+          "rowBytes": "1024",
+          "generatedRows": "131072",
+          "retainedRows": "131072",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "3221225472",
+          "retainedBytes": "3221225472",
+          "pullBytes": null,
+          "plannedPullRows": "131072",
+          "plannedPullBytes": "402653184"
+        },
+        {
+          "component": "C2 shared Indexer / INT8 + FP16 scale",
+          "kind": "index",
+          "layers": "3",
+          "rowBytes": "130",
+          "generatedRows": "131072",
+          "retainedRows": "131072",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "408944640",
+          "retainedBytes": "408944640",
+          "pullBytes": null,
+          "plannedPullRows": "131072",
+          "plannedPullBytes": "51118080"
+        },
+        {
+          "component": "C1 shared KV / BF16",
+          "kind": "kv",
+          "layers": "1",
+          "rowBytes": "1024",
+          "generatedRows": "262144",
+          "retainedRows": "262144",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "2147483648",
+          "retainedBytes": "2147483648",
+          "pullBytes": null,
+          "plannedPullRows": "262144",
+          "plannedPullBytes": "268435456"
+        },
+        {
+          "component": "C1 shared Indexer / INT8 + FP16 scale",
+          "kind": "index",
+          "layers": "1",
+          "rowBytes": "130",
+          "generatedRows": "262144",
+          "retainedRows": "262144",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "272629760",
+          "retainedBytes": "272629760",
+          "pullBytes": null,
+          "plannedPullRows": "262144",
+          "plannedPullBytes": "34078720"
+        },
+        {
+          "component": "C2 circular ring / FP32 KV+score",
+          "kind": "state",
+          "layers": "3",
+          "rowBytes": "4096",
+          "generatedRows": "32",
+          "retainedRows": "32",
+          "pullRows": null,
+          "prefillCopies": "8",
+          "decodeCopies": "1",
+          "generatedBytes": "3145728",
+          "retainedBytes": "3145728",
+          "pullBytes": null,
+          "plannedPullRows": "32",
+          "plannedPullBytes": "393216"
+        }
+      ],
+      "generatedBytes": "91952775168",
+      "retainedBytes": "6095372288",
+      "pullBytes": null,
+      "plannedPullBytes": "767164416",
+      "transferStatus": "unsupported-in-pinned-main; planned tensor requirement only",
+      "handoff": "snapshot after S prefill tokens; D TP1; unique long/index planes, SWA tail-block bound, full 32-row rings; no prefix hit or draft",
+      "transferExclusions": [
+        "allocator/shared-slot padding",
+        "protocol and request metadata",
+        "Engram history",
+        "DSpark/draft state"
+      ],
+      "basis": "per request, all P or D TP ranks; generated KV rows plus one final auxiliary state; no cache hits; backbone only",
+      "physicalPrefillHBMWriteBytes": null,
+      "physicalPDLinkBytes": null
+    },
+    "batch": {
+      "requests": "16",
+      "generatedBytes": "1471244402688",
+      "retainedBytes": "97525956608",
+      "pullBytes": null,
+      "plannedPullBytes": "12274630656"
+    },
+    "wholePrefillGroup": {
+      "requests": "512",
+      "generatedBytes": "47079820886016",
+      "pullBytes": null,
+      "plannedPullBytes": "392788180992"
+    },
+    "prefillEP": {
+      "dispatchPayload": "1283457024000",
+      "combinePayload": "1283457024000",
+      "histogramRingBytes": "5347737600",
+      "modeledBytes": "2572261785600"
+    },
+    "decodeEP": {
+      "branch": "A3 dispatch FullMesh + BF16 CombineV2",
+      "dispatchRecordBytes": "11264",
+      "dispatchPackedBytes": "88237670400",
+      "dispatchCountBytes": "167116800",
+      "combinePayload": "80216064000",
+      "combineFlagBytes": "250675200",
+      "modeledRemoteWriteBytes": "168871526400",
+      "ordinaryDispatchRecordBytes": "10252",
+      "physicalLinkBytes": null,
+      "pollingReadBytes": null
+    },
+    "epPerRank": {
+      "prefillMeanBytes": {
+        "numerator": "2572261785600",
+        "denominator": "256"
+      },
+      "decodeMeanBytes": {
+        "numerator": "168871526400",
+        "denominator": "256"
+      }
+    }
   }
 ]

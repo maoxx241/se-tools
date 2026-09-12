@@ -45,6 +45,41 @@
           "path": "vllm_ascend/ops/kimi_kda.py",
           "sha256": "35365b3b353fc492b4dc5d75b88916431f6802c21bf51b61b4893d39d54f11f3",
           "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/ops/kimi_kda.py"
+        },
+        {
+          "path": "vllm_ascend/models/deepseek_v41/README.md",
+          "sha256": "277a4205e3a8f1537f84b1a79a8ebc1208506f7a14f378978846d347c6c8e452",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/README.md"
+        },
+        {
+          "path": "vllm_ascend/models/deepseek_v41/model.py",
+          "sha256": "455dc304b2af63660d6d42df32da32fa0ab357bf72e2454e1c2b8d9aaae58ce9",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/model.py"
+        },
+        {
+          "path": "vllm_ascend/models/deepseek_v41/indexer.py",
+          "sha256": "a126cce8ec070fe66b39c412b68b2bab8651f1e23ec744e06adc9d5ae79956a4",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/indexer.py"
+        },
+        {
+          "path": "vllm_ascend/models/deepseek_v41/compressor.py",
+          "sha256": "a77b8508cdc71f4512180690f5b6de9cd94543c7cc0b87437f65166ddb32e152",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/compressor.py"
+        },
+        {
+          "path": "vllm_ascend/core/deepseek_v41.py",
+          "sha256": "d0d89cb4a0ef22672e1de92a80a2846ac86f8fd4ec8e7d14ab050bf1539d7acf",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/core/deepseek_v41.py"
+        },
+        {
+          "path": "vllm_ascend/core/kv_cache_interface.py",
+          "sha256": "1283cb2f69ba2cc5a4c1a50d6dacfc5e35396203add971bbe998263939081dc1",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/core/kv_cache_interface.py"
+        },
+        {
+          "path": "vllm_ascend/attention/dsa_v41.py",
+          "sha256": "676b9012aa033fcaa72e7db23e149e1a20d97f235405a9bb8eabe4040114ecec",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/attention/dsa_v41.py"
         }
       ]
     },
@@ -162,5 +197,10 @@
         }
       ]
     }
-  ]
+  ],
+  "v41_config_source": {
+    "path": "models/deepseek-v4.1-flash/config.json",
+    "sha256": "8be45ce0476004a3f529fd896115a4a2e800a129ad2d3ec05b16050f52e21879",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/dba1be0a40aa45a94ad051997016db3960a90277/config.json"
+  }
 }

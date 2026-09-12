@@ -1,12 +1,12 @@
-# 五模型的 KV 存取与 EP32 / EP256 规格
+# 六模型的 KV 存取与 EP32 / EP256 规格
 
-这是 [256K 历史案例](../examples/communication-256k/) 的新扩展。交付包含 [可编辑 Excel](../examples/kv-ep-sweep/kv-ep32-ep256.xlsx)、[十档数值](../examples/kv-ep-sweep/results.json)、[公共计算器](../lib/kv-ep-specs.mjs) 和 [源码清单](kv-ep-sources.json)。原始 Excel、config 和历史结果保持原样。
+这是 [256K 历史案例](../examples/communication-256k/) 的新扩展。交付包含 [可编辑 Excel](../examples/kv-ep-sweep/kv-ep32-ep256.xlsx)、[十二档数值](../examples/kv-ep-sweep/results.json)、[公共计算器](../lib/kv-ep-specs.mjs) 和 [源码清单](kv-ep-sources.json)。原始 Excel、config 和历史结果保持原样。
 
 ## 口径和默认参数
 
 | 参数 | 本次取值 |
 |---|---|
-| 模型 | DS V4 10T、V4 Pro、GLM5.3、Kimi K3、Qwen3.8 2.4T |
+| 模型 | DS V4 10T、V4 Pro、GLM5.3、Kimi K3、Qwen3.8 2.4T、V4.1 Flash |
 | 输入 / 请求数 | 262,144 tokens / 每个 P DP 16 请求 |
 | P Step | 每 DP 16,384 个有效 token；TP8 + SP，每个 EP Rank 2,048 token |
 | D Step | 每 DP 128 个有效 token；DS/GLM 每 Rank 128，Kimi/Qwen 每 Rank 16 |
@@ -15,12 +15,14 @@
 | KV | A3 布局；主 KV BF16；DS Indexer INT8+FP16 scale；GLM Indexer BF16；递归状态 FP32 |
 | Cache block | 128；可改 32/64/128；P/D 相同 |
 | Hybrid state | P/D speculative conv 扩展槽数都为 7；一次拉一个有效 recurrent state |
-| Connector | MooncakeConnector，无前缀命中，PCP/DCP=1；Kimi/Qwen 按非 aligned 模式 |
+| Connector | 前五模型 MooncakeConnector，无前缀命中，PCP/DCP=1；Kimi/Qwen 按非 aligned 模式。V4.1 仅估算规划所需张量，当前 main 不支持迁移 |
 | EP P / D | AllToAllV / A3 MC2 DispatchV2 FullMesh + BF16 CombineV2 |
 | 通信 dtype | 默认 dispatch BF16 / combine BF16；可切 INT8+每 token FP32 scale / BF16 |
 | 负载 | 每个源 Rank token 数相同，目标 Rank 路由负载均衡，排除本 Rank 自拷贝 |
 
 MC2 硬件和量化没有用户指定值时，这里选 A3 BF16 **分析基线**。权重量化不能推出通信量化。主表显式选择 FullMesh 分支，不声称该分支就是部署环境自动选中的分支。
+
+下文并行和 Step 表中的 DS 包括 V4.1 Flash，D 采用 TP1。V4.1 的当前缓存布局可以计算生成/保留量；其数值“取”仅为未来适配器的迁移规划，不能当作已实现的 Mooncake 流量。JSON 的 `pullBytes` 保持 `null`，另设 `plannedPullBytes`；同样适用于组件、单批和全组汇总。
 
 EP 对比的主线是**通信量随 DP 域扩大而变化**，Excel 第一张表优先显示这些数据：
 
@@ -46,13 +48,13 @@ EP 对比的主线是**通信量随 DP 域扩大而变化**，Excel 第一张表
 
 ### Mooncake 传输规则
 
-1. [prompt 裁剪及尾块选择](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py#L1807)：压缩或有状态的模型在 P 只处理 `N=S-1`，D 重算最后一个 token；普通 GLM 无此 state 截断，`N=S`。非状态组按 prompt 长度裁块，压缩组一个块覆盖 `ratio × block_size` 原始 token；SWA 保留至多 `ceil(window/block)+1` 个尾块，并排除占位块 0。
+1. [prompt 裁剪及尾块选择](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py#L1807)：前五模型中的压缩或有状态模型在 P 只处理 `N=S-1`，D 重算最后一个 token；普通 GLM 无此 state 截断，`N=S`。非状态组按 prompt 长度裁块，V4 压缩组一个块覆盖 `ratio × block_size` 原始 token；SWA 保留至多 `ceil(window/block)+1` 个尾块，并排除占位块 0。V4.1 的原始-token 页与交接假设见独立小节，不能套用此压缩页公式。
 2. [Mamba 状态选择](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py#L915)：非 aligned 模式选 `len(remote_blocks)-num_speculative_tokens-1` 对应的一个状态块，不传全部历史状态块，也不将 recurrent state 乘 8。
 3. [conv/SSM 传输长度](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py#L1190)：同 TP 情况传完整 conv 和 SSM 张量 view；conv view 中包含 speculative 扩展长度。这里 P/D 设置相同，未建模不同 speculative 长度的兼容性。
 4. 基线 [注册张量的 block_len 与 stride](https://github.com/vllm-project/vllm-ascend/blob/842b030f8375e630eb639e0560eac7735d04f700/vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py#L2342) 是不同字段。实际长度按 `element_size × prod(block_shape)`；不能把共享 cache 页的 `page_size_padded` 一概当传输字节。
 5. [单 KV head 的 source replica 选择](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py#L3476) 及基线的 attention group 路由选择，使 MLA 的 P TP8 副本不必全部被 TP1 的 D 拉取。Kimi 普通 D TP8 仍需八份 MLA，Qwen 四个 KV heads 在 TP8 有两倍复制。
 
-通用逐组件公式（层数 `L`，每行字节 `b`，P/D 副本数 `p/d`）：
+前五模型逐组件公式（层数 `L`，每行字节 `b`，P/D 副本数 `p/d`）：
 
 ```text
 生成字节 = L × b × generated_rows × p
@@ -96,6 +98,41 @@ Qwen 的 23 层 GQA 每个 TP Rank `2×max(1,4/8)×256×2` B/token；69 层 GDN 
 
 两者的有效 conv 尾部均为 `kernel_size-1=3` 行，传输 view 为 `3+7=10` 行；SSM 只传 1 个最终状态。N=S-1 生成的 full-attention cache，按 block 拉取时向上取整至 S。这解释了它们的“取”略大于“存”。
 
+### DeepSeek V4.1 Flash
+
+配置固定到官方 [Flash config](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/dba1be0a40aa45a94ad051997016db3960a90277/config.json)，VA main 固定到 `1933f86`。长 KV 只由层 **2、8、14、20** 持有，对应 **3 个 C2、1 个 C1**。[缓存注册](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/model.py#L283) 与 [Indexer K](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/indexer.py#L74) 只为这些源层分配长缓存。层 24/28/32/36 的 Indexer 重新选择 TopK，但不另存 K；全部 40 个主干层各有自己的 SWA。
+
+VA 当前使用 BF16 长 KV / SWA、INT8 Index K + 每行一个 FP16 scale。不能代入官方紧凑 FP4 cache 字节数。C2 的 [32 行 FP32 环形状态](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/core/deepseek_v41.py#L68) 为每请求私有 KV+score，每行 `2×512×4=4096 B`，共 3 页。它不是 V4 的 compressor 多历史块，也不是 KDA/GDN 的 conv speculative 扩展。
+
+当前 main 的 [运行约束](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/README.md#L137) 明确声明 KV transfer 未支持。因此这里的“取”是**假设新增适配器后的张量迁移规划**：P 完成全部 `N=S` tokens 后交接，D TP1 取一份唯一源缓存、SWA 尾部块及完整 32 行 ring。没有假定现有 Mooncake 已支持这个布局，也不强套其 `S-1` 策略。短上下文的生成/保留 ring 只计 `min(S,32)` 个有效行，规划传输仍整页计 32 行。
+
+V4.1 的 [storage_block_size](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/core/kv_cache_interface.py#L53) 为 `B/ratio`。B=128 时 C2 一页为 **64 行**。只有 [完成的压缩对](https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/attention/dsa_v41.py#L866) 写入长 KV 和 Index K，未完成的单个 token 留在 ring。规划按已生成的长缓存行向物理页取整；SWA 采用尾块数量的保守预算，不声称这是 V4.1 现有 connector 的块列表。
+
+| 组件 | 源层数 | 每行 B/Rank | P 生成行 | P 保留行 | D 规划行，S=262144、B=128 |
+|---|---:|---:|---|---|---:|
+| SWA / BF16 | 40 | 1024 | S | min(S,128) | 256 |
+| C2 长 KV / BF16 | 3 | 1024 | floor(S/2) | 同左 | 131072 |
+| C2 Index K / INT8+FP16 scale | 3 | 130 | floor(S/2) | 同左 | 131072 |
+| C1 长 KV / BF16 | 1 | 1024 | S | S | 262144 |
+| C1 Index K / INT8+FP16 scale | 1 | 130 | S | S | 262144 |
+| C2 ring KV+score / FP32 | 3 | 4096 | min(S,32) | 同左 | 32 |
+
+按单请求、单 TP 副本计算，P 结果再乘 8，D 规划结果乘 1：
+
+```text
+long_rows = 3×floor(S/2) + S
+存 = 40×S×1024 + long_rows×1154 + 3×min(S,32)×4096
+保留 = 40×min(S,128)×1024 + long_rows×1154 + 3×min(S,32)×4096
+C2 规划行 = ceil(floor(S/2)/(B/2))×(B/2)
+C1 规划行 = ceil(S/B)×B
+SWA 规划行 = min(ceil(S/B), ceil(128/B)+1)×B
+规划取 = 40×SWA规划行×1024 + (3×C2规划行+C1规划行)×1154 + 3×32×4096
+```
+
+默认 **16 请求/P DP**：P 生成 **1370.203125 GiB**，P 阶段末保留 **90.828125 GiB**，D 规划取 **11.431640625 GiB**。存量大是因为累计了整个 prompt 生成的 SWA 行和 P 的八份副本；规划取只保留尾部且 D 只取一份。其阶段末保留量与 [原 V4.1 分析](DEEPSEEK-V4.1.md) 的 726.625 MiB/请求/TP 副本严格一致，规划取额外预算了 SWA 块内无效行。
+
+EP32 / EP256 的这三个单批量相同；整个 P 组分别承接 64 / 512 请求，生成 **5480.8125 / 43846.5 GiB**，规划取 **45.7265625 / 365.8125 GiB**。完整迁移适配还需要同步请求元数据、ring 所有权/位置以及 Engram 历史等，本规划没有将这些未知开销写成零。排除 draft、Engram 权重表、临时 TopK/candidate buffers、共享槽 stride/padding、协议字节和重复状态覆盖写。
+
 ## EP 通信：从 HCCL count 到 MC2 打包
 
 HCCL [AlltoAllV API](https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/docs/zh/api_ref/comm_op_interface/HcclAlltoAllV.md) 的每个 `sendCounts[j]` 都是元素个数。对一组通信，全组跨 Rank 发送为 `Σ_i Σ_(j≠i) count[i,j] × dtype_bytes`。自拷贝和 displacements 地址空洞不计。
@@ -138,13 +175,13 @@ combine 标志写入  = R × 32
 
 dispatch 每个源 Rank 向每个专家写一个 32 B count/flag 槽，见 [SendStatus](https://gitcode.com/cann/ops-transformer/blob/f48a9346d7b638ed2854bb98eafeb6e825e75cff/mc2/moe_distribute_dispatch_v2/op_kernel/arch22/moe_distribute_dispatch_v2_full_mesh.h#L1014)。combine 每个返回实例另写 32 B 标志，数据部分按 H×dtype 复制，见 [CombineV2](https://gitcode.com/cann/ops-transformer/blob/f48a9346d7b638ed2854bb98eafeb6e825e75cff/mc2/moe_distribute_combine_v2/op_kernel/arch22/moe_distribute_combine_v2.h#L830)。排除本 Rank 自写后将四项相加，主表叫 **MC2 已建模远端写入量**。
 
-BF16 的 H=7168/6144/8192 对应 dispatch record 为 15360/13312/17920 B。这与只计 `H×2` 的旧 hidden-payload 模型有可解释的差额。
+BF16 的 H=7168/6144/8192/5120 对应 dispatch record 为 15360/13312/17920/11264 B，最后一项为 V4.1。这与只计 `H×2` 的旧 hidden-payload 模型有可解释的差额。V4.1 计 40 个 MoE 主干层、TopK=6；Engram 独立路由通信见原模型分析，不叠加进本表的 MoE EP 量。
 
 同一源码还有普通 DispatchV2 和 hierarchy 分支。普通分支的有效记录是 `align32(align32(H×d)+scale)+12` B，不应直接套 FullMesh 512/480 比率；Excel 另列普通记录用于辨别，主表不自动切换。轮询远端读、控制同步的其它事务、重试、HCCS/RoCE/UB 协议和多跳转发未全覆盖，留作未知量。没有用一个未经取证的“MC2 倍率”把 payload 变成物理线速量。
 
 ### EP256 的部署约束
 
-DispatchV2 要求 `moeExpertNum % (epWorldSize-sharedExpertRankNum) == 0`；VA 本路径 `shared_expert_rank_num=0`。DS V4 的 384、Kimi 的 896 都不能被 256 整除。主表保留 **条件容量规格**，以 512 / 1024 个物理专家槽计控制开销，相当于各补 128 槽，并假设重映射后路由均衡。实际需 EPLB/冗余专家与路由映射支持；不是填充空 tensor 就完成部署。本次没有改模型配置或声称这些规格启动成功。
+DispatchV2 要求 `moeExpertNum % (epWorldSize-sharedExpertRankNum) == 0`；VA 本路径 `shared_expert_rank_num=0`。DS V4 / V4.1 的 384、Kimi 的 896 都不能被 256 整除。主表保留 **条件容量规格**，以 512 / 1024 个物理专家槽计控制开销，相当于各补 128 槽，并假设重映射后路由均衡。实际需 EPLB/冗余专家与路由映射支持；不是填充空 tensor 就完成部署。本次没有改模型配置或声称这些规格启动成功。
 
 EP32 的上述模型以及 GLM256、Qwen512 的 EP256 通过专家数整除检查；这也只是一项必要条件，不是完整运行兼容性结论。
 
@@ -159,6 +196,6 @@ python3 scripts/verify-kv-ep.py
 
 计算器和测试不依赖 NPU、网络或 Excel 包；Excel 作者工具的安装方法见 [REPRODUCING](REPRODUCING.md)。原生 Excel 黄色输入直接驱动公式，不需要导入 JSON。
 
-验证包括 HCCL AllToAllV 矩阵对照、MC2 两个分支记录差别、十档工作量缩放、EP256 条件约束、N-1 和 block 边界、单 recurrent state。构建时对十档 Excel 关键值逐一比对 BigInt CLI，并修改 prompt、请求数、spec 槽、P token 数和 INT8 dispatch，确认公式重算；检查公式错误并渲染全部三个工作表。独立读取保存的 XLSX XML 再比对关键缓存值。
+验证包括 HCCL AllToAllV 矩阵对照、MC2 两个分支记录差别、十二档工作量缩放、EP256 条件约束、N-1 和 block 边界、单 recurrent state，以及 V4.1 唯一源、C2 奇偶完成策略、32 行 ring 与未支持迁移的空值约束。构建时对十二档 Excel 关键值逐一比对 BigInt CLI，并修改 prompt、请求数、spec 槽、P token 数和 INT8 dispatch，确认公式重算；检查公式错误并渲染全部三个工作表。独立读取保存的 XLSX XML 再比对关键缓存值，前五模型的十档数值与新增 V4.1 前完全一致。
 
 未运行 NPU、HCCL 集群、Mooncake 端到端传输或 Microsoft Excel 应用。生成量与传输量是上述边界内的源码估算；上线验收应提供实际 block IDs / block lengths、通信 dtype / split counts、MC2 tiling key 和 profiling。

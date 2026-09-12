@@ -4,6 +4,8 @@
 
 本次完成配置、全部权重头部、Python 调用路径和数学模型核验；没有执行 NPU 服务、算子精度或 HCCL Profiling。以下“执行”描述的是代码路径，不表示已完成设备验证。
 
+后续的 [EP32 / EP256 KV 存取扩展](KV-EP-SPECS.md#deepseek-v41-flash) 已补齐 Prefill 生成量、阶段末保留量和有条件的 P→D 张量迁移规划，并汇总 DP 域扩大后的整组量。本页原始 `pdTransferBytes=null` 继续表示当前 main 没有已支持的迁移路径；规划数值另存 `plannedPullBytes`。
+
 ## 1. 需要单独建模的结构
 
 | 结构 | V4.1 Flash | 分析影响 |
