@@ -1,0 +1,88 @@
+{
+  "repository": "https://gitcode.com/cann/hccl",
+  "revision": "170ddeec539b4d693028ce6e0cf5c58933e4d46d",
+  "inspected_on": "2026-09-12",
+  "files": [
+    {
+      "path": "include/hccl.h",
+      "lines": [
+        22,
+        232
+      ],
+      "sha256": "db20aa23eecba6469d426158fea9bfc302c20b805634f7d8d9c688ca990f8bc8",
+      "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/include/hccl.h"
+    },
+    {
+      "path": "docs/zh/user_guide/coll_algo_intro/Ring.md",
+      "lines": [
+        1,
+        31
+      ],
+      "sha256": "2357fd64e09d6a81e37d74267bd2a6bd008d0edb98fa1d84ce31a32656951a9b",
+      "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/docs/zh/user_guide/coll_algo_intro/Ring.md"
+    },
+    {
+      "path": "docs/zh/api_ref/comm_op_interface/HcclAlltoAll.md",
+      "lines": [
+        26,
+        126
+      ],
+      "sha256": "f801c009fa1427fe33477f8c530d6bda027d6c4c9ad8e97be9291ba2a018966d",
+      "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/docs/zh/api_ref/comm_op_interface/HcclAlltoAll.md"
+    },
+    {
+      "path": "docs/zh/api_ref/comm_op_interface/HcclAlltoAllV.md",
+      "lines": [
+        26,
+        134
+      ],
+      "sha256": "b821f11f8b14ff89815fa287e94f4aa5e4eb2c39ff2857a3f10d511190763ecd",
+      "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/docs/zh/api_ref/comm_op_interface/HcclAlltoAllV.md"
+    },
+    {
+      "path": "docs/zh/user_guide/hccl_env/HCCL_ALGO.md",
+      "lines": [
+        1,
+        100
+      ],
+      "sha256": "1d59d235d08014a3c2792f546dd95e0a11b5b37d78bb9367a6abab013da75825",
+      "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/docs/zh/user_guide/hccl_env/HCCL_ALGO.md"
+    },
+    {
+      "path": "docs/zh/user_guide/perf_analysis/profiling_op_behavior.md",
+      "lines": [
+        1,
+        49
+      ],
+      "sha256": "f1d813b92c217a01ec8b25898432ef3260af2fe278cbc60ea3d39d65876dd91a",
+      "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/docs/zh/user_guide/perf_analysis/profiling_op_behavior.md"
+    },
+    {
+      "path": "src/ops/all_reduce/selector/all_reduce_auto_selector.cc",
+      "lines": [
+        430,
+        465
+      ],
+      "sha256": "ecd85999c5211cca67fc4bd2433b42d049b9d7d05c1fb57c525bbd34c5dd437f",
+      "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/src/ops/all_reduce/selector/all_reduce_auto_selector.cc"
+    },
+    {
+      "path": "src/ops/all_to_all_v/algorithm/template/aicpu/ins_temp_ubx_all_to_all_v_mesh_1D.cc",
+      "lines": [
+        291,
+        345
+      ],
+      "sha256": "53e31d76a13cfcf329c27f7deeabed267996c7b720375c8f7c9a9d7212999ec0",
+      "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/src/ops/all_to_all_v/algorithm/template/aicpu/ins_temp_ubx_all_to_all_v_mesh_1D.cc"
+    },
+    {
+      "path": "src/ops/all_to_all_v/algorithm/template/ccu/kernel/ccu_kernel_all_to_all_mesh1d.cc",
+      "lines": [
+        137,
+        160
+      ],
+      "sha256": "24345b5a358b0e885cd2b0a239af3ac80571644791c5fc496a31bc46de19bc23",
+      "url": "https://gitcode.com/cann/hccl/blob/170ddeec539b4d693028ce6e0cf5c58933e4d46d/src/ops/all_to_all_v/algorithm/template/ccu/kernel/ccu_kernel_all_to_all_mesh1d.cc"
+    }
+  ]
+}

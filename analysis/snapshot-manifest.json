@@ -1,0 +1,66 @@
+{
+  "source_date": "2026-09-04",
+  "archived_on": "2026-09-12",
+  "files": [
+    {
+      "path": "examples/communication-256k/communication-requirements-20260904.xlsx",
+      "sha256": "2970483c0e58c2e6d90cd8ef5514c28851d7dbd74e0ee9258fa5db0ad8941b55"
+    },
+    {
+      "path": "models/deepseek-v4-10t/config.json",
+      "sha256": "d7a89a97df6893b6a64cfb4afbc7caa734a4cafed9ec9a3a9a090185bbf6c096"
+    },
+    {
+      "path": "models/deepseek-v4-flash-0731/config.json",
+      "sha256": "7143691185937f163e7aa7c560a17d5ac9a74db297b0596d9732145a3059c63f"
+    },
+    {
+      "path": "models/deepseek-v4-flash-0731/deepseek-v4-flash-0731-analysis.xlsx",
+      "sha256": "0d29fcb245ed346a40eda61aa0dd8dbc2d227a8706793547f9332065a82682fd"
+    },
+    {
+      "path": "models/deepseek-v4-pro-0813/config.json",
+      "sha256": "21a1d833f4ac50485d11aca9d36b8ca699b49c2e685218ac1a52dabfd46f88a6"
+    },
+    {
+      "path": "models/deepseek-v4-pro-0813/deepseek-v4-pro-0813-analysis.xlsx",
+      "sha256": "896122bc089b2cbac512594f458d0382d8a49c3a229c79ea5aa5a1349272ea4e"
+    },
+    {
+      "path": "models/glm-5.3/config.json",
+      "sha256": "3ff6b35666c7df108d2fd2734f9ed2c83cf0c7ec08d21018b998a04a368a6b82"
+    },
+    {
+      "path": "models/glm-5.3/glm-5.3-analysis.xlsx",
+      "sha256": "289780ecf1f4d20bca75493a6ecbbfa23bc1ccd9b61ce0960719a40c8e2d040f"
+    },
+    {
+      "path": "models/kimi-k3/config.json",
+      "sha256": "ceb15bb6babc95c3afc948f0887a732b69e8ac126dae36ef7b6aeb1effb2b46f"
+    },
+    {
+      "path": "models/kimi-k3/kimi-k3-analysis.xlsx",
+      "sha256": "a86483da75cebc9e42393adf4c4b976ebd17b06bf124746fdde235d6a23c177e"
+    },
+    {
+      "path": "models/kimi-k3-dspark/config.json",
+      "sha256": "05af9161de039863afb8e00ffd497302857ca5f3f476e6b714e9f7e5ee39c638"
+    },
+    {
+      "path": "models/kimi-k3-dspark/kimi-k3-dspark-analysis.xlsx",
+      "sha256": "759202125d3af4c133637fe08035738370e0dfcfa493e9092519776e5e02e8da"
+    },
+    {
+      "path": "models/qwen3.8-2.4t-a95b/config.json",
+      "sha256": "9a18a79601529da8f2ff4f90d5cf544095cbbc7fdab6ee757290fbf4476740ac"
+    },
+    {
+      "path": "models/qwen3.8-2.4t-a95b/qwen3.8-2.4t-a95b-analysis.xlsx",
+      "sha256": "858559c1650a57cc84de7ebe816791d366d29221c6b0edcbbf0420f753b799ad"
+    },
+    {
+      "path": "models/qwen3.8-27b/config.json",
+      "sha256": "7718cd6bf3d6521d5550966d4ab8484fc81a01347d74b7e52163070f35ca7f35"
+    }
+  ]
+}

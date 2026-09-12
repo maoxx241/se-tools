@@ -1,0 +1,13 @@
+{
+  "name": "se-tools",
+  "private": true,
+  "type": "module",
+  "description": "Model weight and HCCL communication analysis with editable Excel examples",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "analyze": "node scripts/export-analysis.mjs",
+    "build:workbooks": "node scripts/build-analysis-workbook.mjs outputs/models",
+    "verify:workbooks": "node scripts/verify-analysis-workbook.mjs outputs/models"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "collective": "AlltoAllV",
+  "dtypeBytes": 2,
+  "callsPerStep": 1,
+  "sendCounts": [[100, 10, 0], [30, 200, 5], [2, 0, 300]],
+  "recvCounts": [[100, 30, 2], [10, 200, 0], [0, 5, 300]]
+}

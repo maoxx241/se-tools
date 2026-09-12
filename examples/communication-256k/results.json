@@ -1,0 +1,403 @@
+[
+  {
+    "model": "DS V4 10T",
+    "slug": "deepseek-v4-10t",
+    "facts": {
+      "H": 7168,
+      "vocab": 129280,
+      "layers": 61,
+      "attentionLayers": 61,
+      "tpAttentionLayers": 61,
+      "dcpAttentionLayers": 0,
+      "denseLayers": 0,
+      "moeLayers": 61,
+      "heads": 128,
+      "headDim": 512,
+      "kvHeads": 1,
+      "kvRank": 512,
+      "ropeDim": 64,
+      "experts": 384,
+      "topK": 6,
+      "indexTopK": 1024,
+      "indexerLayers": 30
+    },
+    "dsaModel": true,
+    "prefill": {
+      "tpBoundary": "3289710592",
+      "sp": "1644167168",
+      "dsaCp": "229008998400",
+      "attention": "229008998400",
+      "epAllToAll": "666240024576",
+      "sharedExpertTp": "0"
+    },
+    "decode": {
+      "tpBoundary": "0",
+      "sp": "0",
+      "dsaCp": "0",
+      "attention": "0",
+      "epAllToAll": "41640001536",
+      "sharedExpertTp": "0"
+    },
+    "pdCache": {
+      "attention": "33380368384",
+      "auxiliary": "4388814848",
+      "total": "37769183232"
+    },
+    "topology": {
+      "prefill": {
+        "tp": 8,
+        "dp": 4,
+        "ep": 32,
+        "sp": true,
+        "dsa": true
+      },
+      "decode": {
+        "tp": 1,
+        "dp": 32,
+        "ep": 32,
+        "sp": false,
+        "dsa": false
+      }
+    },
+    "scope": {
+      "step": "one named communication group per model step; attention overlaps SP/DSA rows; do not sum all categories",
+      "ep": "uniform routing expectation; hidden payload only; per-rank balance assumed",
+      "pdCache": "one source DP batch of 16 requests; 262144 input tokens each; destination copies and allocated state included",
+      "physicalLinkBytes": null
+    }
+  },
+  {
+    "model": "DS V4 Pro",
+    "slug": "deepseek-v4-pro-0813",
+    "facts": {
+      "H": 7168,
+      "vocab": 129280,
+      "layers": 61,
+      "attentionLayers": 61,
+      "tpAttentionLayers": 61,
+      "dcpAttentionLayers": 0,
+      "denseLayers": 0,
+      "moeLayers": 61,
+      "heads": 128,
+      "headDim": 512,
+      "kvHeads": 1,
+      "kvRank": 512,
+      "ropeDim": 64,
+      "experts": 384,
+      "topK": 6,
+      "indexTopK": 1024,
+      "indexerLayers": 30
+    },
+    "dsaModel": true,
+    "prefill": {
+      "tpBoundary": "3289710592",
+      "sp": "1644167168",
+      "dsaCp": "229008998400",
+      "attention": "229008998400",
+      "epAllToAll": "666240024576",
+      "sharedExpertTp": "0"
+    },
+    "decode": {
+      "tpBoundary": "0",
+      "sp": "0",
+      "dsaCp": "0",
+      "attention": "0",
+      "epAllToAll": "41640001536",
+      "sharedExpertTp": "0"
+    },
+    "pdCache": {
+      "attention": "33380368384",
+      "auxiliary": "4388814848",
+      "total": "37769183232"
+    },
+    "topology": {
+      "prefill": {
+        "tp": 8,
+        "dp": 4,
+        "ep": 32,
+        "sp": true,
+        "dsa": true
+      },
+      "decode": {
+        "tp": 1,
+        "dp": 32,
+        "ep": 32,
+        "sp": false,
+        "dsa": false
+      }
+    },
+    "scope": {
+      "step": "one named communication group per model step; attention overlaps SP/DSA rows; do not sum all categories",
+      "ep": "uniform routing expectation; hidden payload only; per-rank balance assumed",
+      "pdCache": "one source DP batch of 16 requests; 262144 input tokens each; destination copies and allocated state included",
+      "physicalLinkBytes": null
+    }
+  },
+  {
+    "model": "GLM5.3",
+    "slug": "glm-5.3",
+    "facts": {
+      "H": 6144,
+      "vocab": 154880,
+      "layers": 79,
+      "attentionLayers": 79,
+      "tpAttentionLayers": 79,
+      "dcpAttentionLayers": 0,
+      "denseLayers": 3,
+      "moeLayers": 76,
+      "heads": 64,
+      "headDim": 256,
+      "kvHeads": 64,
+      "kvRank": 512,
+      "ropeDim": 64,
+      "experts": 256,
+      "topK": 8,
+      "indexTopK": 2048,
+      "indexerLayers": 22
+    },
+    "dsaModel": true,
+    "prefill": {
+      "tpBoundary": "2819948544",
+      "sp": "2466250752",
+      "dsaCp": "169114337280",
+      "attention": "169114337280",
+      "epAllToAll": "948650901504",
+      "sharedExpertTp": "0"
+    },
+    "decode": {
+      "tpBoundary": "0",
+      "sp": "0",
+      "dsaCp": "0",
+      "attention": "0",
+      "epAllToAll": "59290681344",
+      "sharedExpertTp": "0"
+    },
+    "pdCache": {
+      "attention": "381715218432",
+      "auxiliary": "23622320128",
+      "total": "405337538560"
+    },
+    "topology": {
+      "prefill": {
+        "tp": 8,
+        "dp": 4,
+        "ep": 32,
+        "sp": true,
+        "dsa": true
+      },
+      "decode": {
+        "tp": 1,
+        "dp": 32,
+        "ep": 32,
+        "sp": false,
+        "dsa": false
+      }
+    },
+    "scope": {
+      "step": "one named communication group per model step; attention overlaps SP/DSA rows; do not sum all categories",
+      "ep": "uniform routing expectation; hidden payload only; per-rank balance assumed",
+      "pdCache": "one source DP batch of 16 requests; 262144 input tokens each; destination copies and allocated state included",
+      "physicalLinkBytes": null
+    }
+  },
+  {
+    "model": "KimiK3",
+    "slug": "kimi-k3",
+    "facts": {
+      "H": 7168,
+      "vocab": 163840,
+      "layers": 93,
+      "attentionLayers": 93,
+      "kdaLayers": 69,
+      "mlaLayers": 24,
+      "tpAttentionLayers": 93,
+      "dcpAttentionLayers": 24,
+      "denseLayers": 1,
+      "moeLayers": 92,
+      "heads": 96,
+      "headDim": 128,
+      "kvHeads": 96,
+      "kvRank": 512,
+      "ropeDim": 64,
+      "experts": 896,
+      "topK": 16,
+      "indexTopK": 0,
+      "indexerLayers": 0
+    },
+    "dsaModel": false,
+    "prefill": {
+      "tpBoundary": "3289710592",
+      "sp": "307870302208",
+      "dsaCp": "0",
+      "attention": "305815093248",
+      "epAllToAll": "2679522721792",
+      "sharedExpertTp": "302526758912"
+    },
+    "decode": {
+      "tpBoundary": "36700160",
+      "sp": "2405236736",
+      "dsaCp": "0",
+      "attention": "2389180416",
+      "epAllToAll": "20933771264",
+      "sharedExpertTp": "2363490304"
+    },
+    "pdCache": {
+      "attention": "927712935936",
+      "auxiliary": "7759724544",
+      "total": "935472660480"
+    },
+    "topology": {
+      "prefill": {
+        "tp": 8,
+        "dp": 4,
+        "ep": 32,
+        "sp": true,
+        "dsa": false
+      },
+      "decode": {
+        "tp": 8,
+        "dp": 4,
+        "ep": 32,
+        "sp": true,
+        "dsa": false
+      }
+    },
+    "scope": {
+      "step": "one named communication group per model step; attention overlaps SP/DSA rows; do not sum all categories",
+      "ep": "uniform routing expectation; hidden payload only; per-rank balance assumed",
+      "pdCache": "one source DP batch of 16 requests; 262144 input tokens each; destination copies and allocated state included",
+      "physicalLinkBytes": null
+    }
+  },
+  {
+    "model": "Qwen3.8 2.4T",
+    "slug": "qwen3.8-2.4t-a95b",
+    "facts": {
+      "H": 8192,
+      "vocab": 248320,
+      "layers": 92,
+      "attentionLayers": 92,
+      "fullAttentionLayers": 23,
+      "linearAttentionLayers": 69,
+      "tpAttentionLayers": 92,
+      "dcpAttentionLayers": 23,
+      "denseLayers": 0,
+      "moeLayers": 92,
+      "heads": 64,
+      "headDim": 256,
+      "kvHeads": 4,
+      "kvRank": 0,
+      "ropeDim": 0,
+      "experts": 512,
+      "topK": 10,
+      "indexTopK": 0,
+      "indexerLayers": 0
+    },
+    "dsaModel": false,
+    "prefill": {
+      "tpBoundary": "3759472640",
+      "sp": "347623915520",
+      "dsaCp": "0",
+      "attention": "345744867328",
+      "epAllToAll": "1913944801280",
+      "sharedExpertTp": "0"
+    },
+    "decode": {
+      "tpBoundary": "40370176",
+      "sp": "2715811840",
+      "dsaCp": "0",
+      "attention": "2701131776",
+      "epAllToAll": "14952693760",
+      "sharedExpertTp": "0"
+    },
+    "pdCache": {
+      "attention": "790273982464",
+      "auxiliary": "9713221632",
+      "total": "799987204096"
+    },
+    "topology": {
+      "prefill": {
+        "tp": 8,
+        "dp": 4,
+        "ep": 32,
+        "sp": true,
+        "dsa": false
+      },
+      "decode": {
+        "tp": 8,
+        "dp": 4,
+        "ep": 32,
+        "sp": true,
+        "dsa": false
+      }
+    },
+    "scope": {
+      "step": "one named communication group per model step; attention overlaps SP/DSA rows; do not sum all categories",
+      "ep": "uniform routing expectation; hidden payload only; per-rank balance assumed",
+      "pdCache": "one source DP batch of 16 requests; 262144 input tokens each; destination copies and allocated state included",
+      "physicalLinkBytes": null
+    }
+  },
+  {
+    "model": "Qwen3.8 27B",
+    "slug": "qwen3.8-27b",
+    "facts": {
+      "H": 5120,
+      "attentionLayers": 64,
+      "fullAttentionLayers": 16,
+      "linearAttentionLayers": 48,
+      "denseLayers": 64,
+      "moeLayers": 0,
+      "heads": 24,
+      "headDim": 256,
+      "kvHeads": 4,
+      "topK": 0,
+      "indexTopK": 0,
+      "indexerLayers": 0
+    },
+    "dsaModel": false,
+    "prefill": {
+      "tpBoundary": "2350186496",
+      "sp": "170288742400",
+      "dsaCp": "0",
+      "attention": "150323855360",
+      "epAllToAll": "0",
+      "sharedExpertTp": "0"
+    },
+    "decode": {
+      "tpBoundary": "29360128",
+      "sp": "1330380800",
+      "dsaCp": "0",
+      "attention": "1174405120",
+      "epAllToAll": "0",
+      "sharedExpertTp": "0"
+    },
+    "pdCache": {
+      "attention": "549755813888",
+      "auxiliary": "2573205504",
+      "total": "552329019392"
+    },
+    "topology": {
+      "prefill": {
+        "tp": 8,
+        "dp": 4,
+        "ep": 32,
+        "sp": true,
+        "dsa": false
+      },
+      "decode": {
+        "tp": 8,
+        "dp": 4,
+        "ep": 32,
+        "sp": true,
+        "dsa": false
+      }
+    },
+    "scope": {
+      "step": "one named communication group per model step; attention overlaps SP/DSA rows; do not sum all categories",
+      "ep": "uniform routing expectation; hidden payload only; per-rank balance assumed",
+      "pdCache": "one source DP batch of 16 requests; 262144 input tokens each; destination copies and allocated state included",
+      "physicalLinkBytes": null
+    }
+  }
+]
