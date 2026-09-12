@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 import { elementCount, modelSpec, shapeText } from "./model-analysis-specs.mjs";
 import { loadSpreadsheetRuntime } from "../lib/spreadsheet-runtime.mjs";
+import { v41WorkbookEvents, v41WorkbookNotes } from './deepseek-v41-workbook.mjs';
 
 const { SpreadsheetFile, Workbook } = await loadSpreadsheetRuntime();
 
@@ -34,6 +35,11 @@ const scenarioGroups = [
     ["routeFraction", "跨 EP Rank 路由比例"], ["reduceSample", "Reduce Sample（0/1）"],
     ["candidateK", "Reduce Sample K"],
   ]],
+  ["V4.1 节点与载荷", [
+    ["nodeRanks", "每节点 Rank 数"], ["engramEnabled", "Engram（0/1）"],
+    ["dispatchBytes", "MoE Dispatch 字节/元素"], ["combineBytes", "MoE Combine 字节/元素"],
+    ["cacheRequests", "缓存案例请求数"],
+  ]],
 ];
 
 export const scenarioRow = {};
@@ -56,8 +62,12 @@ async function loadPinnedConfig(model, modelDir) {
 }
 
 function activeScenarioGroups(model, phase) {
+  if (model.profile === 'deepseek_v41') {
+    const keys = new Set(['maxBatchTokens', 'maxSeqs', 'inputTokens', 'outputTokens', 'specSteps', 'stepTokens', 'samplingRows', 'dp', 'tp', 'sp', 'ep', 'dsaCP', 'activationBytes', 'routeFraction', 'nodeRanks', 'engramEnabled', 'dispatchBytes', 'combineBytes', 'cacheRequests']);
+    return scenarioGroups.map(([title, items]) => [title, items.filter(([key]) => keys.has(key))]);
+  }
   const dsa = ["deepseek_v4", "glm53"].includes(model.profile);
-  return scenarioGroups.map(([title, items]) => [title, items.filter(([key]) => {
+  return scenarioGroups.filter(([title]) => title !== 'V4.1 节点与载荷').map(([title, items]) => [title, items.filter(([key]) => {
     if (key === "dsaCP") return dsa;
     if (key === "pcp") return phase === "Prefill";
     if (key === "dcp") return phase === "Decode" && !dsa;
@@ -79,11 +89,14 @@ function partitionLabel(key) {
     replicated: "Replicated", tp: "TP", ep_individual: "EP", ep_tensor: "EP",
     shared: "共享专家 TP/DP", otp: "O Proj TP", embedding: "Embedding TP",
     lmhead: "LM Head TP", dsa_tp: "DSA CP / TP",
+    node_shard: "节点内均摊（源格式）", v41_shared: "SP 复制 / 非 SP TP",
   }[key];
 }
 
 function partitionCountFormula(phase, key) {
   const S = (name) => sc(phase, name);
+  if (key === 'node_shard') return `=${S('nodeRanks')}`;
+  if (key === 'v41_shared') return `=IF(${S('sp')}<>0,1,${S('tp')})`;
   if (key === "tp") return `=${S("tp")}`;
   if (key === "ep_individual" || key === "ep_tensor") return `=${S("ep")}`;
   if (key === "shared") return `=${effectiveGroup(phase, "shared")}`;
@@ -117,7 +130,13 @@ function buildScenario(sheet, model, phase) {
     fineOTP: 0, fineLMHead: 0, fineEmbedding: 0, dsaCP: dsa ? 1 : 0,
     activationBytes: 2, lseBytes: 4, tokenIdBytes: 8, indexBytes: 4,
     routeFraction: null, reduceSample: 1, candidateK: 256,
+    nodeRanks: 8, engramEnabled: 1, dispatchBytes: 2, combineBytes: 2, cacheRequests: 16,
   };
+  if (model.profile === 'deepseek_v41') Object.assign(values, {
+    maxBatchTokens: phase === 'Prefill' ? 16384 : 128, maxSeqs: 128, inputTokens: 262144,
+    tp: phase === 'Prefill' ? 8 : 1, dp: phase === 'Prefill' ? 4 : 32,
+    sp: phase === 'Prefill' ? 1 : 0, dsaCP: phase === 'Prefill' ? 1 : 0,
+  });
   for (const [title, items] of groups) {
     const titleRow = scenarioGroupRow[title];
     sheet.getRange(`O${titleRow}:P${titleRow}`).values = [[title, null]];
@@ -173,6 +192,7 @@ function buildWeightTable(sheet, rows, phase, startRow) {
 
 function communicationEvents(model, phase, facts) {
   const S = (key) => sc(phase, key);
+  if (model.profile === 'deepseek_v41') return v41WorkbookEvents(S, facts);
   const T = S("stepTokens");
   const tPad = `(ROUNDUP(${T}/${S("tp")},0)*${S("tp")})`;
   const tLocal = `(${tPad}/${S("tp")})`;
@@ -252,6 +272,11 @@ function communicationEvents(model, phase, facts) {
 function buildCommunicationTable(sheet, model, phase, facts, startRow) {
   const events = communicationEvents(model, phase, facts);
   const headers = ["并行策略", "模块", "通信位置", "Collective", "本 Rank 输入元素/次", "字节/元素", "通信组大小", "次数/Step", "本 Rank 载荷 MiB/次", "单 Rank 建模发送 MiB/次", "单 Rank 建模发送 MiB/Step", "通信组建模发送 MiB/Step"];
+  if (model.profile === 'deepseek_v41') {
+    headers[4] = '输入/跨 Rank 期望元素';
+    headers[9] = 'Rank 平均发送 MiB/次';
+    headers[10] = 'Rank 平均发送 MiB/Step';
+  }
   sheet.getRange(`A${startRow}:L${startRow + events.length}`).values = [headers, ...events.map((e) => [e.strategy, e.module, e.location, e.collective, null, null, null, null, null, null, null, null])];
   const first = startRow + 1;
   for (let i = 0; i < events.length; i++) {
@@ -267,7 +292,8 @@ function buildCommunicationTable(sheet, model, phase, facts, startRow) {
     sheet.getRange(`L${r}`).formulas = [[`=K${r}*G${r}`]];
   }
   const total = first + events.length;
-  sheet.getRange(`A${total}:L${total}`).values = [["单 Rank 事件合计", null, null, null, null, null, null, null, null, null, null, null]];
+  const totalLabel = model.profile === 'deepseek_v41' ? '所列事件平均 Rank 合计' : '单 Rank 事件合计';
+  sheet.getRange(`A${total}:L${total}`).values = [[totalLabel, null, null, null, null, null, null, null, null, null, null, null]];
   sheet.getRange(`K${total}`).formulas = [[`=SUM(K${first}:K${total - 1})`]];
   // Group sizes/membership differ across rows. Their sum is not a group or link total.
   sheet.getRange(`A${total}:L${total}`).format.font = { bold: true };
@@ -286,12 +312,17 @@ function buildPhaseSheet(sheet, model, phase, spec) {
   used.format.font = { name: "Arial", size: 10, color: "#000000" };
   used.format.verticalAlignment = "center";
   setWidths(sheet, [["A:A", 22], ["B:B", 34], ["C:C", 24], ["D:D", 25], ["E:I", 17], ["J:L", 20], ["M:N", 3], ["O:O", 34], ["P:P", 18]]);
+  if (model.profile === 'deepseek_v41') {
+    sheet.getRange(`B2:B${weights.last}`).format = { wrapText: true, rowHeight: 30, columnWidth: 52 };
+    sheet.getRange('O:O').format.columnWidth = 44;
+  }
   sheet.freezePanes.freezeRows(1);
   return { weights, communication };
 }
 
 function modelReadme(model, weightRows) {
   const slug = modelSlugs[model.key];
+  if (model.profile === 'deepseek_v41') return `# ${model.key}\n\nWorkbook: ${slug}-analysis.xlsx\n\nOfficial config revision: ${model.revision}\n\nVA revision: ${model.runtimeRevision}\n\n${weightRows} config-derived weight rows, independently checked against all published tensor headers by npm test. Weights use source storage dtype; this is not VA device residency or proof that the checkpoint loads unchanged.\n\nEditable Prefill/Decode communication covers target attention, uniform hidden-only MoE routing and node-local Engram; other events are explicitly excluded in the workbook.\n\nSee https://github.com/maoxx241/se-tools/blob/main/analysis/DEEPSEEK-V4.1.md for the formulas, versions and runtime limits.\n`;
   return `# ${model.key}\n\n- Workbook: \`${slug}-analysis.xlsx\`\n- Model configuration: \`config.json\`\n- Pinned Hugging Face revision: \`${model.revision}\`\n- Weight rows generated from config and pinned model code: ${weightRows}\n- Evidence and formulas: \`https://github.com/maoxx241/se-tools/blob/main/analysis/EVIDENCE.md\` and \`https://github.com/maoxx241/se-tools/blob/main/analysis/METHODOLOGY.md\`\n\nThe workbook does not read or validate Safetensors metadata. Prefill and Decode each contain editable weight precision, parallel-strategy, request, and communication inputs.\n`;
 }
 
@@ -304,6 +335,9 @@ export async function buildModelWorkbook(model, outputRoot, renderRoot = null) {
   const workbook = Workbook.create();
   const prefill = buildPhaseSheet(workbook.worksheets.add("Prefill"), model, "Prefill", spec);
   const decode = buildPhaseSheet(workbook.worksheets.add("Decode"), model, "Decode", spec);
+  if (model.profile === 'deepseek_v41') {
+    for (const phase of ['Prefill', 'Decode']) v41WorkbookNotes(workbook.worksheets.getItem(phase), key => sc(phase, key), config);
+  }
   workbook.recalculate();
   const outputPath = path.join(modelDir, `${slug}-analysis.xlsx`);
   await (await SpreadsheetFile.exportXlsx(workbook)).save(outputPath);

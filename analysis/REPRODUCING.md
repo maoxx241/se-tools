@@ -46,9 +46,22 @@ estimateAllToAllV({
 
 ## 增加模型
 
+V4.1 的完整新增范例见 [DEEPSEEK-V4.1.md](DEEPSEEK-V4.1.md)：`lib/deepseek-v41.mjs` 提供权重 shape、source graph、缓存及通信；`scripts/deepseek-v41-workbook.mjs` 提供对应 Excel 事件。它不修改原有六模型历史案例。新模型应按实际调用路径处理，不能仅改变维度后继承旧模型的所有通信行。
+
+公开 HF 元数据可以独立重取（只下载配置、index 和 Safetensors 头部）：
+
+```bash
+python3 scripts/snapshot-hf-metadata.py \
+  --repo deepseek-ai/DeepSeek-V4.1-Flash \
+  --revision dba1be0a40aa45a94ad051997016db3960a90277 \
+  --output outputs/v41-metadata
+```
+
+输出目录必须不存在；该脚本联网但不下载 Tensor 数据。离线 `npm test` 用仓库内的分组快照逐项核对 V4.1 shape、dtype、重复数、packed FP4 字节及完整总量；与旧模型“仅 config/code 建模”的证据强度不同。
+
 1. 在 `models/<slug>/` 保存完整配置、来源 URL、revision（缺失则明确注明）和采集时间，登记文件哈希。
 2. 在 `lib/model-catalog.mjs` 登记模型。为该模型在 `scripts/model-analysis-specs.mjs` 返回 `{ rows, facts }`；按真实架构拆 Tensor，量化 scale 和 norm 单独列行。
-3. 每行需要模块、名称、shape、dtype、字节/元素、重复数和分片规则。不要在维度缺失时随意套用其他 Transformer 的公式。
+3. 每行需要模块、名称、shape、dtype、字节/元素、重复数和分片规则。不要在维度缺失时随意套用其他 Transformer 的公式。区分源文件 dtype、运行时参数 dtype 和通信 dtype。
 4. 在 Excel `communicationEvents` 中记录通信位置、Collective、本 Rank 输入、dtype、组和每 Step 调用次数。新增模型不自动继承 DSA CP、共享专家或 KV 布局。
 5. 若纳入 256K 案例，再扩展 `communicationModels`、该模型 facts 和 P→D 函数。27B/10T 目前只有此案例能力，不要宣称有对应权重工作簿。
 6. 验证关键 shape/字节数、代表性参数变化、组大小 1、SP 开关、dispatch/combine 精度与计数。最后再做保存、公式和显示检查。

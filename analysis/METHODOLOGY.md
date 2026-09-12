@@ -2,9 +2,11 @@
 
 中文场景说明见 [SESSION.md](SESSION.md)，HCCL API 基数、算法假设与 Profiling 对照见 [HCCL.md](HCCL.md)。以下公式是模型输入下的计算，不代表实际链路测量。
 
+本页保留历史模型的方法。2026-09-12 新增的 **V4.1 Flash** 使用独立的[架构/运行时公式](DEEPSEEK-V4.1.md)，包括源层 KV 共享、SP 共享专家复制和 Engram。旧 V4 的 C4/C128 或 Indexer 通信行不适用于 V4.1。
+
 ## Weight model
 
-The generator uses each model's adjacent `config.json` and the pinned model implementation to enumerate trainable tensors. It does not read or validate Safetensors headers.
+The generator uses each model's adjacent `config.json` and the pinned model implementation to enumerate tensors. Historical model rows do not validate Safetensors headers. V4.1's config-derived rows are additionally checked by the portable tests against a complete, separately collected header snapshot; generation itself remains offline.
 
 Each workbook row keeps projection weights, normalization weights, quantized weights, and quantization scales separate. In particular, `q_a_proj`, `q_a_layernorm`, and block scales never share one dtype or byte-width input.
 

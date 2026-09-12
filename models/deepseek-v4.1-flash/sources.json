@@ -1,0 +1,125 @@
+{
+  "collected": "2026-09-12",
+  "sources": [
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/model.py",
+      "path": "vllm_ascend/models/deepseek_v41/model.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "455dc304b2af63660d6d42df32da32fa0ab357bf72e2454e1c2b8d9aaae58ce9"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/engram_hbm.py",
+      "path": "vllm_ascend/models/deepseek_v41/engram_hbm.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "17a6a8ca87bc3f977e3ebb2e472a266005add561af0064a2ec2020a794d4ad93"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/compressor.py",
+      "path": "vllm_ascend/models/deepseek_v41/compressor.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "a77b8508cdc71f4512180690f5b6de9cd94543c7cc0b87437f65166ddb32e152"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/indexer.py",
+      "path": "vllm_ascend/models/deepseek_v41/indexer.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "a126cce8ec070fe66b39c412b68b2bab8651f1e23ec744e06adc9d5ae79956a4"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v41/dspark.py",
+      "path": "vllm_ascend/models/deepseek_v41/dspark.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "8e1267378c4877a06f1223070413f4c4242885b38d6c8e0574195b38277905bc"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/attention/context_parallel/dsa_v41_cp.py",
+      "path": "vllm_ascend/attention/context_parallel/dsa_v41_cp.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "045eafc6d603f3afb5fd3c49104857769403559ec6a3e1609f70e2efac0f92d3"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/attention/context_parallel/dsa_common.py",
+      "path": "vllm_ascend/attention/context_parallel/dsa_common.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "2c7eb897e352f86eda4955eda18c2883e86d5289d8fa787505c4e47960691449"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/core/deepseek_v41.py",
+      "path": "vllm_ascend/core/deepseek_v41.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "d0d89cb4a0ef22672e1de92a80a2846ac86f8fd4ec8e7d14ab050bf1539d7acf"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/deepseek_v4/model.py",
+      "path": "vllm_ascend/models/deepseek_v4/model.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "54433f7d4e133a3f37ddab2d234a10fb7e58c929b1348efab3613c5f30c78889"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/models/common/ops/sequence_parallel.py",
+      "path": "vllm_ascend/models/common/ops/sequence_parallel.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "7be629bed663e777d67bc6d82f82703b4acacb6496fbc1a0d37acfeffa671f97"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/ops/fused_moe/token_dispatcher.py",
+      "path": "vllm_ascend/ops/fused_moe/token_dispatcher.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "cc128250739f9558d0a21af3f8deb938ae995c04615d7bd7d7698a1b1847de02"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/ops/fused_moe/shared_experts.py",
+      "path": "vllm_ascend/ops/fused_moe/shared_experts.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "f1780df8ec2fc290bfeb946e5d48edcb8c1b4aee0f50c1bd9d10291def201e77"
+    },
+    {
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c/vllm_ascend/ascend_config.py",
+      "path": "vllm_ascend/ascend_config.py",
+      "revision": "1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c",
+      "sha256": "14ffb77e1d5614734c9a24ff0f8f457484a08765f1fce0690922c6116062bcf8"
+    },
+    {
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/dba1be0a40aa45a94ad051997016db3960a90277/config.json",
+      "path": "config.json",
+      "revision": "dba1be0a40aa45a94ad051997016db3960a90277",
+      "sha256": "8be45ce0476004a3f529fd896115a4a2e800a129ad2d3ec05b16050f52e21879"
+    },
+    {
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/dba1be0a40aa45a94ad051997016db3960a90277/inference/model.py",
+      "path": "inference/model.py",
+      "revision": "dba1be0a40aa45a94ad051997016db3960a90277",
+      "sha256": "4e9ae23620edc8028ccc5d5fef552ab7fdc7dcd6f79608754fe9f67644056f65"
+    },
+    {
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/dba1be0a40aa45a94ad051997016db3960a90277/inference/vision.py",
+      "path": "inference/vision.py",
+      "revision": "dba1be0a40aa45a94ad051997016db3960a90277",
+      "sha256": "5d49edc196a4ef22384abe76d35a40098cbe1e74b586c8f66a2edff4f076b26c"
+    },
+    {
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/dba1be0a40aa45a94ad051997016db3960a90277/model.safetensors.index.json",
+      "path": "model.safetensors.index.json",
+      "revision": "dba1be0a40aa45a94ad051997016db3960a90277",
+      "sha256": "74b0686a3d2891980d5e303251b075a3bccae2c2ff650747db2620a649b98fa8"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "models/deepseek-v4.1-flash/config.json",
+      "sha256": "8be45ce0476004a3f529fd896115a4a2e800a129ad2d3ec05b16050f52e21879"
+    },
+    {
+      "path": "models/deepseek-v4.1-flash/weight-metadata.json",
+      "sha256": "a189f56f43d1b06ebccc12b7c49c4280cbafac112167a94073b03b769d90b596"
+    },
+    {
+      "path": "models/deepseek-v4.1-flash/communication-example.json",
+      "sha256": "f35b516f942fdd80eec80b846b8cdc5474b34f3e781722bbdfc481582183bd0c"
+    },
+    {
+      "path": "models/deepseek-v4.1-flash/deepseek-v4.1-flash-analysis.xlsx",
+      "sha256": "2ca3d1979364c97828810c110ecc30b5db4c832302f24ecf09a015711df17583"
+    }
+  ]
+}

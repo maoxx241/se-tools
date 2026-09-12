@@ -1,3 +1,5 @@
+import { v41WeightSpec } from '../lib/deepseek-v41.mjs';
+
 function row(module, name, dims, dtype, bytes, count = 1, partition = "replicated") {
   return { module, name, dims, dtype, bytes, count, partition };
 }
@@ -357,6 +359,7 @@ function qwenSpec(c) {
 }
 
 export function modelSpec(model, config) {
+  if (model.profile === "deepseek_v41") return v41WeightSpec(config);
   if (model.profile === "kimi") return kimiSpec(config);
   if (model.profile === "kimi_dspark") return dsparkSpec(config);
   if (model.profile === "deepseek_v4") return deepseekSpec(config);

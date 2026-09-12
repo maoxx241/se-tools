@@ -1,0 +1,5 @@
+{
+  "sendCounts": [[100, 10, 0], [30, 200, 5], [2, 0, 300]],
+  "width": 256,
+  "compressedInt8Wire": false
+}

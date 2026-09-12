@@ -5,11 +5,12 @@
 ## 从这里开始
 
 - **看结论与场景**：[分析记录](analysis/SESSION.md)。包含范围、模型差异、最终 P/D 拓扑和保留的问题。
+- **DeepSeek V4.1 Flash**：[模型及 Excel](models/deepseek-v4.1-flash/)、[VA main 实现分析](analysis/DEEPSEEK-V4.1.md)。独立处理跨层缓存、DSA CP、Engram 和源权重/驻留格式差异。
 - **直接使用 Excel**：[模型目录](models/)内每个模型各有一份 Prefill / Decode 工作簿；[256K 通信需求案例](examples/communication-256k/)包含跨模型结果和复算输出。
 - **看计算依据**：[权重与通信方法](analysis/METHODOLOGY.md)、[HCCL 校正](analysis/HCCL.md)、[来源版本](analysis/EVIDENCE.md)。
 - **接入新模型或 Profiling**：[扩展与复算指南](analysis/REPRODUCING.md)。
 
-Excel 是历史快照，config 单独保存。逐模型 Excel 的右侧是可编辑参数，权重表中的字节/元素也可以直接修改；通信需求表的 I 列是固定场景文本，不是公式驱动的通用模板。两类表的默认参数不同。
+原有 Excel 是 2026-09-04 历史快照；V4.1 是 2026-09-12 新增分析，config 均单独保存。逐模型 Excel 的右侧是可编辑参数，权重表中的字节/元素也可以直接修改；历史通信需求表的 I 列是固定场景文本，不是公式驱动的通用模板。两类表的默认参数不同。
 
 ## 无需 Codex 的复算
 
@@ -21,12 +22,15 @@ cd se-tools
 npm test
 node scripts/export-analysis.mjs weights kimi-k3
 node scripts/export-analysis.mjs communication
+node scripts/export-analysis.mjs weights deepseek-v4.1-flash
+node scripts/export-analysis.mjs communication deepseek-v4.1-flash
+node scripts/export-analysis.mjs engram examples/hccl/engram.json
 node scripts/export-analysis.mjs collective examples/hccl/allreduce.json
 node scripts/export-analysis.mjs collective examples/hccl/alltoallv.json
 python3 scripts/verify-archive.py
 ```
 
-`weights` 输出 Tensor 形状、dtype、总字节数和切分规则；`communication` 复算最终六模型场景；`collective` 按 HCCL API count 口径计算。JSON 中大字节数用十进制字符串表示。
+`weights` 输出 Tensor 形状、dtype、总字节数和切分规则；不带模型参数的 `communication` 复算历史六模型场景，指定 V4.1 则输出新增案例；`collective` 按 HCCL API count 口径计算；`engram` 计算查询和反向响应的不均衡流量。JSON 中大字节数用十进制字符串表示。
 
 ## 内容
 

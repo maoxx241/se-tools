@@ -5,6 +5,7 @@ import path from "node:path";
 import { models, modelSlugs, scenarioRow } from "./build-analysis-workbook.mjs";
 import { elementCount, modelSpec, shapeText } from "./model-analysis-specs.mjs";
 import { loadSpreadsheetRuntime } from "../lib/spreadsheet-runtime.mjs";
+import { v41Step } from '../lib/deepseek-v41.mjs';
 
 const { FileBlob, SpreadsheetFile } = await loadSpreadsheetRuntime();
 
@@ -43,27 +44,47 @@ for (const model of selected) {
 
     const communicationHeader = matrix.findIndex((r) => r[0] === "并行策略" && r[3] === "Collective");
     assert.ok(communicationHeader > spec.rows.length);
-    const communicationRows = matrix.slice(communicationHeader + 1).filter((r) => r[0] && !["合计", "单 Rank 事件合计"].includes(r[0]));
+    const communicationRows = matrix.slice(communicationHeader + 1).filter((r) => r[0] && !["合计", "单 Rank 事件合计", "所列事件平均 Rank 合计"].includes(r[0]));
     const strategies = new Set(communicationRows.map((r) => r[0]));
     assert.ok(strategies.has("SP"));
-    assert.ok(strategies.has("LM Head TP"));
-    if (spec.facts.moeLayers > 0) {
-      assert.ok(strategies.has("EP"));
-      assert.ok(strategies.has("DP"));
-      assert.ok(strategies.has("共享专家 TP"));
-    }
-    if (["deepseek_v4", "glm53"].includes(model.profile)) assert.ok(strategies.has("DSA CP"));
-    if (phase === "Prefill") assert.ok(strategies.has("PCP") || spec.facts.moeLayers === 0);
-    if (phase === "Decode" && spec.facts.dcpAttentionLayers > 0 && !["deepseek_v4", "glm53"].includes(model.profile)) assert.ok(strategies.has("DCP"));
+    if (model.profile === 'deepseek_v41') {
+      const expected = v41Step(config, phase === 'Prefill' ? { tokens: 16384 } : { tokens: 128, tp: 1, dp: 32, sp: false, dsaCP: false });
+      const bytes = row => Math.round(Number(row[11]) * 2 ** 20);
+      const expectedBytes = [expected.attention.spInputGroupBytes, expected.attention.headExchangeGroupBytes,
+        phase === 'Prefill' ? expected.attention.outputGroupBytes : 0n, 0n, expected.attention.finalHiddenGroupBytes,
+        expected.moeExpected.dispatchGroupBytes, expected.moeExpected.combineGroupBytes,
+        expected.engram.metadataRingGroupBytes, expected.engram.idsGroupBytes, expected.engram.responseGroupBytes,
+        expected.engram.broadcastTreeGroupBytesPerTP];
+      assert.deepEqual(communicationRows.map(bytes), expectedBytes.map(Number));
+      assert.equal(sheet.getRange(`P${scenarioRow.stepTokens}`).values[0][0], phase === 'Prefill' ? 16384 : 128);
+      assert.equal(sheet.getRange(`P${scenarioRow.tp}`).values[0][0], phase === 'Prefill' ? 8 : 1);
+      assert.equal(sheet.getRange(`P${scenarioRow.sp}`).values[0][0], phase === 'Prefill' ? 1 : 0);
+      assert.equal(sheet.getRange('P49').values[0][0] * 2 ** 30, (671088640 + 85196800) * 16);
+      const engramRow = spec.rows.findIndex(r => r.name === 'layers.1.engram.embed.weight') + 2;
+      const before = sheet.getRange(`K${engramRow}`).values[0][0];
+      sheet.getRange(`P${scenarioRow.nodeRanks}`).values = [[16]];
+      assert.equal(sheet.getRange(`K${engramRow}`).values[0][0] * 2, before);
+      sheet.getRange(`P${scenarioRow.nodeRanks}`).values = [[8]];
+    } else {
+      assert.ok(strategies.has("LM Head TP"));
+      if (spec.facts.moeLayers > 0) {
+        assert.ok(strategies.has("EP"));
+        assert.ok(strategies.has("DP"));
+        assert.ok(strategies.has("共享专家 TP"));
+      }
+      if (["deepseek_v4", "glm53"].includes(model.profile)) assert.ok(strategies.has("DSA CP"));
+      if (phase === "Prefill") assert.ok(strategies.has("PCP") || spec.facts.moeLayers === 0);
+      if (phase === "Decode" && spec.facts.dcpAttentionLayers > 0 && !["deepseek_v4", "glm53"].includes(model.profile)) assert.ok(strategies.has("DCP"));
 
-    const expectedStep = phase === "Prefill" ? 8192 : Math.min(8192, 128 * (model.defaultSpecSteps + 1));
-    assert.equal(sheet.getRange(`P${scenarioRow.stepTokens}`).values[0][0], expectedStep);
-    assert.equal(sheet.getRange(`P${scenarioRow.tp}`).values[0][0], 8);
-    assert.equal(sheet.getRange(`P${scenarioRow.sp}`).values[0][0], 1);
-    if (phase === "Prefill") assert.equal(sheet.getRange(`P${scenarioRow.pcp}`).values[0][0], 1);
-    else assert.ok([null, ""].includes(sheet.getRange(`P${scenarioRow.pcp}`).values[0][0]));
-    if (phase === "Decode" && !["deepseek_v4", "glm53"].includes(model.profile)) assert.equal(sheet.getRange(`P${scenarioRow.dcp}`).values[0][0], 1);
-    else assert.ok([null, ""].includes(sheet.getRange(`P${scenarioRow.dcp}`).values[0][0]));
+      const expectedStep = phase === "Prefill" ? 8192 : Math.min(8192, 128 * (model.defaultSpecSteps + 1));
+      assert.equal(sheet.getRange(`P${scenarioRow.stepTokens}`).values[0][0], expectedStep);
+      assert.equal(sheet.getRange(`P${scenarioRow.tp}`).values[0][0], 8);
+      assert.equal(sheet.getRange(`P${scenarioRow.sp}`).values[0][0], 1);
+      if (phase === "Prefill") assert.equal(sheet.getRange(`P${scenarioRow.pcp}`).values[0][0], 1);
+      else assert.ok([null, ""].includes(sheet.getRange(`P${scenarioRow.pcp}`).values[0][0]));
+      if (phase === "Decode" && !["deepseek_v4", "glm53"].includes(model.profile)) assert.equal(sheet.getRange(`P${scenarioRow.dcp}`).values[0][0], 1);
+      else assert.ok([null, ""].includes(sheet.getRange(`P${scenarioRow.dcp}`).values[0][0]));
+    }
 
     const qAProj = spec.rows.filter((r) => /q_a_proj\.weight$/.test(r.name));
     const qANorm = spec.rows.filter((r) => /q_a_(?:layer)?norm\.weight$/.test(r.name));
@@ -77,9 +98,10 @@ for (const model of selected) {
     const activeComm = communicationRows.find((r) => Number(r[7]) > 0 && Number(r[9]) > 0);
     assert.ok(activeComm);
     const activeIndex = matrix.findIndex((r) => r === activeComm);
-    const originalActBytes = sheet.getRange(`P${scenarioRow.activationBytes}`).values[0][0];
+    const precisionKey = model.profile === 'deepseek_v41' && phase === 'Decode' ? 'dispatchBytes' : 'activationBytes';
+    const originalActBytes = sheet.getRange(`P${scenarioRow[precisionKey]}`).values[0][0];
     const originalSent = sheet.getRange(`J${activeIndex + 1}`).values[0][0];
-    sheet.getRange(`P${scenarioRow.activationBytes}`).values = [[originalActBytes / 2]];
+    sheet.getRange(`P${scenarioRow[precisionKey]}`).values = [[originalActBytes / 2]];
     const changedSent = sheet.getRange(`J${activeIndex + 1}`).values[0][0];
     if (activeComm[5] === originalActBytes) assert.ok(Math.abs(changedSent * 2 - originalSent) < 1e-8);
 

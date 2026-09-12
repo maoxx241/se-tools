@@ -1,0 +1,475 @@
+{
+  "model": "DeepSeek-V4.1-Flash",
+  "topology": {
+    "layers": [
+      {
+        "layer": 0,
+        "ratio": 0,
+        "kvSource": null,
+        "indexSource": null,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 1,
+        "ratio": 0,
+        "kvSource": null,
+        "indexSource": null,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 2,
+        "ratio": 2,
+        "kvSource": 2,
+        "indexSource": 2,
+        "ownsKV": true,
+        "ownsIndex": true,
+        "candidateFilter": false
+      },
+      {
+        "layer": 3,
+        "ratio": 2,
+        "kvSource": 2,
+        "indexSource": 2,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 4,
+        "ratio": 2,
+        "kvSource": 2,
+        "indexSource": 2,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 5,
+        "ratio": 2,
+        "kvSource": 2,
+        "indexSource": 2,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 6,
+        "ratio": 2,
+        "kvSource": 2,
+        "indexSource": 2,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 7,
+        "ratio": 2,
+        "kvSource": 2,
+        "indexSource": 2,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 8,
+        "ratio": 2,
+        "kvSource": 8,
+        "indexSource": 8,
+        "ownsKV": true,
+        "ownsIndex": true,
+        "candidateFilter": false
+      },
+      {
+        "layer": 9,
+        "ratio": 2,
+        "kvSource": 8,
+        "indexSource": 8,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 10,
+        "ratio": 2,
+        "kvSource": 8,
+        "indexSource": 8,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 11,
+        "ratio": 2,
+        "kvSource": 8,
+        "indexSource": 8,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 12,
+        "ratio": 2,
+        "kvSource": 8,
+        "indexSource": 8,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 13,
+        "ratio": 2,
+        "kvSource": 8,
+        "indexSource": 8,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 14,
+        "ratio": 2,
+        "kvSource": 14,
+        "indexSource": 14,
+        "ownsKV": true,
+        "ownsIndex": true,
+        "candidateFilter": false
+      },
+      {
+        "layer": 15,
+        "ratio": 2,
+        "kvSource": 14,
+        "indexSource": 14,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 16,
+        "ratio": 2,
+        "kvSource": 14,
+        "indexSource": 14,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 17,
+        "ratio": 2,
+        "kvSource": 14,
+        "indexSource": 14,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 18,
+        "ratio": 2,
+        "kvSource": 14,
+        "indexSource": 14,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 19,
+        "ratio": 2,
+        "kvSource": 14,
+        "indexSource": 14,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 20,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 20,
+        "ownsKV": true,
+        "ownsIndex": true,
+        "candidateFilter": false
+      },
+      {
+        "layer": 21,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 20,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 22,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 20,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 23,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 20,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": false
+      },
+      {
+        "layer": 24,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 24,
+        "ownsKV": false,
+        "ownsIndex": true,
+        "candidateFilter": true
+      },
+      {
+        "layer": 25,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 24,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 26,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 24,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 27,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 24,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 28,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 28,
+        "ownsKV": false,
+        "ownsIndex": true,
+        "candidateFilter": true
+      },
+      {
+        "layer": 29,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 28,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 30,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 28,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 31,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 28,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 32,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 32,
+        "ownsKV": false,
+        "ownsIndex": true,
+        "candidateFilter": true
+      },
+      {
+        "layer": 33,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 32,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 34,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 32,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 35,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 32,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 36,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 36,
+        "ownsKV": false,
+        "ownsIndex": true,
+        "candidateFilter": true
+      },
+      {
+        "layer": 37,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 36,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 38,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 36,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      },
+      {
+        "layer": 39,
+        "ratio": 1,
+        "kvSource": 20,
+        "indexSource": 36,
+        "ownsKV": false,
+        "ownsIndex": false,
+        "candidateFilter": true
+      }
+    ],
+    "kvSources": [
+      2,
+      8,
+      14,
+      20
+    ],
+    "indexSources": [
+      2,
+      8,
+      14,
+      20,
+      24,
+      28,
+      32,
+      36
+    ],
+    "candidateSource": 20
+  },
+  "Prefill": {
+    "tokens": "16384",
+    "tp": "8",
+    "dp": "4",
+    "ep": "32",
+    "nodeRanks": "8",
+    "sp": true,
+    "dsaCP": true,
+    "attention": {
+      "spInputGroupBytes": "46976204800",
+      "headExchangeGroupBytes": "37580963840",
+      "outputGroupBytes": "46976204800",
+      "finalHiddenGroupBytes": "1174405120",
+      "indexTopKGroupBytes": "0",
+      "sharedExpertGroupBytes": "0"
+    },
+    "moeExpected": {
+      "dispatchGroupBytes": "156028108800",
+      "combineGroupBytes": "156028108800",
+      "basis": "uniform expert-instance routing, hidden payload only; excludes scales/count metadata; not an MC2 or measured AlltoAllV total"
+    },
+    "engram": {
+      "basis": "uniform owner expectation; BF16 wire for all default storage modes",
+      "metadataRingGroupBytes": "8064",
+      "idsGroupBytes": "5505024",
+      "responseGroupBytes": "352321536",
+      "broadcastTreeGroupBytesPerTP": "2818572288"
+    },
+    "physicalLinkBytes": null,
+    "excluded": [
+      "embedding/logits communication",
+      "DSpark forward and auxiliary handoff",
+      "MoE scale/count metadata, padding policy and backend-specific transport",
+      "vision preprocessing",
+      "protocol overhead and idle-DP synchronization"
+    ],
+    "scope": "attention fields are per TP group; MoE per EP group; Engram per node except Broadcast per TP; do not sum these domains"
+  },
+  "Decode": {
+    "tokens": "128",
+    "tp": "1",
+    "dp": "32",
+    "ep": "32",
+    "nodeRanks": "8",
+    "sp": false,
+    "dsaCP": false,
+    "attention": {
+      "spInputGroupBytes": "0",
+      "headExchangeGroupBytes": "0",
+      "outputGroupBytes": "0",
+      "finalHiddenGroupBytes": "0",
+      "indexTopKGroupBytes": "0",
+      "sharedExpertGroupBytes": "0"
+    },
+    "moeExpected": {
+      "dispatchGroupBytes": "9751756800",
+      "combineGroupBytes": "9751756800",
+      "basis": "uniform expert-instance routing, hidden payload only; excludes scales/count metadata; not an MC2 or measured AlltoAllV total"
+    },
+    "engram": {
+      "basis": "uniform owner expectation; BF16 wire for all default storage modes",
+      "metadataRingGroupBytes": "8064",
+      "idsGroupBytes": "344064",
+      "responseGroupBytes": "22020096",
+      "broadcastTreeGroupBytesPerTP": "0"
+    },
+    "physicalLinkBytes": null,
+    "excluded": [
+      "embedding/logits communication",
+      "DSpark forward and auxiliary handoff",
+      "MoE scale/count metadata, padding policy and backend-specific transport",
+      "vision preprocessing",
+      "protocol overhead and idle-DP synchronization"
+    ],
+    "scope": "attention fields are per TP group; MoE per EP group; Engram per node except Broadcast per TP; do not sum these domains"
+  },
+  "cache": {
+    "basis": "one TP replica, logical retained payload; excludes allocator padding/null/free IDs, draft and Engram history",
+    "sequenceTokens": "262144",
+    "requests": "16",
+    "tp": "1",
+    "longRowsPerRequest": "655360",
+    "longKVBytesPerRequest": "671088640",
+    "indexBytesPerRequest": "85196800",
+    "swaBytesPerRequest": "5242880",
+    "ringBytesPerRequest": "393216",
+    "batchLogicalBytesPerReplica": "12190744576",
+    "batchLogicalBytesAcrossTP": "12190744576",
+    "pdTransferBytes": null,
+    "pdStatus": "no validated V4.1 transfer path; cache storage is not measured P-to-D traffic"
+  }
+}

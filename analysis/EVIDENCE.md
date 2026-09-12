@@ -68,3 +68,9 @@ EP AllToAllV is parameterized by the local cross-rank routing fraction because `
 The original six model workbooks passed the existing Artifact Tool input-mutation/formula checks again. The portable verifier checks 15 snapshot hashes, seven valid XLSX archives, 84 saved communication byte values, and blank communication-capability cells. Node tests cover HCCL count conventions, uneven routing, zero/single-rank cases, large integers and the corrected non-SP branch.
 
 These checks establish archive fidelity, portable reproduction and selected formula behavior. They do not establish every model's runtime call placement, checkpoint equivalence, deployed topology compatibility, physical link bytes or throughput.
+
+## DeepSeek V4.1 extension on 2026-09-12
+
+The [V4.1 model](../models/deepseek-v4.1-flash/) uses HF revision `dba1be0a40aa45a94ad051997016db3960a90277` and the requested VA fork's main at `1933f86cbed1ee69fc1e1a9e0b99ef1c2ff1195c`. These differ from the historical revisions above. [Source manifest](../models/deepseek-v4.1-flash/sources.json) pins file hashes; [weight metadata](../models/deepseek-v4.1-flash/weight-metadata.json) covers all 48 Safetensors shard headers and 96,085 tensors, without downloading tensor data. Generated config-derived rows match all 116 metadata groups and the exact 510,286,023,000-byte payload total.
+
+The new [analysis](DEEPSEEK-V4.1.md) corrects source-sharing counts, SP shared-expert replication, CP cache replication, and Engram's current default routing/storage. It distinguishes retained cache from physical allocation and leaves P-to-D transfer unquantified. No NPU or runtime HCCL validation was performed. Historical snapshot hashes and saved values remain unchanged.
