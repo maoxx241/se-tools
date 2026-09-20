@@ -4,6 +4,24 @@
 
 本页替代“所有层一直争用”的场景假设。原表保留为手动覆盖率敏感性分析，其 100% 覆盖率不再代表这里的默认结果。
 
+## Input terminology
+
+输入区采用英文术语，旁边附中文说明。这些是部署与时序场景的假设，并非从模型 config 直接读取的参数。通常只需填写带宽、请求数、TTFT/TPOT，其余保持当前默认值。
+
+| Excel label | 含义及示例 | 默认 |
+|---|---|---:|
+| P deployment count | Prefill 侧完整 EP 部署的套数；一套包含 EP 张卡。EP32 填 2 表示 64 张 P 卡 | 1 |
+| D deployment count | Decode 侧完整 EP 部署的套数；EP32 填 1 表示 32 张 D 卡 | 1 |
+| EP / TP shared resource fraction | 通信中会与 KV 竞争同一带宽资源的部分。100% 表示全部可能受竞争影响，0% 表示资源独立；降速仍只在时间重叠窗口内生效 | 100% |
+| EP / TP exposed comm fraction | 通信增加的时间最终传导到 forward 的比例。增加 1 ms，若计算重叠遮住 0.6 ms，则填 40%，计入 0.4 ms | 100% |
+| KV bursts per interval | 每个 prefill 批次的 KV 均分成几次、等间隔发送。周期 4 s、填 2：间隔 2 s，每次一半，总请求数和总字节不变 | 1 |
+
+`deployment count` 的单位是一整套 EP 域，具体物理服务器数量由每台卡数决定；单套内部的 DP 仍由 EP/TP 得到。此前的“P/D EP 组数”就是这里的部署套数。
+
+要区分三个环节：**temporal overlap** 由 KV 窗口和 forward 时序计算；**resource contention** 由 shared resource fraction 指定；**exposed latency** 由 exposed communication fraction 指定。Exposed fraction 不用于手填“多少层与 KV 重叠”，否则会把时间重叠重复折减。
+
+两种 fraction 在本模型中以乘积缩放增时，单个增时结果不能分别识别它们。没有 profiling 时都保持 100%，不要求为两个输入分别猜数值。若 TP 资源与 KV 独立，只需把 TP shared resource fraction 设为 0。
+
 ## 已确认的输入与统计口径
 
 用户确认：每个 P DP 连续工作，每完成一批 prefill 就交接 KV，每批 **16 请求**；将 **16K/4s、256K/20s、1M/60s** 的 TTFT 暂作 P 批次完成间隔。K=1024，M=1024²。示例带宽 **4800 GB/s**，不是 Gb/s。EP、TP 通信与 KV 传输带宽各设独立输入，初始均为 4800。

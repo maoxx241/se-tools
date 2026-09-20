@@ -6,10 +6,11 @@ import {loadKvEpSpecs} from '../lib/kv-ep-specs.mjs';
 import {MINUTE_CASES,minuteImpact} from '../lib/pd-minute.mjs';
 import {decodeTpTraffic} from '../lib/communication-requirements.mjs';
 import {addMinuteTp} from './minute-tp-workbook.mjs';
+import {clarifyMinuteInputs} from './minute-input-language.mjs';
 import {applyEditableSweepPresentation,cleanSweepText,cleanV41Labels} from './sweep-presentation.mjs';
 
 const mode=process.argv[2]||'--inspect';
-assert(['--inspect','--write','--inspect-sweep-style','--style-sweep','--add-tp','--inspect-v41-labels','--clean-v41-labels'].includes(mode));
+assert(['--inspect','--write','--inspect-sweep-style','--style-sweep','--add-tp','--inspect-v41-labels','--clean-v41-labels','--inspect-input-language','--clarify-input-language'].includes(mode));
 const root=path.resolve(process.argv[3]||'outputs/01a09481-77cf-7b72-a8db-64837639ac39/pd-minute');
 await fs.mkdir(root,{recursive:true});
 const {FileBlob,SpreadsheetFile}=await loadSpreadsheetRuntime();
@@ -205,6 +206,35 @@ if(mode==='--inspect-sweep-style'&&process.argv[4]) {
 for(const entry of files) {
   const wb=await SpreadsheetFile.importXlsx(await FileBlob.load(entry.file));
   const slug=entry.items.length>2?'ep32-ep256':entry.items[0].slug;
+  if(mode.endsWith('input-language')) {
+    const region=JSON.parse(await fs.readFile('examples/pd-contention/minute-workbook-regions.json','utf8')).find(x=>x.file===entry.file);
+    if(mode==='--clarify-input-language') {
+      const before=wb.worksheets.items.map(s=>({s,range:s.getUsedRange(),values:s.getUsedRange().values,formulas:s.getUsedRange().formulas}));
+      const edits=clarifyMinuteInputs(wb.worksheets.getItem('分钟场景'),region);
+      wb.recalculate();
+      for(const old of before) {
+        const now=old.range.values;
+        assert.deepEqual(old.range.formulas,old.formulas);
+        old.values.forEach((row,i)=>row.forEach((v,j)=>{
+          // Only literal labels in the authorized input panel may change.
+          let n=j+1,col='';while(n){n--;col=String.fromCharCode(65+n%26)+col;n=Math.floor(n/26);}
+          const label=old.s.name==='分钟场景'?edits.get(`${col}${i+1}`):undefined;
+          if(label!==undefined)assert.equal(now[i][j]??'',label);
+          else if(typeof v==='number')close(now[i][j],v);
+          else assert.equal(now[i][j]??'',v??'');
+        }));
+      }
+      const errors=await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!',options:{useRegex:true,maxResults:10}});
+      assert(!/"kind":"match"/.test(errors.ndjson),errors.ndjson);
+      const dest=path.join(root,entry.file);await fs.mkdir(path.dirname(dest),{recursive:true});await(await SpreadsheetFile.exportXlsx(wb)).save(dest);
+      console.log(`Clarified inputs; all formulas and numeric results unchanged: ${entry.file}`);
+    }
+    const prefix=mode==='--clarify-input-language'?'after':'before';
+    await render(wb,'分钟场景','A5:N13',`${prefix}-${slug}-inputs.png`);
+    await render(wb,'分钟场景','H15:U22',`${prefix}-${slug}-help.png`);
+    await render(wb,'分钟场景',`L${region.first-1}:T${region.first+3}`,`${prefix}-${slug}-totals.png`);
+    continue;
+  }
   if(mode.endsWith('v41-labels')) {
     if(mode==='--clean-v41-labels') {
       const before=wb.worksheets.items.map(s=>({s,range:s.getUsedRange(),values:s.getUsedRange().values,formulas:s.getUsedRange().formulas}));

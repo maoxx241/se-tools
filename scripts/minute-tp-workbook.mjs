@@ -1,5 +1,6 @@
 // Targeted extension of the existing minute sheet. Keep user inputs and cache
 // formulas in place; EP and TP bandwidth terms have separate controls.
+import {clarifyMinuteInputs} from './minute-input-language.mjs';
 export function addMinuteTp(s, region, items) {
   const put=(c,v)=>{s.getRange(c).values=[[v]];};
   const fx=(c,f)=>{s.getRange(c).formulas=[[`=${f}`]];};
@@ -90,5 +91,6 @@ export function addMinuteTp(s, region, items) {
   const range=s.getUsedRange(),values=range.values;
   for(let i=0;i<values.length;i++)if(typeof values[i][0]==='string'&&values[i][0].startsWith('MC2：'))
     put(`A${i+1}`,'MC2：A3 FullMesh BF16；TP/SP：HCCL Ring，K3 共享专家 TP、Qwen 共享专家 DP。通信启动、Engram 与排队另计。');
+  clarifyMinuteInputs(s,region);
   return region;
 }

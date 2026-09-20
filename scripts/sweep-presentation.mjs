@@ -70,6 +70,9 @@ export function applyEditableSweepPresentation(wb,{sheetNames}={}) {
       s.getRange('O:O').format.columnWidth=30;
       const cacheHeader=values.findIndex(row=>row[0]==='模型'&&row[2]==='组件')+1;
       if(cacheHeader)s.getRange(`A${cacheHeader+1}:M${values.length}`).format.rowHeight=45;
+      if(String(values[4]?.[4]??'').includes('deployment'))
+        for(const row of [5,9,...(values[21]?.[15]==='TP GB/s 输入'?[11]:[])])
+          s.getRange(`A${row}:N${row}`).format.rowHeight=34;
     }
     for(const c of inputs)s.getRange(c).format={fill:'#FFF2CC',borders:{preset:'all',style:'thin',color:'#D9D9D9'}};
     summary.push({sheet:s.name,textChanges:changes});
