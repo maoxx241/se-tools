@@ -5,13 +5,14 @@
 ## 从这里开始
 
 - **看结论与场景**：[分析记录](analysis/SESSION.md)。包含范围、模型差异、最终 P/D 拓扑和保留的问题。
+- **PD KV 抢带宽对耗时的影响**：[源码分析与可编辑带宽说明](analysis/PD-CONTENTION.md)、[数值示例](examples/pd-contention/)。七个模型的 P/D 表及 EP32/256 对比表已加入带宽输入、通信/forward 毫秒增量和实测基线输入。黄色带宽可直接填真实 GB/s，公式自动更新。
 - **DeepSeek V4.1 Flash**：[模型及 Excel](models/deepseek-v4.1-flash/)、[VA main 实现分析](analysis/DEEPSEEK-V4.1.md)。独立处理跨层缓存、DSA CP、Engram 和源权重/驻留格式差异。
-- **EP32 / EP256 新规格**：[六模型通信与 KV 存取对比](examples/kv-ep-sweep/)、[公式和源码依据](analysis/KV-EP-SPECS.md)。包含 V4.1 Flash；随 DP 域扩大刷新 Prefill AllToAllV、Decode MC2，分列 Prefill 生成、保留和 P→D 拉取量。V4.1 迁移尚未支持，其拉取单列规划值。
+- **EP32 / EP256 新规格**：[六模型通信与 KV 存取对比](examples/kv-ep-sweep/)、[公式和源码依据](analysis/KV-EP-SPECS.md)。包含 V4.1 Flash；随 DP 域扩大刷新 Prefill AllToAllV、Decode MC2，分列 Prefill 生成、保留和 P→D 拉取量。V4.1 拉取是固定版本的规划值；新 main 的 PD 可用性未在本次实机验证。
 - **直接使用 Excel**：[模型目录](models/)内每个模型各有一份 Prefill / Decode 工作簿；[256K 通信需求案例](examples/communication-256k/)包含跨模型结果和复算输出。
 - **看计算依据**：[权重与通信方法](analysis/METHODOLOGY.md)、[HCCL 校正](analysis/HCCL.md)、[来源版本](analysis/EVIDENCE.md)。
 - **接入新模型或 Profiling**：[扩展与复算指南](analysis/REPRODUCING.md)。
 
-原有 Excel 是 2026-09-04 历史快照；V4.1 是 2026-09-12 新增分析，config 均单独保存。逐模型 Excel 的右侧是可编辑参数，权重表中的字节/元素也可以直接修改；历史通信需求表的 I 列是固定场景文本，不是公式驱动的通用模板。两类表的默认参数不同。
+原有分析来自 2026-09-04；V4.1 是 2026-09-12 新增分析。2026-09-20 在当前 Excel 下方追加 PD 耗时区域，旧数据保持不变，原始字节副本移至[归档目录](examples/archive/pre-pd-contention-20260920/)。config 均单独保存。逐模型 Excel 的右侧是可编辑参数，权重表中的字节/元素也可以直接修改；历史通信需求表的 I 列是固定场景文本，不是公式驱动的通用模板。两类表的默认参数不同。
 
 ## 无需 Codex 的复算
 
@@ -24,6 +25,7 @@ npm test
 node scripts/export-analysis.mjs weights kimi-k3
 node scripts/export-analysis.mjs communication
 node scripts/export-analysis.mjs kv-ep
+node scripts/export-analysis.mjs contention
 node scripts/export-analysis.mjs weights deepseek-v4.1-flash
 node scripts/export-analysis.mjs communication deepseek-v4.1-flash
 node scripts/export-analysis.mjs engram examples/hccl/engram.json
@@ -31,6 +33,7 @@ node scripts/export-analysis.mjs collective examples/hccl/allreduce.json
 node scripts/export-analysis.mjs collective examples/hccl/alltoallv.json
 python3 scripts/verify-archive.py
 python3 scripts/verify-kv-ep.py
+python3 scripts/verify-contention.py
 ```
 
 `weights` 输出 Tensor 形状、dtype、总字节数和切分规则；不带模型参数的 `communication` 复算历史六模型场景，指定 V4.1 则输出新增案例；`collective` 按 HCCL API count 口径计算；`engram` 计算查询和反向响应的不均衡流量。JSON 中大字节数用十进制字符串表示。
@@ -41,10 +44,12 @@ python3 scripts/verify-kv-ep.py
 models/<model>/                    config.json、历史 Excel、模型说明
 examples/communication-256k/       最终 P/D 场景、历史 Excel、复算数值
 examples/kv-ep-sweep/              EP32/256、DP 域变化、KV 存取公式及 Excel
+examples/pd-contention/            可编辑有效带宽、PD 争用毫秒估算及说明
 examples/hccl/                     API count 与非均衡 AlltoAllV 示例
 lib/collectives.mjs                HCCL count、Ring、AlltoAllV 公共计算
 lib/communication-requirements.mjs  256K 场景与 P→D 缓存计算
 lib/kv-ep-specs.mjs                六模型逐组件 KV 与 AllToAllV / MC2 估算
+lib/pd-contention.mjs             带宽降幅到通信/forward 增量的公共计算
 lib/model-catalog.mjs              模型与来源 revision
 scripts/model-analysis-specs.mjs   模型专属 Tensor 清单
 scripts/                          导出、可选 Excel 构建及验证

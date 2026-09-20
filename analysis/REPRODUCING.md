@@ -6,6 +6,8 @@
 
 逐模型表默认值与最终 256K 表不同，见 [SESSION.md](SESSION.md)。修改通信精度应以实际发送 Tensor 为准；将权重 FP4 改成 BF16 不应顺带修改索引和归约 LSE 的宽度。
 
+PD 耗时区域的黄色 E 列是逐事件有效带宽输入，单位 GB/s；EP 对比表在「规格汇总」M58:N69 可按模型/EP/P/D 分别填值。[PD-CONTENTION.md](PD-CONTENTION.md)列出所有输入位置、公式、来源和边界。无需脚本，直接改 Excel 即可复算；实测 forward 基线未填时只展示毫秒增量。
+
 ## 在普通开发环境复算
 
 Node.js 20+，Python 3 用于读 ZIP/XML 的独立归档检查，不需要 npm install：
@@ -15,6 +17,8 @@ npm test
 node scripts/export-analysis.mjs weights > /tmp/weights.json
 node scripts/export-analysis.mjs communication > /tmp/communication.json
 python3 scripts/verify-archive.py
+node scripts/export-analysis.mjs contention
+python3 scripts/verify-contention.py
 ```
 
 公共模块可直接 import：
@@ -44,6 +48,8 @@ estimateAllToAllV({
 
 生成器从仓库模型目录读取 config，不依赖某个会话 ID、Downloads 或临时文件。`MODEL_CONFIG_ROOT` 必须包含 `<slug>/config.json`。默认输出为 `outputs/models/`；若手动指定输出，不要指向归档 `models/`。通信填表脚本接受原有 SOURCE/OUTPUT 参数和可选的 10T、Qwen27 config 覆盖。
 
+在保留当前 Excel 其它内容的前提下重新构建 PD 耗时区域，可运行 `node scripts/update-contention-workbooks.mjs --write outputs/pd-contention`。输出七份逐模型表和一份 EP 对比表，耗时区重置为示例输入；已填真实带宽的文件不要通过此命令更新，应直接在 Excel 复算。`--inspect` 只查看原通信区。历史字节副本位于 `examples/archive/pre-pd-contention-20260920/`。
+
 ## 增加模型
 
 V4.1 的完整新增范例见 [DEEPSEEK-V4.1.md](DEEPSEEK-V4.1.md)：`lib/deepseek-v41.mjs` 提供权重 shape、source graph、缓存及通信；`scripts/deepseek-v41-workbook.mjs` 提供对应 Excel 事件。它不修改原有六模型历史案例。新模型应按实际调用路径处理，不能仅改变维度后继承旧模型的所有通信行。
@@ -72,4 +78,4 @@ python3 scripts/snapshot-hf-metadata.py \
 
 先完成 [HCCL.md](HCCL.md) 的 count 归一化，区分 API Tensor 字节、所选算法 payload、物理链路计数。保存通信域成员、Rank 映射、Step/调用标识、dtype、算法与版本。AlltoAllV 收集全组计数矩阵后再计算不均衡，不能用一个平均路由比代替。
 
-需要链路时延/带宽时，另行采集 Device 时间与链路证据。MFU/MBU 和仿真应在计算/访存/通信事件可对齐后扩展，本仓库目前没有用标称带宽生成吞吐预测。
+需要链路时延/带宽时，另行采集 Device 时间与链路证据。PD 扩展用可编辑有效带宽做敏感性估算，默认 100 GB/s 不代表标称或实测硬件性能。MFU/MBU 和完整仿真应在计算/访存/通信事件可对齐后扩展。

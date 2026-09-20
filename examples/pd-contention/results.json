@@ -1,0 +1,506 @@
+[
+  {
+    "model": "DS V4 10T",
+    "slug": "deepseek-v4-10t",
+    "ep": 32,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "4",
+      "decodeTP": "1",
+      "decodeDP": "32"
+    },
+    "placementStatus": "even-expert-count; runtime unverified",
+    "kvTransferStatus": "source estimate; no PD timing measurement",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 208.22905344,
+      "contendedBandwidthMs": 231.36561493333335,
+      "deltaCommunicationMs": 23.136561493333335,
+      "deltaForwardMs": 23.136561493333335,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 13.49901696,
+      "contendedBandwidthMs": 14.998907733333334,
+      "deltaCommunicationMs": 1.4998907733333333,
+      "deltaForwardMs": 1.4998907733333333,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "DS V4 10T",
+    "slug": "deepseek-v4-10t",
+    "ep": 256,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "32",
+      "decodeTP": "1",
+      "decodeDP": "256"
+    },
+    "placementStatus": "conditional: requires expert remap/EPLB; raw config incompatible",
+    "kvTransferStatus": "source estimate; no PD timing measurement",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 214.3951872,
+      "contendedBandwidthMs": 238.21687466666668,
+      "deltaCommunicationMs": 23.82168746666667,
+      "deltaForwardMs": 23.82168746666667,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 13.8825264,
+      "contendedBandwidthMs": 15.425029333333333,
+      "deltaCommunicationMs": 1.5425029333333335,
+      "deltaForwardMs": 1.5425029333333335,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "DS V4 Pro",
+    "slug": "deepseek-v4-pro-0813",
+    "ep": 32,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "4",
+      "decodeTP": "1",
+      "decodeDP": "32"
+    },
+    "placementStatus": "even-expert-count; runtime unverified",
+    "kvTransferStatus": "source estimate; no PD timing measurement",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 208.22905344,
+      "contendedBandwidthMs": 231.36561493333335,
+      "deltaCommunicationMs": 23.136561493333335,
+      "deltaForwardMs": 23.136561493333335,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 13.49901696,
+      "contendedBandwidthMs": 14.998907733333334,
+      "deltaCommunicationMs": 1.4998907733333333,
+      "deltaForwardMs": 1.4998907733333333,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "DS V4 Pro",
+    "slug": "deepseek-v4-pro-0813",
+    "ep": 256,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "32",
+      "decodeTP": "1",
+      "decodeDP": "256"
+    },
+    "placementStatus": "conditional: requires expert remap/EPLB; raw config incompatible",
+    "kvTransferStatus": "source estimate; no PD timing measurement",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 214.3951872,
+      "contendedBandwidthMs": 238.21687466666668,
+      "deltaCommunicationMs": 23.82168746666667,
+      "deltaForwardMs": 23.82168746666667,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 13.8825264,
+      "contendedBandwidthMs": 15.425029333333333,
+      "deltaCommunicationMs": 1.5425029333333335,
+      "deltaForwardMs": 1.5425029333333335,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "GLM5.3",
+    "slug": "glm-5.3",
+    "ep": 32,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "4",
+      "decodeTP": "1",
+      "decodeDP": "32"
+    },
+    "placementStatus": "even-expert-count; runtime unverified",
+    "kvTransferStatus": "source estimate; no PD timing measurement",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 292.576512,
+      "contendedBandwidthMs": 325.08501333333334,
+      "deltaCommunicationMs": 32.50850133333333,
+      "deltaForwardMs": 32.50850133333333,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 19.07616,
+      "contendedBandwidthMs": 21.195733333333337,
+      "deltaCommunicationMs": 2.1195733333333333,
+      "deltaForwardMs": 2.1195733333333333,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "GLM5.3",
+    "slug": "glm-5.3",
+    "ep": 256,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "32",
+      "decodeTP": "1",
+      "decodeDP": "256"
+    },
+    "placementStatus": "even-expert-count; runtime unverified",
+    "kvTransferStatus": "source estimate; no PD timing measurement",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 301.00608,
+      "contendedBandwidthMs": 334.4512,
+      "deltaCommunicationMs": 33.44512,
+      "deltaForwardMs": 33.44512,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 19.6146,
+      "contendedBandwidthMs": 21.794,
+      "deltaCommunicationMs": 2.1794,
+      "deltaForwardMs": 2.1794,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "KimiK3",
+    "slug": "kimi-k3",
+    "ep": 32,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "4",
+      "decodeTP": "8",
+      "decodeDP": "4"
+    },
+    "placementStatus": "even-expert-count; runtime unverified",
+    "kvTransferStatus": "source estimate; no PD timing measurement",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 837.45306624,
+      "contendedBandwidthMs": 930.5034069333333,
+      "deltaCommunicationMs": 93.05034069333334,
+      "deltaForwardMs": 93.05034069333334,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 6.8082944,
+      "contendedBandwidthMs": 7.564771555555556,
+      "deltaCommunicationMs": 0.7564771555555556,
+      "deltaForwardMs": 0.7564771555555556,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "KimiK3",
+    "slug": "kimi-k3",
+    "ep": 256,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "32",
+      "decodeTP": "8",
+      "decodeDP": "32"
+    },
+    "placementStatus": "conditional: requires expert remap/EPLB; raw config incompatible",
+    "kvTransferStatus": "source estimate; no PD timing measurement",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 861.9466752,
+      "contendedBandwidthMs": 957.718528,
+      "deltaCommunicationMs": 95.77185279999999,
+      "deltaForwardMs": 95.77185279999999,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 7.0042176,
+      "contendedBandwidthMs": 7.782463999999999,
+      "deltaCommunicationMs": 0.7782464,
+      "deltaForwardMs": 0.7782464,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "Qwen3.8 2.4T",
+    "slug": "qwen3.8-2.4t-a95b",
+    "ep": 32,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "4",
+      "decodeTP": "8",
+      "decodeDP": "4"
+    },
+    "placementStatus": "even-expert-count; runtime unverified",
+    "kvTransferStatus": "source estimate; no PD timing measurement",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 598.16615936,
+      "contendedBandwidthMs": 664.6290659555556,
+      "deltaCommunicationMs": 66.46290659555557,
+      "deltaForwardMs": 66.46290659555557,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 4.91091584,
+      "contendedBandwidthMs": 5.456573155555556,
+      "deltaCommunicationMs": 0.5456573155555556,
+      "deltaForwardMs": 0.5456573155555556,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "Qwen3.8 2.4T",
+    "slug": "qwen3.8-2.4t-a95b",
+    "ep": 256,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "32",
+      "decodeTP": "8",
+      "decodeDP": "32"
+    },
+    "placementStatus": "even-expert-count; runtime unverified",
+    "kvTransferStatus": "source estimate; no PD timing measurement",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 615.4702848,
+      "contendedBandwidthMs": 683.855872,
+      "deltaCommunicationMs": 68.38558719999999,
+      "deltaForwardMs": 68.38558719999999,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 5.0495304,
+      "contendedBandwidthMs": 5.610589333333333,
+      "deltaCommunicationMs": 0.5610589333333335,
+      "deltaForwardMs": 0.5610589333333335,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "DS V4.1 Flash",
+    "slug": "deepseek-v4.1-flash",
+    "ep": 32,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "4",
+      "decodeTP": "1",
+      "decodeDP": "32"
+    },
+    "placementStatus": "even-expert-count; runtime unverified",
+    "kvTransferStatus": "unsupported-in-pinned-main; planned tensor requirement only",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 97.5366144,
+      "contendedBandwidthMs": 108.37401600000001,
+      "deltaCommunicationMs": 10.837401600000002,
+      "deltaForwardMs": 10.837401600000002,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 6.4138752,
+      "contendedBandwidthMs": 7.1265279999999995,
+      "deltaCommunicationMs": 0.7126528,
+      "deltaForwardMs": 0.7126528,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  },
+  {
+    "model": "DS V4.1 Flash",
+    "slug": "deepseek-v4.1-flash",
+    "ep": 256,
+    "topology": {
+      "prefillTP": "8",
+      "prefillDP": "32",
+      "decodeTP": "1",
+      "decodeDP": "256"
+    },
+    "placementStatus": "conditional: requires expert remap/EPLB; raw config incompatible",
+    "kvTransferStatus": "unsupported-in-pinned-main; planned tensor requirement only",
+    "assumptions": {
+      "bandwidthGBps": 100,
+      "bandwidthLoss": 0.1,
+      "sharedFraction": 1,
+      "contentionCoverage": 1,
+      "exposedFraction": 1,
+      "baselineForwardMs": null
+    },
+    "scope": "MoE EP only; per-rank mean endpoint bytes; bandwidth term per Step",
+    "prefill": {
+      "baselineBandwidthMs": 100.478976,
+      "contendedBandwidthMs": 111.64330666666667,
+      "deltaCommunicationMs": 11.164330666666666,
+      "deltaForwardMs": 11.164330666666666,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    },
+    "decode": {
+      "baselineBandwidthMs": 6.596544,
+      "contendedBandwidthMs": 7.329493333333333,
+      "deltaCommunicationMs": 0.7329493333333333,
+      "deltaForwardMs": 0.7329493333333333,
+      "baselineForwardMs": null,
+      "contendedForwardMs": null,
+      "forwardSlowdown": null,
+      "fixedWorkThroughputLoss": null
+    }
+  }
+]

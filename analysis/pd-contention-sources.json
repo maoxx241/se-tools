@@ -1,0 +1,80 @@
+{
+  "inspected_on": "2026-09-20",
+  "scope": "Static source inspection, bandwidth sensitivity only; no NPU performance, version pairing or V4.1 PD end-to-end validation",
+  "traffic_formula_sources": "analysis/kv-ep-sources.json",
+  "repositories": [
+    {
+      "repository": "https://github.com/vllm-project/vllm-ascend",
+      "revision": "5c80630f28f8529aa82716e58b981a78819ec429",
+      "files": [
+        {
+          "path": "vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py",
+          "sha256": "359129467006a6f732bba63c96d6ac020429a785e60958b74051a6dce5f75f3b",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/5c80630f28f8529aa82716e58b981a78819ec429/vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_connector.py"
+        },
+        {
+          "path": "vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_layerwise_connector.py",
+          "sha256": "fe4525b93bd04a1e0ce4985b642686e90c1230ed48d510b438898c5f2e6b4dff",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/5c80630f28f8529aa82716e58b981a78819ec429/vllm_ascend/distributed/kv_transfer/kv_p2p/mooncake_layerwise_connector.py"
+        },
+        {
+          "path": "vllm_ascend/distributed/kv_transfer/utils/mooncake_transfer_engine.py",
+          "sha256": "34948cb9796b7018295edf249e67600c49de5945febed1de52fe3b1ce55725cf",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/5c80630f28f8529aa82716e58b981a78819ec429/vllm_ascend/distributed/kv_transfer/utils/mooncake_transfer_engine.py"
+        },
+        {
+          "path": "vllm_ascend/ops/fused_moe/token_dispatcher.py",
+          "sha256": "ad5153e170eb7cbb148ac0248463f7301f3c69e78e2709d5f38dd1f35d6bfd0f",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/5c80630f28f8529aa82716e58b981a78819ec429/vllm_ascend/ops/fused_moe/token_dispatcher.py"
+        },
+        {
+          "path": "vllm_ascend/ops/fused_moe/moe_comm_method.py",
+          "sha256": "c675e4d4b452197e585345d8ed655408e5cfbf20e2846a99726c76114ca035d5",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/5c80630f28f8529aa82716e58b981a78819ec429/vllm_ascend/ops/fused_moe/moe_comm_method.py"
+        },
+        {
+          "path": "vllm_ascend/ops/fused_moe/fused_moe.py",
+          "sha256": "94780a37e4aa07c8c37f7e4c2069d362713cb60a156e812bb6b9d6aa44b4f6da",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/5c80630f28f8529aa82716e58b981a78819ec429/vllm_ascend/ops/fused_moe/fused_moe.py"
+        },
+        {
+          "path": "vllm_ascend/attention/utils.py",
+          "sha256": "39ccbc1ac19d7249bd049d159087167b5f8a819aa8cfb1c4a0986bd85a48cb04",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/5c80630f28f8529aa82716e58b981a78819ec429/vllm_ascend/attention/utils.py"
+        }
+      ]
+    },
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "8727bd4e03f614afc1f22df9c53b02b6cf8a09f3",
+      "files": [
+        {
+          "path": "vllm_ascend/models/deepseek_v41/README.md",
+          "sha256": "277a4205e3a8f1537f84b1a79a8ebc1208506f7a14f378978846d347c6c8e452",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/8727bd4e03f614afc1f22df9c53b02b6cf8a09f3/vllm_ascend/models/deepseek_v41/README.md"
+        },
+        {
+          "path": "vllm_ascend/core/deepseek_v41.py",
+          "sha256": "d0d89cb4a0ef22672e1de92a80a2846ac86f8fd4ec8e7d14ab050bf1539d7acf",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/8727bd4e03f614afc1f22df9c53b02b6cf8a09f3/vllm_ascend/core/deepseek_v41.py"
+        },
+        {
+          "path": "vllm_ascend/attention/context_parallel/dsa_v41_cp.py",
+          "sha256": "8a44034ee166b68d69ab10404dae0f87c5f1a16ade222276e95e5bf2cfa59664",
+          "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/8727bd4e03f614afc1f22df9c53b02b6cf8a09f3/vllm_ascend/attention/context_parallel/dsa_v41_cp.py"
+        }
+      ]
+    },
+    {
+      "repository": "https://github.com/vllm-project/vllm",
+      "revision": "c8438a3d40168ce1d9eade0dc15ccbe5d27adb68",
+      "files": [
+        {
+          "path": "vllm/v1/core/sched/scheduler.py",
+          "sha256": "f34fce1c48a5ff73587ee0c7bd785df333644fc05fa461008cf71598ffe57da1",
+          "url": "https://github.com/vllm-project/vllm/blob/c8438a3d40168ce1d9eade0dc15ccbe5d27adb68/vllm/v1/core/sched/scheduler.py"
+        }
+      ]
+    }
+  ]
+}

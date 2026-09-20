@@ -118,8 +118,9 @@
       "sha256": "f35b516f942fdd80eec80b846b8cdc5474b34f3e781722bbdfc481582183bd0c"
     },
     {
-      "path": "models/deepseek-v4.1-flash/deepseek-v4.1-flash-analysis.xlsx",
-      "sha256": "2ca3d1979364c97828810c110ecc30b5db4c832302f24ecf09a015711df17583"
+      "path": "examples/archive/pre-pd-contention-20260920/deepseek-v4.1-flash-analysis.xlsx",
+      "sha256": "2ca3d1979364c97828810c110ecc30b5db4c832302f24ecf09a015711df17583",
+      "original_path": "models/deepseek-v4.1-flash/deepseek-v4.1-flash-analysis.xlsx"
     }
   ]
 }

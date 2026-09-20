@@ -1,0 +1,254 @@
+[
+  {
+    "slug": "deepseek-v4.1-flash",
+    "model": "DeepSeek-V4.1-Flash",
+    "phase": "Prefill",
+    "baselineBandwidthMs": 267.39184623999995,
+    "contendedBandwidthMs": 297.1020513777778,
+    "deltaForwardMs": 29.710205137777777,
+    "region": {
+      "start": 135,
+      "input": 138,
+      "output": 140,
+      "first": 144,
+      "last": 155,
+      "total": 156,
+      "phase": "Prefill"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "deepseek-v4.1-flash",
+    "model": "DeepSeek-V4.1-Flash",
+    "phase": "Decode",
+    "baselineBandwidthMs": 6.441840480000001,
+    "contendedBandwidthMs": 7.157600533333333,
+    "deltaForwardMs": 0.7157600533333335,
+    "region": {
+      "start": 135,
+      "input": 138,
+      "output": 140,
+      "first": 144,
+      "last": 155,
+      "total": 156,
+      "phase": "Decode"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "kimi-k3",
+    "model": "Kimi-K3",
+    "phase": "Prefill",
+    "baselineBandwidthMs": 761.7486643200002,
+    "contendedBandwidthMs": 846.3874048,
+    "deltaForwardMs": 84.63874048000001,
+    "region": {
+      "start": 95,
+      "input": 98,
+      "output": 100,
+      "first": 104,
+      "last": 131,
+      "total": 132,
+      "phase": "Prefill"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "kimi-k3",
+    "model": "Kimi-K3",
+    "phase": "Decode",
+    "baselineBandwidthMs": 97.08812288000001,
+    "contendedBandwidthMs": 107.87569208888888,
+    "deltaForwardMs": 10.787569208888891,
+    "region": {
+      "start": 94,
+      "input": 97,
+      "output": 99,
+      "first": 103,
+      "last": 129,
+      "total": 130,
+      "phase": "Decode"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "kimi-k3-dspark",
+    "model": "Kimi-K3-DSpark",
+    "phase": "Prefill",
+    "baselineBandwidthMs": 13.629521919999998,
+    "contendedBandwidthMs": 15.143913244444441,
+    "deltaForwardMs": 1.5143913244444445,
+    "region": {
+      "start": 70,
+      "input": 73,
+      "output": 75,
+      "first": 79,
+      "last": 92,
+      "total": 93,
+      "phase": "Prefill"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "kimi-k3-dspark",
+    "model": "Kimi-K3-DSpark",
+    "phase": "Decode",
+    "baselineBandwidthMs": 1.8120703999999999,
+    "contendedBandwidthMs": 2.013411555555555,
+    "deltaForwardMs": 0.20134115555555557,
+    "region": {
+      "start": 70,
+      "input": 73,
+      "output": 75,
+      "first": 79,
+      "last": 94,
+      "total": 95,
+      "phase": "Decode"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "deepseek-v4-flash-0731",
+    "model": "DeepSeek-V4-Flash-0731",
+    "phase": "Prefill",
+    "baselineBandwidthMs": 143.73467136000002,
+    "contendedBandwidthMs": 159.70519039999996,
+    "deltaForwardMs": 15.970519040000001,
+    "region": {
+      "start": 135,
+      "input": 138,
+      "output": 140,
+      "first": 144,
+      "last": 169,
+      "total": 170,
+      "phase": "Prefill"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "deepseek-v4-flash-0731",
+    "model": "DeepSeek-V4-Flash-0731",
+    "phase": "Decode",
+    "baselineBandwidthMs": 18.3830528,
+    "contendedBandwidthMs": 20.42561422222222,
+    "deltaForwardMs": 2.0425614222222226,
+    "region": {
+      "start": 131,
+      "input": 134,
+      "output": 136,
+      "first": 140,
+      "last": 161,
+      "total": 162,
+      "phase": "Decode"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "deepseek-v4-pro-0813",
+    "model": "DeepSeek-V4-Pro-0813",
+    "phase": "Prefill",
+    "baselineBandwidthMs": 365.62731519999994,
+    "contendedBandwidthMs": 406.2525724444444,
+    "deltaForwardMs": 40.625257244444434,
+    "region": {
+      "start": 135,
+      "input": 138,
+      "output": 140,
+      "first": 144,
+      "last": 169,
+      "total": 170,
+      "phase": "Prefill"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "deepseek-v4-pro-0813",
+    "model": "DeepSeek-V4-Pro-0813",
+    "phase": "Decode",
+    "baselineBandwidthMs": 46.250408959999994,
+    "contendedBandwidthMs": 51.38934328888889,
+    "deltaForwardMs": 5.1389343288888885,
+    "region": {
+      "start": 131,
+      "input": 134,
+      "output": 136,
+      "first": 140,
+      "last": 161,
+      "total": 162,
+      "phase": "Decode"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "glm-5.3",
+    "model": "GLM-5.3",
+    "phase": "Prefill",
+    "baselineBandwidthMs": 376.78305279999995,
+    "contendedBandwidthMs": 418.64783644444447,
+    "deltaForwardMs": 41.86478364444445,
+    "region": {
+      "start": 82,
+      "input": 85,
+      "output": 87,
+      "first": 91,
+      "last": 117,
+      "total": 118,
+      "phase": "Prefill"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "glm-5.3",
+    "model": "GLM-5.3",
+    "phase": "Decode",
+    "baselineBandwidthMs": 11.98661632,
+    "contendedBandwidthMs": 13.318462577777776,
+    "deltaForwardMs": 1.3318462577777779,
+    "region": {
+      "start": 78,
+      "input": 81,
+      "output": 83,
+      "first": 87,
+      "last": 109,
+      "total": 110,
+      "phase": "Decode"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "qwen3.8-2.4t-a95b",
+    "model": "Qwen3.8-2.4T-A95B",
+    "phase": "Prefill",
+    "baselineBandwidthMs": 705.8444288,
+    "contendedBandwidthMs": 784.2715875555556,
+    "deltaForwardMs": 78.42715875555558,
+    "region": {
+      "start": 80,
+      "input": 83,
+      "output": 85,
+      "first": 89,
+      "last": 115,
+      "total": 116,
+      "phase": "Prefill"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  },
+  {
+    "slug": "qwen3.8-2.4t-a95b",
+    "model": "Qwen3.8-2.4T-A95B",
+    "phase": "Decode",
+    "baselineBandwidthMs": 22.5014272,
+    "contendedBandwidthMs": 25.001585777777773,
+    "deltaForwardMs": 2.500158577777779,
+    "region": {
+      "start": 79,
+      "input": 82,
+      "output": 84,
+      "first": 88,
+      "last": 113,
+      "total": 114,
+      "phase": "Decode"
+    },
+    "scope": "current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure"
+  }
+]

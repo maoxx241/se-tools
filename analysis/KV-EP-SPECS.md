@@ -1,6 +1,8 @@
 # 六模型的 KV 存取与 EP32 / EP256 规格
 
-这是 [256K 历史案例](../examples/communication-256k/) 的新扩展。交付包含 [可编辑 Excel](../examples/kv-ep-sweep/kv-ep32-ep256.xlsx)、[十二档数值](../examples/kv-ep-sweep/results.json)、[公共计算器](../lib/kv-ep-specs.mjs) 和 [源码清单](kv-ep-sources.json)。原始 Excel、config 和历史结果保持原样。
+这是 [256K 历史案例](../examples/communication-256k/) 的新扩展。交付包含 [可编辑 Excel](../examples/kv-ep-sweep/kv-ep32-ep256.xlsx)、[十二档数值](../examples/kv-ep-sweep/results.json)、[公共计算器](../lib/kv-ep-specs.mjs) 和 [源码清单](kv-ep-sources.json)。config 和历史计算结果保持原样。
+
+版本说明：本篇 KV 数据固定于 2026-09-12 所检查的源码，文中的“当前 main”均指 `1933f86`。2026-09-20 已在 Excel 下方加入 [可编辑带宽与 PD 耗时评估](PD-CONTENTION.md)，并复核更新的 `8727bd4` main；该版本已有 PD 改动，本次未做端到端迁移验证。旧 KV 规划未据此自动升级为已实现传输量。原始 Excel 字节已另存[归档](../examples/archive/pre-pd-contention-20260920/)。
 
 ## 口径和默认参数
 

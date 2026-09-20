@@ -2,6 +2,10 @@
 
 [下载 Excel](kv-ep32-ep256.xlsx) · [计算公式与源码](../../analysis/KV-EP-SPECS.md) · [完整数值](results.json)
 
+2026-09-20 增加 [PD 带宽争用耗时](../../analysis/PD-CONTENTION.md)：规格汇总第 51 行起，黄色 **M58:N69** 可分别填写每个模型、每档 EP 的 P/D 实际有效带宽（GB/s），B55/D55 是默认带宽。10% 降幅、覆盖率、暴露系数及实测 forward 基线也可改，相关耗时自动重算。100 GB/s 仅为示例。
+
+下文 KV 和字节公式是 2026-09-12 固定版本快照；V4.1 新 main 已有 PD 相关改动，本次没有验证端到端迁移，因此原拉取仍保留规划值，旧版本“不支持”说明不代表对新 main 的结论。
+
 主表以通信量为核心。P 每 DP 16,384 tokens/Step，D 每 DP 128 tokens/Step；EP 增大时 DP 域一起扩大。P 按 AllToAllV 加显式 Ring 计数交换，D 按 A3 BF16 MC2 FullMesh 已建模远端写入量。均衡路由，主干网络；不是物理链路实测。
 
 ## EP 通信

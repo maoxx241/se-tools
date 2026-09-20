@@ -6,6 +6,7 @@ import { models, modelSlugs, scenarioRow } from "./build-analysis-workbook.mjs";
 import { elementCount, modelSpec, shapeText } from "./model-analysis-specs.mjs";
 import { loadSpreadsheetRuntime } from "../lib/spreadsheet-runtime.mjs";
 import { v41Step } from '../lib/deepseek-v41.mjs';
+import { findCommunication } from './contention-workbook.mjs';
 
 const { FileBlob, SpreadsheetFile } = await loadSpreadsheetRuntime();
 
@@ -44,7 +45,8 @@ for (const model of selected) {
 
     const communicationHeader = matrix.findIndex((r) => r[0] === "并行策略" && r[3] === "Collective");
     assert.ok(communicationHeader > spec.rows.length);
-    const communicationRows = matrix.slice(communicationHeader + 1).filter((r) => r[0] && !["合计", "单 Rank 事件合计", "所列事件平均 Rank 合计"].includes(r[0]));
+    const communication = findCommunication(sheet);
+    const communicationRows = matrix.slice(communication.first - 1, communication.last);
     const strategies = new Set(communicationRows.map((r) => r[0]));
     assert.ok(strategies.has("SP"));
     if (model.profile === 'deepseek_v41') {
@@ -94,6 +96,7 @@ for (const model of selected) {
     const originalBytes = sheet.getRange("E2").values[0][0];
     sheet.getRange("E2").values = [[originalBytes / 2]];
     assert.ok(Math.abs(sheet.getRange("J2").values[0][0] * 2 - firstWeightGiB) < 1e-9);
+    sheet.getRange("E2").values = [[originalBytes]];
 
     const activeComm = communicationRows.find((r) => Number(r[7]) > 0 && Number(r[9]) > 0);
     assert.ok(activeComm);
@@ -104,6 +107,9 @@ for (const model of selected) {
     sheet.getRange(`P${scenarioRow[precisionKey]}`).values = [[originalActBytes / 2]];
     const changedSent = sheet.getRange(`J${activeIndex + 1}`).values[0][0];
     if (activeComm[5] === originalActBytes) assert.ok(Math.abs(changedSent * 2 - originalSent) < 1e-8);
+    // MC2's BF16-only timing branch deliberately rejects this temporary INT8 input.
+    sheet.getRange(`P${scenarioRow[precisionKey]}`).values = [[originalActBytes]];
+    workbook.recalculate();
 
     const forbidden = await workbook.inspect({
       kind: "match",

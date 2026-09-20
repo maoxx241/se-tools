@@ -38,3 +38,9 @@ MODEL=deepseek-v4.1-flash node scripts/verify-analysis-workbook.mjs outputs/mode
 前两条不需要第三方依赖或 NPU；后两条需要 Artifact Tool，见[复算指南](../../analysis/REPRODUCING.md)。权重精度在 Excel E 列修改；激活、Dispatch、Combine 宽度分别修改。节点内分片栏为平均份额，实际连续行分片存在尾部取整。
 
 新增案例使用 Prefill TP8×DP4 / EP32、DSA CP+SP；Decode TP1×DP32 / EP32，SP 和 DSA CP 关闭。每节点 8 Rank，投机步数默认 0。它是可复算的对比场景，不是部署性能推荐。源码支持边界及缺失通信项均写入表内说明。原有 2026-09-04 六模型案例保持原值。
+
+## PD 带宽争用耗时（2026-09-20）
+
+Prefill / Decode 原通信区下方已增加耗时评估。黄色 E 列可逐通信事件填写实际有效带宽（GB/s），默认 H 列输入可统一调整；原生公式自动重算。基线 forward 实测耗时未填时只显示毫秒增量。默认 100 GB/s、10% 带宽降幅是示例。
+
+参见[输入位置、源码与公式](../../analysis/PD-CONTENTION.md)。本次保留原有参数、权重、通信量和缓存值；[历史原始文件](../../examples/archive/pre-pd-contention-20260920/)单独留档。

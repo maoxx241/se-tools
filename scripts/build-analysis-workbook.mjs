@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { elementCount, modelSpec, shapeText } from "./model-analysis-specs.mjs";
 import { loadSpreadsheetRuntime } from "../lib/spreadsheet-runtime.mjs";
 import { v41WorkbookEvents, v41WorkbookNotes } from './deepseek-v41-workbook.mjs';
+import { addModelContention } from './contention-workbook.mjs';
 
 const { SpreadsheetFile, Workbook } = await loadSpreadsheetRuntime();
 
@@ -338,6 +339,7 @@ export async function buildModelWorkbook(model, outputRoot, renderRoot = null) {
   if (model.profile === 'deepseek_v41') {
     for (const phase of ['Prefill', 'Decode']) v41WorkbookNotes(workbook.worksheets.getItem(phase), key => sc(phase, key), config);
   }
+  for (const phase of ['Prefill', 'Decode']) addModelContention(workbook.worksheets.getItem(phase), phase, spec.facts, model.profile);
   workbook.recalculate();
   const outputPath = path.join(modelDir, `${slug}-analysis.xlsx`);
   await (await SpreadsheetFile.exportXlsx(workbook)).save(outputPath);
