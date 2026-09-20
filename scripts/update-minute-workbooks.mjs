@@ -4,17 +4,19 @@ import assert from 'node:assert/strict';
 import {loadSpreadsheetRuntime} from '../lib/spreadsheet-runtime.mjs';
 import {loadKvEpSpecs} from '../lib/kv-ep-specs.mjs';
 import {MINUTE_CASES,minuteImpact} from '../lib/pd-minute.mjs';
+import {applyEditableSweepPresentation,cleanSweepText} from './sweep-presentation.mjs';
 
 const mode=process.argv[2]||'--inspect';
-assert(['--inspect','--write'].includes(mode));
+assert(['--inspect','--write','--inspect-sweep-style','--style-sweep'].includes(mode));
 const root=path.resolve(process.argv[3]||'outputs/01a09481-77cf-7b72-a8db-64837639ac39/pd-minute');
 await fs.mkdir(root,{recursive:true});
 const {FileBlob,SpreadsheetFile}=await loadSpreadsheetRuntime();
 const specs=await loadKvEpSpecs();
 const existing=JSON.parse(await fs.readFile('examples/pd-contention/model-results.json','utf8'));
-const files=[{file:'examples/kv-ep-sweep/kv-ep32-ep256.xlsx',items:specs,style:'sweep'},
+let files=[{file:'examples/kv-ep-sweep/kv-ep32-ep256.xlsx',items:specs,style:'sweep'},
   ...specs.filter(x=>x.ep===32&&x.slug!=='deepseek-v4-10t').map(x=>({
     file:`models/${x.slug}/${x.slug}-analysis.xlsx`,items:specs.filter(y=>y.slug===x.slug),style:'model'}))];
+if(mode.includes('sweep'))files=files.slice(0,1);
 const put=(s,c,v)=>{s.getRange(c).values=[[v]];};
 const fx=(s,c,f)=>{s.getRange(c).formulas=[[`=${f}`]];};
 const val=(s,c)=>s.getRange(c).values[0][0];
@@ -155,6 +157,7 @@ function build(wb,items,style) {
   for(const text of ['输入无效','KV 超载','TPOT 不自洽','需时序仿真'])s.getRange(`O${first}:O${last}`).conditionalFormats.add('containsText',{text,format:{fill:'#FDE9E7',font:{color:'#A32020'}}});
   put(s,`A${cr+3}`,'来源：库内 config.json、analysis/KV-EP-SPECS.md、analysis/PD-MINUTE.md；V4.1 为既有 KV 规划量。');
   put(s,`A${cr+4}`,'MC2：A3 FullMesh BF16；均衡路由。未计 TP / Attention / Engram、通信启动和真实排队，未复现 NPU 实测。');
+  if(style==='sweep')applyEditableSweepPresentation(wb,{sheetNames:['分钟场景']});
   return {s,rows,first,last,parameterFirst,parameterLast,buildFirst,buildLast,cacheHeader,cacheLast:cr};
 }
 
@@ -181,9 +184,40 @@ async function verify(wb,region) {
 }
 
 const results=[];
+if(mode==='--inspect-sweep-style'&&process.argv[4]) {
+  const reference=await SpreadsheetFile.importXlsx(await FileBlob.load(process.argv[4]));
+  await render(reference,reference.worksheets.getItemAt(0).name,'A1:L14','reference-kimi.png');
+}
 for(const entry of files) {
   const wb=await SpreadsheetFile.importXlsx(await FileBlob.load(entry.file));
   const slug=entry.items.length>2?'ep32-ep256':entry.items[0].slug;
+  if(mode==='--inspect-sweep-style'||mode==='--style-sweep') {
+    if(mode==='--style-sweep') {
+      const before=wb.worksheets.items.map(s=>({s,range:s.getUsedRange(),values:s.getUsedRange().values,formulas:s.getUsedRange().formulas}));
+      console.log(JSON.stringify(applyEditableSweepPresentation(wb)));
+      wb.recalculate();
+      for(const old of before) {
+        const current=old.range.values,afterFormulas=old.range.formulas;
+        old.values.forEach((row,i)=>row.forEach((v,j)=>{
+          assert.equal(afterFormulas[i]?.[j]??'',cleanSweepText(old.formulas[i]?.[j]??''));
+          if(typeof v==='number')close(current[i][j],v);
+          else if(typeof v==='boolean')assert.equal(current[i][j],v);
+          else assert.equal(current[i][j]??'',cleanSweepText(v??''));
+        }));
+      }
+      const s=wb.worksheets.getItem('分钟场景'),bandwidth=val(s,'N7'),base=val(s,'L41');
+      put(s,'N7',bandwidth/2);wb.recalculate();assert(val(s,'L41')>base);
+      put(s,'N7',0);wb.recalculate();assert.equal(val(s,'O41'),'输入无效');assert.equal(val(s,'L41'),'');
+      put(s,'N7',bandwidth);wb.recalculate();close(val(s,'L41'),base);
+      const errors=await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!',options:{useRegex:true,maxResults:10}});
+      assert(!/"kind":"match"/.test(errors.ndjson),errors.ndjson);
+      const dest=path.join(root,entry.file);await fs.mkdir(path.dirname(dest),{recursive:true});await(await SpreadsheetFile.exportXlsx(wb)).save(dest);
+    }
+    for(const [sheet,range,label] of [['规格汇总','A1:P18','summary'],['KV明细','A1:N16','kv'],['EP通信','A1:N21','ep'],
+      ['分钟场景','A2:P18','minute-inputs'],['分钟场景','A22:P45','minute-results'],['分钟场景','Q180:Z198','minute-blank-grid']])
+      await render(wb,sheet,range,`${mode==='--style-sweep'?'after':'before'}-${label}.png`);
+    continue;
+  }
   if(mode==='--inspect') {
     const row=entry.style==='sweep'?51:existing.find(x=>x.slug===slug&&x.phase==='Decode').region.start;
     await render(wb,entry.style==='sweep'?'规格汇总':'Decode',`A${row}:L${row+10}`,`${slug}-before.png`);continue;

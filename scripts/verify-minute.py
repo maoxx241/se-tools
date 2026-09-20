@@ -28,6 +28,12 @@ for region in regions:
         for i in range(1, len(sheets) + 1):
             doc = ET.fromstring(z.read(f'xl/worksheets/sheet{i}.xml'))
             assert not doc.findall('.//s:c[@t="e"]', NS), (region['file'], i)
+            if region['file'].startswith('examples/kv-ep-sweep/'):
+                assert all(v.attrib.get('showGridLines', '1') == '1' for v in doc.findall('s:sheetViews/s:sheetView', NS))
+                assert doc.find('s:sheetProtection', NS) is None
+                assert not [e for e in doc.findall('s:cols/s:col', NS) + doc.findall('s:sheetData/s:row', NS) if e.attrib.get('hidden') == '1']
+                assert doc.find('s:sheetFormatPr', NS).attrib.get('zeroHeight', '0') != '1'
+                assert not any(text in z.read(f'xl/worksheets/sheet{i}.xml').decode() for text in ['估算', '运行未验证', '未实机验证'])
         cells = {c.attrib['r']: c for c in doc.findall('.//s:sheetData/s:row/s:c', NS)}
         strings = []
         if 'xl/sharedStrings.xml' in z.namelist():

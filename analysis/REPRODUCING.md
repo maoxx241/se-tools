@@ -10,6 +10,8 @@ PD 耗时区域的黄色 E 列是逐事件有效带宽输入，单位 GB/s；EP 
 
 新增「分钟场景」页提供 144 档时间窗口组合，详见 [PD-MINUTE.md](PD-MINUTE.md)。`N5/N7` 是独立 KV / EP 有效带宽，初始 4800 GB/s；修改长度、TTFT、TPOT、P/D 组数、批量会重算 KV 字节及部分 / 全 EP 重叠。CLI：`node scripts/export-analysis.mjs minute`。验证：`python3 scripts/verify-minute.py`。新页一阶相位平均结果不能当作离散事件调度仿真。
 
+EP 汇总工作簿的四个页签显示原生网格线，采用 Carlito 11、浅蓝表头和黄色输入格。正常结果不重复显示「估算」标签，配置栏不显示「运行未验证」。现有输入、数值公式和计算方法不变。只刷新这个展示样式可运行 `node scripts/update-minute-workbooks.mjs --style-sweep outputs/sweep-style`；`--inspect-sweep-style outputs/sweep-style [REFERENCE.xlsx]` 可查看当前总表及可选参考表。
+
 ## 在普通开发环境复算
 
 Node.js 20+，Python 3 用于读 ZIP/XML 的独立归档检查，不需要 npm install：

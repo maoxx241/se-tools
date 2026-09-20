@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import { addSweepContention } from './contention-workbook.mjs';
+import { applyEditableSweepPresentation } from './sweep-presentation.mjs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { loadSpreadsheetRuntime } from '../lib/spreadsheet-runtime.mjs';
@@ -160,6 +161,7 @@ value(kv,'B5',2);value(kv,'E5',64);value(ep,'B5',0);value(ep,'D5',0);
 wb.recalculate();verify(await loadKvEpSpecs({promptTokens:2,blockSize:64,speculativeSlots:0,requestsPerDP:3,prefillTokensPerDP:0,decodeTokensPerDP:0,dispatchBytes:1,dispatchScaleBytes:4}));
 value(kv,'B5',KV_EP_DEFAULTS.promptTokens);value(kv,'E5',128);value(kv,'H5',7);value(kv,'K5',16);value(ep,'B5',16384);value(ep,'D5',128);value(ep,'F5',2);value(ep,'H5',0);
 addSweepContention(summary,cases);
+applyEditableSweepPresentation(wb);
 wb.recalculate();verify(cases);
 const scan=await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!',options:{useRegex:true,maxResults:20},summary:'formula error scan'});
 console.log(scan.ndjson);

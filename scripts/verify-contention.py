@@ -62,7 +62,7 @@ def equal(a, b, context):
         assert a == b, (context, a, b)
 
 
-def preserved(old, new, max_row=None):
+def preserved(old, new, max_row=None, sweep_presentation=False):
     assert set(old) <= set(new) and set(new) - set(old) <= {'分钟场景'}
     for name, (cells, features) in old.items():
         actual, new_features = new[name]
@@ -72,9 +72,16 @@ def preserved(old, new, max_row=None):
                 continue
             if not v and not f:
                 continue
+            # The user explicitly restyled the sweep and removed this qualifier.
+            # Keep the arithmetic, inputs and native features under comparison.
+            if sweep_presentation:
+                if isinstance(v, str):
+                    v = v.replace('；未实机验证', '')
+                f = f.replace('；未实机验证', '')
             equal(v, actual[ref][0], (name, ref, 'value'))
             assert f == actual[ref][1], (name, ref, 'formula')
-            assert style == actual[ref][2], (name, ref, 'style')
+            if not sweep_presentation:
+                assert style == actual[ref][2], (name, ref, 'style')
 
 
 rows = json.loads((ROOT / 'examples/pd-contention/model-results.json').read_text())
@@ -96,7 +103,7 @@ for row in rows:
 expected = json.loads(subprocess.check_output(['node', 'scripts/export-analysis.mjs', 'contention'], cwd=ROOT))
 assert expected == json.loads((ROOT / 'examples/pd-contention/results.json').read_text())
 sweep = load(ROOT / 'examples/kv-ep-sweep/kv-ep32-ep256.xlsx')
-preserved(load(ARCHIVE / 'kv-ep32-ep256.xlsx'), sweep, max_row=48)
+preserved(load(ARCHIVE / 'kv-ep32-ep256.xlsx'), sweep, max_row=48, sweep_presentation=True)
 cells = sweep['规格汇总'][0]
 for i, row in enumerate(expected, 58):
     for col, phase, metric in [('C', 'prefill', 'baselineBandwidthMs'), ('E', 'prefill', 'deltaForwardMs'),
@@ -104,5 +111,5 @@ for i, row in enumerate(expected, 58):
         equal(cells[f'{col}{i}'][0], row[phase][metric], (row['model'], col, metric))
     assert cells[f'M{i}'][1] == '$B$55' and cells[f'N{i}'][1] == '$D$55'
     assert cells[f'J{i}'][0] == '' and cells[f'L{i}'][0] == ''
-print('PASS: 8 saved workbooks, 14 phase extensions, 12 EP cases; original populated cells, formulas, styles and native features preserved.')
+print('PASS: 8 saved workbooks, 14 phase extensions, 12 EP cases; numeric cells/formulas and native features preserved. Sweep styles/qualifier text follow the requested presentation update.')
 print('Bandwidth formulas and saved results agree with the independent calculator. Recalculation mutations were checked by the Artifact Tool updater; desktop Excel was not run.')
