@@ -50,6 +50,8 @@ estimateAllToAllV({
 
 在保留当前 Excel 其它内容的前提下重新构建 PD 耗时区域，可运行 `node scripts/update-contention-workbooks.mjs --write outputs/pd-contention`。输出七份逐模型表和一份 EP 对比表，耗时区重置为示例输入；已填真实带宽的文件不要通过此命令更新，应直接在 Excel 复算。`--inspect` 只查看原通信区。历史字节副本位于 `examples/archive/pre-pd-contention-20260920/`。
 
+只按原表风格统一新增区域时，使用 `--style` 代替 `--write`。该模式保留全部数值、公式及已填写的带宽，逐模型表沿用浅蓝表头/细边框/紧凑行高，EP 汇总沿用深蓝白字表头和原黄色输入色。
+
 ## 增加模型
 
 V4.1 的完整新增范例见 [DEEPSEEK-V4.1.md](DEEPSEEK-V4.1.md)：`lib/deepseek-v41.mjs` 提供权重 shape、source graph、缓存及通信；`scripts/deepseek-v41-workbook.mjs` 提供对应 Excel 事件。它不修改原有六模型历史案例。新模型应按实际调用路径处理，不能仅改变维度后继承旧模型的所有通信行。

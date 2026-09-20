@@ -6,13 +6,14 @@ import { models,modelSlugs,readModelConfig } from '../lib/model-catalog.mjs';
 import { modelSpec } from './model-analysis-specs.mjs';
 import { loadKvEpSpecs } from '../lib/kv-ep-specs.mjs';
 import { loadContentionSweep } from '../lib/pd-contention.mjs';
-import { findCommunication,addModelContention,verifyModelContention,addSweepContention } from './contention-workbook.mjs';
+import { findCommunication,addModelContention,verifyModelContention,addSweepContention,styleModelContention,styleSweepContention } from './contention-workbook.mjs';
 
-const mode=process.argv[2]||'--inspect';assert(['--inspect','--write'].includes(mode));
+const mode=process.argv[2]||'--inspect';assert(['--inspect','--write','--style'].includes(mode));
 const root=path.resolve(process.argv[3]||'outputs/pd-contention');
 await fs.mkdir(root,{recursive:true});
 const {FileBlob,SpreadsheetFile}=await loadSpreadsheetRuntime();
 const rows=[];
+const existingRegions=mode==='--style'?JSON.parse(await fs.readFile('examples/pd-contention/model-results.json','utf8')):[];
 async function render(wb,sheetName,range,file) {
   const img=await wb.render({sheetName,range,scale:1.2,format:'png'});
   await fs.writeFile(path.join(root,file),new Uint8Array(await img.arrayBuffer()));
@@ -35,15 +36,17 @@ for(const model of models) {
       console.log(`${slug} ${phase}: communication ${comm.first}:${comm.last}, total ${comm.total}`);
       continue;
     }
-    const old=sheet.getRange(`A1:P${Math.max(comm.total,65)}`),before=old.values,formulas=old.formulas;
-    const region=addModelContention(sheet,phase,facts,model.profile);
-    const result=verifyModelContention(wb,sheet,region);
+    const old=sheet.getRange(`A1:P${mode==='--style'?260:Math.max(comm.total,65)}`),before=old.values,formulas=old.formulas;
+    const region=mode==='--style'?existingRegions.find(x=>x.slug===slug && x.phase===phase).region:addModelContention(sheet,phase,facts,model.profile);
+    if(mode==='--style')styleModelContention(sheet,region);
+    wb.recalculate();
+    const result=mode==='--style'?{}:verifyModelContention(wb,sheet,region);
     sameCells(before,old.values);assert.deepEqual(old.formulas,formulas);
     const {comm:unused,...coordinates}=region;
     rows.push({slug,model:model.key,phase,...result,region:coordinates,scope:'current workbook inputs; listed communications only; normalized 100 GB/s, 10% loss, full coverage/exposure'});
     await render(wb,phase,`A${region.start}:L${region.total}`,`${slug}-${phase}.png`);
   }
-  if(mode==='--write') {
+  if(mode!=='--inspect') {
     wb.recalculate();
     const errors=await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!',options:{useRegex:true,maxResults:10}});
     assert(!/"kind":"match"/.test(errors.ndjson),errors.ndjson);
@@ -51,7 +54,17 @@ for(const model of models) {
     await(await SpreadsheetFile.exportXlsx(wb)).save(dest);console.log(`Updated ${file}`);
   }
 }
-if(mode==='--write') {
+if(mode==='--style') {
+  const file='examples/kv-ep-sweep/kv-ep32-ep256.xlsx';
+  const wb=await SpreadsheetFile.importXlsx(await FileBlob.load(file)),sheet=wb.worksheets.getItem('规格汇总');
+  const range=sheet.getRange('A1:O73'),before=range.values,formulas=range.formulas;
+  await render(wb,'规格汇总','A1:M17','ep-original-style.png');
+  styleSweepContention(sheet);wb.recalculate();
+  sameCells(before,range.values);assert.deepEqual(formulas,range.formulas);
+  await render(wb,'规格汇总','A51:O73','ep32-ep256-contention.png');
+  const dest=path.join(root,file);await fs.mkdir(path.dirname(dest),{recursive:true});await(await SpreadsheetFile.exportXlsx(wb)).save(dest);
+  console.log('Matched existing workbook styles; all values, formulas and bandwidth inputs preserved.');
+} else if(mode==='--write') {
   const file='examples/kv-ep-sweep/kv-ep32-ep256.xlsx';
   const wb=await SpreadsheetFile.importXlsx(await FileBlob.load(file)),sheet=wb.worksheets.getItem('规格汇总');
   const before=sheet.getRange('A1:M48').values,formulas=sheet.getRange('A1:M48').formulas;

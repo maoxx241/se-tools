@@ -20,6 +20,39 @@ export function findCommunication(sheet) {
   return {first:h+1,last:end-1,total:end,rows:values.slice(h,end-1)};
 }
 
+// These two workbooks have different established styles. Keep both conventions.
+export function styleModelContention(sheet,region) {
+  const {start,input,output,first,last,total}=region;
+  const base={name:'Arial',size:10,color:'#000000'};
+  sheet.getRange(`A${start}:L${total}`).format.font=base;
+  sheet.getRange(`A${start}:L${total}`).format.rowHeight=15;
+  sheet.getRange(`A${start}`).format.font={...base,bold:true};
+  for(const [r,end] of [[input-1,'H'],[output-1,'L'],[first-1,'L']]) {
+    sheet.getRange(`A${r}:${end}${r}`).format={fill:'#D9E2F3',font:{...base,bold:true},
+      borders:{preset:'all',style:'thin',color:'#A6A6A6'},horizontalAlignment:'center',
+      verticalAlignment:'center',wrapText:true,rowHeight:30};
+  }
+  for(const c of ['B','D','F','H'])sheet.getRange(`${c}${input}`).format.borders={preset:'all',style:'thin',color:'#D9D9D9'};
+  sheet.getRange(`H${input}`).setNumberFormat('0.##');
+  sheet.getRange(`E${first}:E${last}`).setNumberFormat('0.##');
+  sheet.getRange(`A${total}:L${total}`).clear({applyTo:'formats'});
+  sheet.getRange(`A${total}:L${total}`).format={font:{...base,bold:true},verticalAlignment:'center',rowHeight:15};
+  for(const c of ['D','G','H','I','K'])sheet.getRange(`${c}${total}`).setNumberFormat('0.000000');
+}
+
+export function styleSweepContention(sheet,last=69) {
+  const base={name:'Arial',size:10,color:'#202C3B'};
+  sheet.getRange(`A51:O${last+4}`).format.font=base;
+  sheet.getRange(`A51:O${last+4}`).format.rowHeight=25;
+  sheet.getRange('A51').format.font={...base,bold:true,size:14};
+  for(const [r,end] of [[54,'J'],[57,'O']])sheet.getRange(`A${r}:${end}${r}`).format={
+    fill:'#253D5B',font:{...base,bold:true,color:'#FFFFFF'},rowHeight:40,
+    wrapText:true,horizontalAlignment:'center',verticalAlignment:'center'};
+  for(const c of ['B55','D55','F55','H55','J55'])sheet.getRange(c).format.fill='#FFF0C2';
+  for(const c of ['I','K','M','N'])sheet.getRange(`${c}58:${c}${last}`).format.fill='#FFF0C2';
+  for(const c of ['C','D','E','F','G','H','I','K'])sheet.getRange(`${c}58:${c}${last}`).setNumberFormat('#,##0.000');
+}
+
 // Append below the existing table. All original weights, inputs and formulas stay intact.
 export function addModelContention(sheet, phase, facts, profile) {
   const comm=findCommunication(sheet), start=Math.max(comm.total+3,70);
@@ -76,7 +109,9 @@ export function addModelContention(sheet, phase, facts, profile) {
   put(sheet,`A${total}`,'所列事件串行相加');for(const c of ['D','G','H','I','K'])fx(sheet,`${c}${total}`,`SUM(${c}${first}:${c}${last})`);
   sheet.getRange(`A${total}:L${total}`).format.fill='#E8EEF5';
   sheet.getRange(`L${output}`).conditionalFormats.add('containsText',{text:'不一致',format:{fill:'#FDE9E7',font:{color:'#A32020'}}});
-  return {start,input,output,first,last,total,phase,comm};
+  const region={start,input,output,first,last,total,phase,comm};
+  styleModelContention(sheet,region);
+  return region;
 }
 
 export function verifyModelContention(wb,sheet,region) {
@@ -129,5 +164,6 @@ export function addSweepContention(sheet,cases) {
   sheet.getRange(`M58:N${last}`).setNumberFormat('0.00');
   put(sheet,`A${last+2}`,'带宽下降 10% 对受影响带宽项增加 11.11%。forward 增幅还需真实基线；不把 KV 交接等待再加到每个 Decode Step。');
   put(sheet,`A${last+4}`,'黄色 M/N 列可填各模型、各 EP 的无争用有效带宽，GB/s=10⁹ B/s。默认共享比例为 1；逐模型表可按事件调整。');
+  styleSweepContention(sheet,last);
   return {first:58,last};
 }
