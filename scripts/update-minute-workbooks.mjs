@@ -6,10 +6,10 @@ import {loadKvEpSpecs} from '../lib/kv-ep-specs.mjs';
 import {MINUTE_CASES,minuteImpact} from '../lib/pd-minute.mjs';
 import {decodeTpTraffic} from '../lib/communication-requirements.mjs';
 import {addMinuteTp} from './minute-tp-workbook.mjs';
-import {applyEditableSweepPresentation,cleanSweepText} from './sweep-presentation.mjs';
+import {applyEditableSweepPresentation,cleanSweepText,cleanV41Labels} from './sweep-presentation.mjs';
 
 const mode=process.argv[2]||'--inspect';
-assert(['--inspect','--write','--inspect-sweep-style','--style-sweep','--add-tp'].includes(mode));
+assert(['--inspect','--write','--inspect-sweep-style','--style-sweep','--add-tp','--inspect-v41-labels','--clean-v41-labels'].includes(mode));
 const root=path.resolve(process.argv[3]||'outputs/01a09481-77cf-7b72-a8db-64837639ac39/pd-minute');
 await fs.mkdir(root,{recursive:true});
 const {FileBlob,SpreadsheetFile}=await loadSpreadsheetRuntime();
@@ -20,6 +20,7 @@ let files=[{file:'examples/kv-ep-sweep/kv-ep32-ep256.xlsx',items:specs,style:'sw
     file:`models/${x.slug}/${x.slug}-analysis.xlsx`,items:specs.filter(y=>y.slug===x.slug),style:'model'}))];
 if(mode.includes('sweep'))files=files.slice(0,1);
 if(mode==='--add-tp')files=files.filter(x=>x.style==='sweep'||['kimi-k3','qwen3.8-2.4t-a95b'].includes(x.items[0].slug));
+if(mode.endsWith('v41-labels'))files=files.filter(x=>x.style==='sweep'||x.items[0].slug==='deepseek-v4.1-flash');
 const put=(s,c,v)=>{s.getRange(c).values=[[v]];};
 const fx=(s,c,f)=>{s.getRange(c).formulas=[[`=${f}`]];};
 const val=(s,c)=>s.getRange(c).values[0][0];
@@ -75,7 +76,7 @@ function build(wb,items,style) {
       fx(s,`${c}${r}`,ref);s.getRange(`${c}${r}`).format.fill=inputColor;
     }
     s.getRange(`M${r}:N${r}`).setNumberFormat('0.0%');
-    put(s,`O${r}`,`${m.cache.pullBytes===null?'V4.1 KV 规划；':''}${m.redundantExpertsRequired?'需 128 个冗余专家槽':'运行未验证'}`);
+    put(s,`O${r}`,m.redundantExpertsRequired?'需 128 个冗余专家槽':'');
   });
   put(s,`A${outputHeader-2}`,'TPOT × 输入场景 × EP：稳态每分钟结果');s.getRange(`A${outputHeader-2}`).format.font={...base,bold:true};
   head(outputHeader,['模型','EP','输入 tokens','周期 s','TPOT ms','KV 窗口 次/min','KV 窗口 ms/次','重叠 FW 次/min','全 EP FW 次/min','部分 EP FW 次/min','重叠层调用 次/min','60s 工作增时 ms','平均 TPOT 增量 μs','TPOT 增幅 ppm','结果条件','最低 EP GB/s']);
@@ -148,7 +149,7 @@ function build(wb,items,style) {
     for(const [c,f] of [['H',`U${b}*R${b}`],['I',`U${b}*S${b}`],['J',`U${b}*MAX(0,R${b}-S${b})`],
       ['K',`IF(OR(O${b}=0,K${b}=0),0,U${b}*${L}*MIN(1,(K${b}+P${b})/L${b}))`],['L',`V${b}`],['M',`E${r}*V${b}/60`],['N',`V${b}/60000*1e6`]])
       fx(s,`${c}${r}`,`IF(${ok},${f},"")`);
-    fx(s,`O${r}`,`IF(${ok},"${m.cache.pullBytes===null?'估算；V4.1 规划':'相位平均估算'}",W${b})`);fx(s,`P${r}`,`Q${b}`);
+    fx(s,`O${r}`,`IF(${ok},"",W${b})`);fx(s,`P${r}`,`Q${b}`);
     rows.push({model:m,scenario,t,parameter:p,row:r,build:b,cache:k});
   }
   s.getRange(`C${first}:C${last}`).setNumberFormat('#,##0');s.getRange(`F${first}:K${last}`).setNumberFormat('#,##0.000');
@@ -158,11 +159,16 @@ function build(wb,items,style) {
   s.getRange(`C${cacheHeader+1}:C${cr}`).format.wrapText=true;s.getRange(`A${cacheHeader+1}:M${cr}`).format.rowHeight=45;
   s.getRange('N9').dataValidation={rule:{type:'list',values:['32','64','128']}};
   for(const text of ['输入无效','KV 超载','TPOT 不自洽','需时序仿真'])s.getRange(`O${first}:O${last}`).conditionalFormats.add('containsText',{text,format:{fill:'#FDE9E7',font:{color:'#A32020'}}});
-  put(s,`A${cr+3}`,'来源：库内 config.json、analysis/KV-EP-SPECS.md、analysis/PD-MINUTE.md；V4.1 为既有 KV 规划量。');
+  put(s,`A${cr+3}`,'来源：库内 config.json、analysis/KV-EP-SPECS.md、analysis/PD-MINUTE.md。');
   put(s,`A${cr+4}`,'MC2：A3 FullMesh BF16；均衡路由。未计 TP / Attention / Engram、通信启动和真实排队，未复现 NPU 实测。');
   if(style==='sweep')applyEditableSweepPresentation(wb,{sheetNames:['分钟场景']});
   const region={s,rows,first,last,parameterFirst,parameterLast,buildFirst,buildLast,cacheHeader,cacheLast:cr};
   addMinuteTp(s,region,items);
+  const used=s.getUsedRange(),values=used.values,formulas=used.formulas;
+  for(let i=0;i<values.length;i++)for(let j=0;j<values[i].length;j++) {
+    const f=formulas[i]?.[j],v=f||values[i][j],next=cleanV41Labels(v);
+    if(next!==v) {if(f)used.getCell(i,j).formulas=[[next]];else used.getCell(i,j).values=[[next]];}
+  }
   return region;
 }
 
@@ -199,6 +205,39 @@ if(mode==='--inspect-sweep-style'&&process.argv[4]) {
 for(const entry of files) {
   const wb=await SpreadsheetFile.importXlsx(await FileBlob.load(entry.file));
   const slug=entry.items.length>2?'ep32-ep256':entry.items[0].slug;
+  if(mode.endsWith('v41-labels')) {
+    if(mode==='--clean-v41-labels') {
+      const before=wb.worksheets.items.map(s=>({s,range:s.getUsedRange(),values:s.getUsedRange().values,formulas:s.getUsedRange().formulas}));
+      let count=0;
+      for(const old of before)old.values.forEach((row,i)=>row.forEach((v,j)=>{
+        const f=old.formulas[i]?.[j],next=cleanV41Labels(f||v);
+        if(next!==(f||v)) {if(f)old.range.getCell(i,j).formulas=[[next]];else old.range.getCell(i,j).values=[[next]];count++;}
+      }));
+      wb.recalculate();
+      for(const old of before) {
+        const values=old.range.values,formulas=old.range.formulas;
+        old.values.forEach((row,i)=>row.forEach((v,j)=>{
+          assert.equal(formulas[i]?.[j]??'',cleanV41Labels(old.formulas[i]?.[j]??''));
+          if(typeof v==='number')close(values[i][j],v);
+          else assert.equal(values[i][j]??'',cleanV41Labels(v??''),`${old.s.name} row ${i+1} col ${j+1}`);
+        }));
+      }
+      const errors=await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!',options:{useRegex:true,maxResults:10}});
+      assert(!/"kind":"match"/.test(errors.ndjson),errors.ndjson);
+      const dest=path.join(root,entry.file);await fs.mkdir(path.dirname(dest),{recursive:true});await(await SpreadsheetFile.exportXlsx(wb)).save(dest);
+      console.log(`Removed ${count} display labels; formulas and numeric results preserved: ${entry.file}`);
+    }
+    const prefix=mode==='--clean-v41-labels'?'after':'before';
+    if(entry.style==='sweep') {
+      await render(wb,'规格汇总','G23:M35',`${prefix}-${slug}-summary.png`);
+      await render(wb,'KV明细','G39:M47',`${prefix}-${slug}-kv.png`);
+      await render(wb,'分钟场景','L159:T167',`${prefix}-${slug}-minute.png`);
+    } else {
+      await render(wb,'分钟场景','L22:P35',`${prefix}-${slug}-minute.png`);
+      await render(wb,'Decode','A141:J143',`${prefix}-${slug}-note.png`);
+    }
+    continue;
+  }
   if(mode==='--add-tp') {
     const original=wb.worksheets.items.filter(s=>s.name!=='分钟场景').map(s=>({s,range:s.getUsedRange(),values:s.getUsedRange().values,formulas:s.getUsedRange().formulas}));
     const meta=JSON.parse(await fs.readFile('examples/pd-contention/minute-workbook-regions.json','utf8')).find(x=>x.file===entry.file);

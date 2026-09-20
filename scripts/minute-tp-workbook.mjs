@@ -77,7 +77,7 @@ export function addMinuteTp(s, region, items) {
       ['K',`IF(OR(AK${b}=0,K${b}=0),0,U${b}*${L}*MIN(1,(K${b}+AL${b})/L${b}))`],
       ['L',`V${b}`],['M',`E${r}*V${b}/60`],['N',`V${b}/60000*1e6`],
       ['S',`AI${b}`],['T',`AJ${b}`]])fx(`${c}${r}`,`IF(${ok},${f},"")`);
-    fx(`O${r}`,`IF(${ok},"${items[i].cache.pullBytes===null?'V4.1 规划':''}",W${b})`);
+    fx(`O${r}`,`IF(${ok},"",W${b})`);
     fx(`Q${r}`,`AE${b}`);fx(`R${r}`,`AF${b}`);
   }
   s.getRange(`P${parameterFirst}:U${parameterLast}`).format.font={name:'Carlito',size:11,color:'#000000'};

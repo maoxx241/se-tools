@@ -62,7 +62,7 @@ for region in regions:
             assert value(f'B{r}') == row['ep']
             assert value(f'D{r}') == source['inputs']['ttftSeconds']
             if source['profile'] == 'deepseek_v41':
-                assert '规划' in value(f'O{r}')
+                assert value(f'O{r}') == ''
             for col, key in metrics.items():
                 ref = f'{col}{r}'
                 assert cells[ref].find('s:f', NS) is not None, (region['file'], ref)

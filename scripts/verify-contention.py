@@ -64,6 +64,14 @@ def equal(a, b, context):
 
 def preserved(old, new, max_row=None, sweep_presentation=False):
     assert set(old) <= set(new) and set(new) - set(old) <= {'分钟场景'}
+    texts = list({x for cells, _ in old.values() for v, f, _ in cells.values()
+                  for x in (v, f) if isinstance(x, str)})
+    cleaned = json.loads(subprocess.check_output([
+        'node', '--input-type=module', '-e',
+        'import fs from "node:fs"; import {cleanV41Labels} from "./scripts/sweep-presentation.mjs"; '
+        'console.log(JSON.stringify(JSON.parse(fs.readFileSync(0,"utf8")).map(cleanV41Labels)));'
+    ], input=json.dumps(texts).encode(), cwd=ROOT))
+    label_changes = dict(zip(texts, cleaned))
     for name, (cells, features) in old.items():
         actual, new_features = new[name]
         assert features == new_features, (name, 'native features changed')
@@ -72,6 +80,9 @@ def preserved(old, new, max_row=None, sweep_presentation=False):
                 continue
             if not v and not f:
                 continue
+            if isinstance(v, str):
+                v = label_changes[v]
+            f = label_changes[f]
             # The user explicitly restyled the sweep and removed this qualifier.
             # Keep the arithmetic, inputs and native features under comparison.
             if sweep_presentation:

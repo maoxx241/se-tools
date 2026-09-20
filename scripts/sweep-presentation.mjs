@@ -1,6 +1,22 @@
 // Display-only changes requested for the EP/KV workbook. Numerical definitions
 // remain documented in analysis/PD-MINUTE.md and are not changed by this module.
+export function cleanV41Labels(value) {
+  if(typeof value!=='string')return value;
+  return value
+    .replaceAll('V4.1 的取仅为规划值，main 未支持迁移。','')
+    .replaceAll('V4.1 为 PD 条件评估；旧 KV 规划与新 main 的端到端迁移可用性未在本次验证。','KV 字节按源码张量布局计算；计算口径见 analysis/PD-MINUTE.md。')
+    .replaceAll('V4.1 KV 规划；运行未验证','')
+    .replaceAll('V4.1 KV 规划；','').replaceAll('V4.1 KV 规划','')
+    .replaceAll('估算；V4.1 规划','').replaceAll('V4.1 规划','')
+    .replaceAll('取为规划值；迁移未支持','专家数整除').replaceAll('迁移未支持；取为规划值','')
+    .replaceAll('补128槽并验证；取为规划值','需补齐128槽并验证EPLB')
+    .replaceAll('取或规划取','取').replaceAll('取/规划','取')
+    .replaceAll('按规划传输','按完整块传输').replaceAll('规划传完整','传完整')
+    .replaceAll('；V4.1 为既有 KV 规划量。','。');
+}
+
 export function cleanSweepText(value) {
+  value=cleanV41Labels(value);
   if(typeof value!=='string')return value;
   if(value==='稳态相位平均估算。每层以等长 EP 通信段建模；未使用逐层 profiling，次数可为小数。')
     return '每层以等长 EP 通信段计算，次数按一分钟统计。';

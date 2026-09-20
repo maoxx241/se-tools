@@ -90,7 +90,7 @@ export function addModelContention(sheet, phase, facts, profile) {
   fx(sheet,`L${output}`,`IF(${baseline}="","待填基线",IF(${valid},"已填基线","基线/暴露不一致"))`);
   sheet.getRange(`A${output}:L${output}`).setNumberFormat('0.000');sheet.getRange(`J${output}`).setNumberFormat('0.00%');
   put(sheet,`A${start+6}`,'共享比例=0 表示独立链路；暴露系数=0 表示增量完全隐藏。默认均为 1，降幅只作用于带宽项。');
-  put(sheet,`A${start+7}`,profile==='deepseek_v41'?'V4.1 为 PD 条件评估；旧 KV 规划与新 main 的端到端迁移可用性未在本次验证。':
+  put(sheet,`A${start+7}`,profile==='deepseek_v41'?'KV 字节按源码张量布局计算；计算口径见 analysis/PD-MINUTE.md。':
     'P: AllToAllV + 4 B 计数 Ring；D: A3 BF16 MC2 FullMesh。每事件带宽按端点发送量定义。');
   header(sheet,h,['并行域','模块','通信事件','GB/Rank/Step','有效带宽 GB/s','共享比例','基线带宽项 ms','争用后带宽项 ms','通信增量 ms','暴露系数','forward 增量 ms','公式口径']);
   data.forEach((e,i)=>{

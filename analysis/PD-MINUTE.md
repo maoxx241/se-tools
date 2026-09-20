@@ -154,6 +154,8 @@ TP 修正已应用于总表、K3、Qwen 的分钟页：`F11` 为 TP GB/s，`J11/
 
 CLI 的 `allCommunicationInsideStepsPerMinute` 对应新的全通信列；`partialStepsPerMinute` 是 EP＋TP 并集的部分重叠次数。原 `allEPInsideStepsPerMinute` 继续提供 EP 单项分类，不能再与新的部分通信次数相加。`commMs` 仍为 EP，`tpCommMs` 与 `totalCommMs` 分别提供 TP 和两者合计。
 
+Excel 已移除“V4.1 规划”“取/规划”等展示标签，统一显示“取”。此项只清理文字，字节公式和结果不变；源码快照与迁移范围仍记录在本页和 KV 方法文档中。
+
 新页的输入独立于原表历史默认参数，以免 EP8、投机步数等不同基线混入 EP32/256 对比。原表已填带宽保持原值，修改新页会立即重算新页公式。所有原标签、公式和样式保留。
 
 高带宽示例下单 token 增量很小，因此结果 M 列以 **μs** 显示，N 列增幅以 **ppm** 显示（1 ppm = 0.0001%），避免小数显示为零。L 列的一分钟工作量增时仍是 **ms**；CLI 的 `meanTpotIncreaseMs` 和 `tpotIncreaseFraction` 保持毫秒与无单位比例。

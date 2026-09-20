@@ -1,4 +1,4 @@
-"""Dependency-free audit of saved JSON and Excel, including qualified V4.1 plans."""
+"""Audit saved numeric formulas; V4.1 calculation basis remains in source metadata."""
 import json
 from pathlib import Path
 import subprocess
@@ -36,6 +36,7 @@ with zipfile.ZipFile(CASE / 'kv-ep32-ep256.xlsx') as z:
             assert int(cells[ref].find('s:v', ns).text) == int(tokens)
         if r['profile'] == 'deepseek_v41':
             assert r['cache']['pullBytes'] is None
-            assert '规划值' in cells[f'M{n}'].find('s:f', ns).text
+            assert '规划' not in cells[f'M{n}'].find('s:f', ns).text
+            assert 'EPLB' in cells[f'M{n}'].find('s:f', ns).text
 print(f'PASS: {len(expected)} JSON cases, {len(expected)*8} saved formula byte values, '
-      f'{len(expected)*2} DP-workload values, qualified V4.1 plans, three sheets without formula errors')
+      f'{len(expected)*2} DP-workload values, V4.1 source metadata preserved, three sheets without formula errors')

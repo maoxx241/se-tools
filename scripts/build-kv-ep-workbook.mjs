@@ -12,7 +12,7 @@ const { Workbook, SpreadsheetFile } = await loadSpreadsheetRuntime();
 const wb = Workbook.create();
 const summary = wb.worksheets.add('规格汇总'), kv = wb.worksheets.add('KV明细'), ep = wb.worksheets.add('EP通信');
 const cases = await loadKvEpSpecs();
-// The grid appends V4.1's two cases; planned transfer is visibly qualified.
+// The grid appends V4.1's two cases; transfer assumptions remain in the docs.
 const pullEstimate = x => x.pullBytes ?? x.plannedPullBytes;
 const value = (s,c,v) => { s.getRange(c).values=[[v]]; };
 const formula = (s,c,f) => { s.getRange(c).formulas=[[`=${f}`]]; };
