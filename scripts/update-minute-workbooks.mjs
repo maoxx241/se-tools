@@ -4,10 +4,12 @@ import assert from 'node:assert/strict';
 import {loadSpreadsheetRuntime} from '../lib/spreadsheet-runtime.mjs';
 import {loadKvEpSpecs} from '../lib/kv-ep-specs.mjs';
 import {MINUTE_CASES,minuteImpact} from '../lib/pd-minute.mjs';
+import {decodeTpTraffic} from '../lib/communication-requirements.mjs';
+import {addMinuteTp} from './minute-tp-workbook.mjs';
 import {applyEditableSweepPresentation,cleanSweepText} from './sweep-presentation.mjs';
 
 const mode=process.argv[2]||'--inspect';
-assert(['--inspect','--write','--inspect-sweep-style','--style-sweep'].includes(mode));
+assert(['--inspect','--write','--inspect-sweep-style','--style-sweep','--add-tp'].includes(mode));
 const root=path.resolve(process.argv[3]||'outputs/01a09481-77cf-7b72-a8db-64837639ac39/pd-minute');
 await fs.mkdir(root,{recursive:true});
 const {FileBlob,SpreadsheetFile}=await loadSpreadsheetRuntime();
@@ -17,6 +19,7 @@ let files=[{file:'examples/kv-ep-sweep/kv-ep32-ep256.xlsx',items:specs,style:'sw
   ...specs.filter(x=>x.ep===32&&x.slug!=='deepseek-v4-10t').map(x=>({
     file:`models/${x.slug}/${x.slug}-analysis.xlsx`,items:specs.filter(y=>y.slug===x.slug),style:'model'}))];
 if(mode.includes('sweep'))files=files.slice(0,1);
+if(mode==='--add-tp')files=files.filter(x=>x.style==='sweep'||['kimi-k3','qwen3.8-2.4t-a95b'].includes(x.items[0].slug));
 const put=(s,c,v)=>{s.getRange(c).values=[[v]];};
 const fx=(s,c,f)=>{s.getRange(c).formulas=[[`=${f}`]];};
 const val=(s,c)=>s.getRange(c).values[0][0];
@@ -158,7 +161,9 @@ function build(wb,items,style) {
   put(s,`A${cr+3}`,'来源：库内 config.json、analysis/KV-EP-SPECS.md、analysis/PD-MINUTE.md；V4.1 为既有 KV 规划量。');
   put(s,`A${cr+4}`,'MC2：A3 FullMesh BF16；均衡路由。未计 TP / Attention / Engram、通信启动和真实排队，未复现 NPU 实测。');
   if(style==='sweep')applyEditableSweepPresentation(wb,{sheetNames:['分钟场景']});
-  return {s,rows,first,last,parameterFirst,parameterLast,buildFirst,buildLast,cacheHeader,cacheLast:cr};
+  const region={s,rows,first,last,parameterFirst,parameterLast,buildFirst,buildLast,cacheHeader,cacheLast:cr};
+  addMinuteTp(s,region,items);
+  return region;
 }
 
 async function verify(wb,region) {
@@ -174,12 +179,15 @@ async function verify(wb,region) {
     const expect=minuteImpact({pullBytesPerRequest:Number(source.cache.pullBytes??source.cache.plannedPullBytes),
       ep:m.ep,prefillTP:Number(m.topology.prefillTP),decodeTP:Number(m.topology.decodeTP),
       decodeBytesPerRank:Number(source.decodeEP.modeledRemoteWriteBytes)/m.ep,layers:m.facts.moeLayers,
+      decodeTpBytesPerRank:decodeTpTraffic(m.facts,val(s,`K${p}`),m.topology.decodeTP,{sharedExpertTpEnabled:m.profile==='kimi'}).totalBytesPerRank,
+      tpBandwidthGBps:val(s,`P${p}`),tpSharedFraction:val(s,`Q${p}`),tpExposedFraction:val(s,`R${p}`),
       ttftSeconds:val(s,`D${r}`),tpotMs:val(s,`E${r}`),requestsPerDP:val(s,'B5'),prefillGroups:val(s,'F5'),decodeGroups:val(s,'J5'),
       kvBandwidthGBps:val(s,`J${p}`),decodeBandwidthGBps:val(s,`I${p}`),decodeTokensPerDP:val(s,`K${p}`),outputTokensPerStep:val(s,`L${p}`),
       burstsPerCycle:val(s,'B9'),bandwidthLoss:val(s,'J7'),sharedFraction:val(s,`M${p}`),exposedFraction:val(s,`N${p}`)});
     assert.equal(expect.status,'ok');
-    for(const [c,key] of [['F','kvBurstsPerMinute'],['G','windowMs'],['H','overlappingStepsPerMinute'],['I','allEPInsideStepsPerMinute'],
+    for(const [c,key] of [['F','kvBurstsPerMinute'],['G','windowMs'],['H','overlappingStepsPerMinute'],['I','allCommunicationInsideStepsPerMinute'],
       ['J','partialStepsPerMinute'],['K','overlappingLayerCallsPerMinute'],['L','extraMsForBaselineMinute'],['M','meanTpotIncreaseMs'],['N','tpotIncreaseFraction'],['P','minimumDecodeBandwidthGBps']])close(val(s,`${c}${r}`),expect[key]*(c==='M'?1000:c==='N'?1e6:1));
+    close(val(s,`R${r}`),expect.tpCommMs);close(val(s,`S${r}`),expect.extraEpMsForBaselineMinute);close(val(s,`T${r}`),expect.extraTpMsForBaselineMinute);
   }
 }
 
@@ -191,6 +199,40 @@ if(mode==='--inspect-sweep-style'&&process.argv[4]) {
 for(const entry of files) {
   const wb=await SpreadsheetFile.importXlsx(await FileBlob.load(entry.file));
   const slug=entry.items.length>2?'ep32-ep256':entry.items[0].slug;
+  if(mode==='--add-tp') {
+    const original=wb.worksheets.items.filter(s=>s.name!=='分钟场景').map(s=>({s,range:s.getUsedRange(),values:s.getUsedRange().values,formulas:s.getUsedRange().formulas}));
+    const meta=JSON.parse(await fs.readFile('examples/pd-contention/minute-workbook-regions.json','utf8')).find(x=>x.file===entry.file);
+    const s=wb.worksheets.getItem('分钟场景');
+    await render(wb,s.name,'A2:P18',`${slug}-before.png`);
+    const region={...meta,s,rows:meta.cases.map((x,i)=>({model:entry.items.find(m=>m.slug===x.slug&&m.ep===x.ep),
+      parameter:meta.parameterFirst+Math.floor(i/12),row:x.row,build:meta.buildFirst+i,
+      cache:meta.cacheHeader+1+entry.items.filter(m=>m.ep===32).slice(0,entry.items.filter(m=>m.ep===32).findIndex(m=>m.slug===x.slug)).reduce((n,m)=>n+3*(m.cache.components.length+1),0)
+        +x.scenario*(entry.items.find(m=>m.slug===x.slug).cache.components.length+1)+entry.items.find(m=>m.slug===x.slug).cache.components.length}))};
+    addMinuteTp(s,region,entry.items);wb.recalculate();await verify(wb,region);
+    const sample=region.rows.find(x=>Number(x.model.topology.decodeTP)>1),r=sample.row;
+    const controls=['F11','J11','N11','N5','N7','B7'],saved=controls.map(c=>[c,val(s,c)]);
+    const base=val(s,`L${r}`),ep=val(s,`S${r}`),tp=val(s,`T${r}`);
+    put(s,'J11',0);wb.recalculate();await verify(wb,region);close(val(s,`L${r}`),ep);close(val(s,`T${r}`),0);
+    put(s,'J11',1);put(s,'F11',2400);wb.recalculate();await verify(wb,region);assert(val(s,`T${r}`)>tp);close(val(s,`S${r}`),ep);
+    put(s,'B7',129);wb.recalculate();await verify(wb,region);
+    put(s,'F11',0);wb.recalculate();assert.equal(val(s,`O${r}`),'输入无效');assert.equal(val(s,`L${r}`),'');
+    put(s,'F11',.001);wb.recalculate();assert.equal(val(s,`O${r}`),'TPOT 不自洽');
+    for(const [c,v] of saved)put(s,c,v);wb.recalculate();await verify(wb,region);close(val(s,`L${r}`),base);
+    for(const old of original) {
+      assert.deepEqual(old.range.formulas,old.formulas);
+      const now=old.range.values;
+      old.values.forEach((row,i)=>row.forEach((v,j)=>typeof v==='number'?close(now[i][j],v):assert.equal(now[i][j]??'',v??'')));
+    }
+    const errors=await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!',options:{useRegex:true,maxResults:10}});
+    assert(!/"kind":"match"/.test(errors.ndjson),errors.ndjson);
+    console.log((await wb.inspect({kind:'table',range:`分钟场景!L${r}:T${r+1}`,include:'values,formulas',tableMaxRows:2,tableMaxCols:9})).ndjson);
+    await render(wb,s.name,'A2:P18',`${slug}-inputs.png`);
+    await render(wb,s.name,`L${region.first-1}:T${region.first+7}`,`${slug}-tp-results.png`);
+    await render(wb,s.name,`P22:U${region.parameterLast}`,`${slug}-tp-controls.png`);
+    const dest=path.join(root,entry.file);await fs.mkdir(path.dirname(dest),{recursive:true});await(await SpreadsheetFile.exportXlsx(wb)).save(dest);
+    console.log(`Verified TP extension: ${entry.file}; ${region.rows.length} cases; other sheets unchanged`);
+    continue;
+  }
   if(mode==='--inspect-sweep-style'||mode==='--style-sweep') {
     if(mode==='--style-sweep') {
       const before=wb.worksheets.items.map(s=>({s,range:s.getUsedRange(),values:s.getUsedRange().values,formulas:s.getUsedRange().formulas}));

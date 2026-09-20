@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {minuteImpact,meanEventDelay,overlapProbability,loadMinuteSweep} from '../lib/pd-minute.mjs';
+import {calculateStepTraffic,decodeTpTraffic} from '../lib/communication-requirements.mjs';
+import {loadKvEpSpecs} from '../lib/kv-ep-specs.mjs';
 
 const base={pullBytesPerRequest:1e9,ep:32,prefillTP:8,decodeTP:1,decodeBytesPerRank:1e8,
   layers:10,ttftSeconds:4,tpotMs:10,kvBandwidthGBps:100,decodeBandwidthGBps:100};
@@ -77,4 +79,36 @@ test('144 scenarios contain 15/3/1 steady-state KV windows per minute and qualif
   assert.deepEqual([...new Set(rows.map(x=>x.result.kvBurstsPerMinute))],[15,3,1]);
   assert.equal(rows.filter(x=>x.slug==='deepseek-v4.1-flash').length,24);
   assert(rows.filter(x=>x.slug==='deepseek-v4.1-flash').every(x=>x.kvBasis.startsWith('planned')));
+});
+
+test('TP8 traffic is per rank, non-duplicated, and fixed when EP/DP scale',async()=>{
+  for(const slug of ['kimi-k3','qwen3.8-2.4t-a95b']) {
+    const specs=(await loadKvEpSpecs()).filter(x=>x.slug===slug);
+    const totals=specs.map(m=>{
+      const options={tp:8,ep:m.ep,spEnabled:true,dsa:false,sharedExpertTpEnabled:m.profile==='kimi'};
+      const old=calculateStepTraffic(m.facts,128,128,options);
+      const ledger=decodeTpTraffic(m.facts,128,8,options);
+      assert.equal(ledger.totalBytesPerRank,Number(old.tpBoundary+old.sp+old.sharedExpertTp)/8);
+      assert.equal(ledger.components.sharedExpert>0,m.profile==='kimi');
+      return ledger.totalBytesPerRank;
+    });
+    assert(totals[0]>0);assert.equal(totals[0],totals[1]);
+  }
+  const rows=await loadMinuteSweep();
+  assert(rows.filter(x=>x.inputs.decodeTP===1).every(x=>x.inputs.decodeTpBytesPerRank===0));
+});
+
+test('TP bandwidth and sharing independently affect total delay and feasibility',()=>{
+  const input={...base,decodeTpBytesPerRank:2e8,tpBandwidthGBps:100};
+  const both=minuteImpact(input),ep=minuteImpact(base);
+  close(both.extraEpMsForBaselineMinute,ep.extraMsForBaselineMinute);
+  close(both.extraMsForBaselineMinute,both.extraEpMsForBaselineMinute+both.extraTpMsForBaselineMinute);
+  assert(both.extraTpMsForBaselineMinute>0);
+  assert(both.overlappingStepsPerMinute>=ep.overlappingStepsPerMinute);
+  close(both.overlappingStepsPerMinute,both.allCommunicationInsideStepsPerMinute+both.partialStepsPerMinute);
+  close(minuteImpact({...input,tpSharedFraction:0}).extraMsForBaselineMinute,ep.extraMsForBaselineMinute);
+  close(minuteImpact({...input,tpExposedFraction:0}).extraMsForBaselineMinute,ep.extraMsForBaselineMinute);
+  assert(minuteImpact({...input,tpBandwidthGBps:50}).extraTpMsForBaselineMinute>both.extraTpMsForBaselineMinute);
+  assert.equal(minuteImpact({...input,tpBandwidthGBps:20}).status,'tpot-infeasible');
+  assert.throws(()=>minuteImpact({...input,tpBandwidthGBps:0}));
 });

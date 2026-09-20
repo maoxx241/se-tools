@@ -15,7 +15,7 @@ assert expected == json.loads((ROOT / 'examples/pd-contention/minute-results.jso
 by_key = {(x['slug'], x['inputs']['ep'], x['promptTokens'], x['inputs']['tpotMs']): x for x in expected}
 regions = json.loads((ROOT / 'examples/pd-contention/minute-workbook-regions.json').read_text())
 metrics = dict(F='kvBurstsPerMinute', G='windowMs', H='overlappingStepsPerMinute',
-               I='allEPInsideStepsPerMinute', J='partialStepsPerMinute', K='overlappingLayerCallsPerMinute',
+               I='allCommunicationInsideStepsPerMinute', J='partialStepsPerMinute', K='overlappingLayerCallsPerMinute',
                L='extraMsForBaselineMinute', M='meanTpotIncreaseMs', N='tpotIncreaseFraction',
                P='minimumDecodeBandwidthGBps')
 checks = 0
@@ -51,6 +51,10 @@ for region in regions:
             return float(v) if v else ''
 
         assert value('N5') == value('N7') == 4800
+        has_tp = 'P22' in cells and value('P22') == 'TP GB/s 输入'
+        if has_tp:
+            assert value('F11') == 4800
+            assert value('J11') == value('N11') == 1
         for row in region['cases']:
             r = row['row']
             source = by_key[(row['slug'], row['ep'], int(value(f'C{r}')), int(value(f'E{r}')))]
@@ -66,8 +70,20 @@ for region in regions:
                 assert math.isclose(value(ref), source['result'][key] * scale, rel_tol=1e-9, abs_tol=1e-9), (ref, value(ref), source['result'][key])
                 checks += 1
             assert math.isclose(value(f'H{r}'), value(f'I{r}') + value(f'J{r}'), abs_tol=1e-8)
+            if has_tp:
+                for col, expected_value in [('Q', source['inputs']['decodeTpBytesPerRank'] / 1e9),
+                                            ('R', source['result']['tpCommMs']),
+                                            ('S', source['result']['extraEpMsForBaselineMinute']),
+                                            ('T', source['result']['extraTpMsForBaselineMinute'])]:
+                    assert cells[f'{col}{r}'].find('s:f', NS) is not None
+                    assert math.isclose(value(f'{col}{r}'), expected_value, rel_tol=1e-9, abs_tol=1e-9)
+                    checks += 1
+                assert math.isclose(value(f'L{r}'), value(f'S{r}') + value(f'T{r}'), abs_tol=1e-9)
         # Overrides must link to visible controls until the user replaces them.
         for r in range(region['parameterFirst'], region['parameterLast'] + 1):
             for col, ref in [('I', '$N$7'), ('J', '$N$5'), ('K', '$B$7'), ('L', '$F$7')]:
                 assert cells[f'{col}{r}'].findtext('s:f', namespaces=NS) == ref
+            if has_tp:
+                for col, ref in [('P', '$F$11'), ('Q', '$J$11'), ('R', '$N$11')]:
+                    assert cells[f'{col}{r}'].findtext('s:f', namespaces=NS) == ref
 print(f'PASS: {len(regions)} saved workbooks, 144 distinct scenarios, {checks} formula-backed result cells; original sheets scanned without formula errors')

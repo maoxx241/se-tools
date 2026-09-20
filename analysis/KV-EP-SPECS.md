@@ -42,7 +42,7 @@ EP 对比的主线是**通信量随 DP 域扩大而变化**，Excel 第一张表
 
 “取”只计这批请求交接时，D 从 P 拉取的缓存张量字节；包含选定 D TP 副本、完整传输块和实际传输的 conv 扩展槽。不累计后续 Decode attention 的 KV 读取，不把同一次传输的 P 读与 D 写加两次。单请求结果再乘 16 得到单 P DP 批；再乘 **P DP** 得到整个 P 组这一批请求的总量。DS/GLM 的 D DP 更大，不应将这些同一批请求再乘 D DP。
 
-本次统一只计目标模型主干层及对应 KV；不包含 draft/MTP 网络、vision、共享专家 TP 通信或 attention TP 通信。D Step 的 128 是可编辑的有效 token 数，并非从 speculative 配置强制推导。若分析完整 speculative pipeline，需另加 proposer 的实际调用、缓存和填充。
+本页的 EP 字节表统一只计目标模型主干 MoE 及对应 KV；不包含 draft/MTP 网络、vision、共享专家 TP 通信或 attention TP 通信。工作簿另附的[分钟场景](PD-MINUTE.md#tpsp-字节与-epdp-的关系)已把 K3/Qwen 的 TP/SP 单列并计入争用增时，不应将本页 EP 单项当作完整通信时间。D Step 的 128 是可编辑的有效 token 数，并非从 speculative 配置强制推导。若分析完整 speculative pipeline，需另加 proposer 的实际调用、缓存和填充。
 
 ## KV 的实现依据
 
