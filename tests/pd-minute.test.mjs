@@ -81,6 +81,17 @@ test('144 scenarios contain 15/3/1 steady-state KV windows per minute and qualif
   assert(rows.filter(x=>x.slug==='deepseek-v4.1-flash').every(x=>x.kvBasis.startsWith('planned')));
 });
 
+test('throughput compares equal token work over the longer elapsed time',()=>{
+  const r=minuteImpact({...base,decodeTpBytesPerRank:2e8,tpBandwidthGBps:100});
+  const tokens=128*60000/base.tpotMs;
+  const before=tokens/60,after=tokens/(60+r.extraMsForBaselineMinute/1000);
+  close(r.decodeThroughputLossFraction,(before-after)/before,1e-14);
+  assert(r.decodeThroughputLossFraction>0);
+  assert(r.decodeThroughputLossFraction<r.tpotIncreaseFraction);
+  assert.equal(minuteImpact({...base,bandwidthLoss:0}).decodeThroughputLossFraction,0);
+  assert.equal(minuteImpact({...base,decodeBandwidthGBps:1}).decodeThroughputLossFraction,null);
+});
+
 test('TP8 traffic is per rank, non-duplicated, and fixed when EP/DP scale',async()=>{
   for(const slug of ['kimi-k3','qwen3.8-2.4t-a95b']) {
     const specs=(await loadKvEpSpecs()).filter(x=>x.slug===slug);

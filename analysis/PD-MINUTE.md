@@ -43,6 +43,21 @@ forward 步间隔 F = TPOT × 平均产出 tokens / forward
 
 不能仅因评估了 8 个候选就断言一次 forward 产出 8 个 token。输入 token 数和实际产出量都可以按模型、EP 改。EP＋TP 带宽时间已超过给定步间隔时显示「TPOT 不自洽」，并列出扣除当前 TP 带宽时间后，剩余时间容纳 EP 所需的最低带宽；通过该检查不代表算力或 HBM 已满足 TPOT。
 
+## Decode throughput loss
+
+固定活跃 batch 大小和每步实际产出 token 数，且 Decode 持续有工作时，输出 token 吞吐与平均 TPOT 成反比。令 `x = TPOT increase fraction`，`Δ = Total overhead ms/60s`：
+
+```text
+new TPOT = baseline TPOT × (1 + x)
+Decode throughput loss = 1 − baseline TPOT / new TPOT
+                       = x / (1 + x)
+                       = Δ / (60000 + Δ)
+```
+
+例如 TPOT 从 10 ms 增加到 11 ms，TPOT 增幅为 10%，吞吐降幅为 9.09%。表中新增 `Decode throughput loss (%)`，总表/Kimi/Qwen 位于 U 列，其余逐模型表位于 Q 列；直接使用 EP＋TP 合计增时，不能将两项吞吐降幅相加。现有 TPOT 增幅仍是 ppm，100 ppm = 0.01%。输入无效或 TPOT 不自洽时，新结果也留空。
+
+这里是既定 batch 和负载下的 Decode token 吞吐能力变化。整个 PD 服务的实际 QPS 还受 P 侧供给、队列、输出长度和 batch 变化影响，不能由这一百分比单独确定。
+
 ## KV 窗口怎么得到
 
 使用 [KV 源码模型](KV-EP-SPECS.md)中的 **P→D 取量** V，不用 Prefill 生成量代替。V 是一个请求在全部 D TP Rank 上的张量字节；共享、压缩、尾块、Indexer、recurrent/conv state 按各模型实现计算。三个长度各自重算，不按长度简单倍乘最终结果。工作簿组件区同时保留生成、保留和取量。

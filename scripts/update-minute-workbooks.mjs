@@ -10,8 +10,13 @@ import {clarifyMinuteInputs} from './minute-input-language.mjs';
 import {applyEditableSweepPresentation,cleanSweepText,cleanV41Labels} from './sweep-presentation.mjs';
 
 const mode=process.argv[2]||'--inspect';
-assert(['--inspect','--write','--inspect-sweep-style','--style-sweep','--add-tp','--inspect-v41-labels','--clean-v41-labels','--inspect-input-language','--clarify-input-language'].includes(mode));
+assert(['--inspect','--write','--inspect-sweep-style','--style-sweep','--add-tp','--inspect-v41-labels','--clean-v41-labels','--inspect-input-language','--clarify-input-language','--inspect-throughput-sweep','--add-throughput','--add-throughput-sweep'].includes(mode));
 const root=path.resolve(process.argv[3]||'outputs/01a09481-77cf-7b72-a8db-64837639ac39/pd-minute');
+const inputRoot=path.resolve(process.env.MINUTE_INPUT_ROOT||'.');
+// Optional read-only formula extraction for Excel-resaved files whose shared
+// formulas are not expanded by the importer. XLSX authoring remains here.
+const formulaSnapshot=process.env.MINUTE_FORMULA_SNAPSHOT
+  ? JSON.parse(await fs.readFile(process.env.MINUTE_FORMULA_SNAPSHOT,'utf8')) : null;
 await fs.mkdir(root,{recursive:true});
 const {FileBlob,SpreadsheetFile}=await loadSpreadsheetRuntime();
 const specs=await loadKvEpSpecs();
@@ -29,6 +34,21 @@ const close=(a,b)=>assert(Math.abs(a-b)<Math.max(1e-8,Math.abs(b)*1e-10),`${a} !
 async function render(wb,sheet,range,file) {
   const blob=await wb.render({sheetName:sheet,range,scale:1.3,format:'png'});
   await fs.writeFile(path.join(root,file),new Uint8Array(await blob.arrayBuffer()));
+}
+
+function addMinuteThroughput(s,region,style) {
+  const col=val(s,'P22')==='TP GB/s 输入'?'U':'Q',h=region.first-1;
+  const base={name:style==='sweep'?'Carlito':'Arial',size:style==='sweep'?11:10,color:'#000000'};
+  s.getRange(`${col}${h}:${col}${region.last}`).copyFrom(s.getRange(`N${h}:N${region.last}`),'all');
+  put(s,`${col}${h}`,'Decode throughput\nloss (%)');
+  s.getRange(`${col}${h}`).format={font:{...base,bold:true},fill:style==='sweep'?'#D9E1F2':'#D9E2F3',
+    wrapText:true,horizontalAlignment:'center',verticalAlignment:'center',borders:{preset:'all',style:'thin',color:'#A6A6A6'}};
+  s.getRange(`${col}:${col}`).format.columnWidth=21;
+  for(let r=region.first;r<=region.last;r++)fx(s,`${col}${r}`,`IF(ISNUMBER(L${r}),L${r}/(60000+L${r}),IF(L${r}="","",L${r}))`);
+  s.getRange(`${col}${region.first}:${col}${region.last}`).setNumberFormat('[=0]0.000000%;[<0.00000001]"<0.000001%";0.000000%');
+  put(s,`A${region.last+1}`,'Decode throughput loss = Total overhead / (60000 + Total overhead). Fixed batch size and tokens/step; Decode stays busy.');
+  s.getRange(`A${region.last+1}`).format.font=base;
+  return col;
 }
 
 function build(wb,items,style) {
@@ -165,6 +185,7 @@ function build(wb,items,style) {
   if(style==='sweep')applyEditableSweepPresentation(wb,{sheetNames:['分钟场景']});
   const region={s,rows,first,last,parameterFirst,parameterLast,buildFirst,buildLast,cacheHeader,cacheLast:cr};
   addMinuteTp(s,region,items);
+  addMinuteThroughput(s,region,style);
   const used=s.getUsedRange(),values=used.values,formulas=used.formulas;
   for(let i=0;i<values.length;i++)for(let j=0;j<values[i].length;j++) {
     const f=formulas[i]?.[j],v=f||values[i][j],next=cleanV41Labels(v);
@@ -204,8 +225,46 @@ if(mode==='--inspect-sweep-style'&&process.argv[4]) {
   await render(reference,reference.worksheets.getItemAt(0).name,'A1:L14','reference-kimi.png');
 }
 for(const entry of files) {
-  const wb=await SpreadsheetFile.importXlsx(await FileBlob.load(entry.file));
+  const wb=await SpreadsheetFile.importXlsx(await FileBlob.load(path.join(inputRoot,entry.file)));
+  if(formulaSnapshot?.[entry.file]) {
+    for(const [sheet,runs] of Object.entries(formulaSnapshot[entry.file]))for(const [range,formulas] of runs)
+      wb.worksheets.getItem(sheet).getRange(range).formulas=[formulas];
+    wb.recalculate();
+  }
   const slug=entry.items.length>2?'ep32-ep256':entry.items[0].slug;
+  if(mode.includes('throughput')) {
+    const region=JSON.parse(await fs.readFile('examples/pd-contention/minute-workbook-regions.json','utf8')).find(x=>x.file===entry.file);
+    const s=wb.worksheets.getItem('分钟场景');
+    if(mode.startsWith('--inspect')) {
+      await render(wb,s.name,`L${region.first-1}:U${region.first+5}`,`${slug}-before.png`);continue;
+    }
+    const before=wb.worksheets.items.map(sheet=>({sheet,range:sheet.getUsedRange(),values:sheet.getUsedRange().values,formulas:sheet.getUsedRange().formulas}));
+    const col=addMinuteThroughput(s,region,entry.style),column=col==='U'?20:16;
+    wb.recalculate();
+    for(const old of before) {
+      const now=old.range.values,formulas=old.range.formulas;
+      old.values.forEach((row,i)=>row.forEach((v,j)=>{
+        if(old.sheet.name===s.name&&((j===column&&i>=region.first-2&&i<region.last)||(j===0&&i===region.last)))return;
+        assert.equal(formulas[i]?.[j]??'',old.formulas[i]?.[j]??'');
+        if(typeof v==='number')close(now[i][j],v);else assert.equal(now[i][j]??'',v??'');
+      }));
+    }
+    const check=()=>{for(let r=region.first;r<=region.last;r++) {
+      const extra=val(s,`L${r}`),loss=val(s,`${col}${r}`);
+      if(extra==='')assert.equal(loss,'');
+      else close(loss,1-val(s,`E${r}`)/(val(s,`E${r}`)+val(s,`M${r}`)/1000));
+    }};
+    check();
+    const saved=val(s,'J7');put(s,'J7',0);wb.recalculate();check();assert.equal(val(s,`${col}${region.first}`),0);
+    put(s,'J7',saved);const bandwidth=val(s,'N7');put(s,'N7',0);wb.recalculate();check();assert.equal(val(s,`${col}${region.first}`),'');
+    put(s,'N7',bandwidth);wb.recalculate();check();
+    const errors=await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!|#NULL!|#SPILL!|#CALC!',options:{useRegex:true,maxResults:10}});
+    assert(!/"kind":"match"/.test(errors.ndjson),errors.ndjson);
+    await render(wb,s.name,`L${region.first-1}:${col}${region.first+5}`,`${slug}-throughput.png`);
+    const dest=path.join(root,entry.file);await fs.mkdir(path.dirname(dest),{recursive:true});await(await SpreadsheetFile.exportXlsx(wb)).save(dest);
+    console.log(`Added throughput loss: ${entry.file}; ${region.cases.length} cases; existing formulas and inputs preserved`);
+    continue;
+  }
   if(mode.endsWith('input-language')) {
     const region=JSON.parse(await fs.readFile('examples/pd-contention/minute-workbook-regions.json','utf8')).find(x=>x.file===entry.file);
     if(mode==='--clarify-input-language') {

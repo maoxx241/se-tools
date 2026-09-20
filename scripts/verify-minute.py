@@ -52,6 +52,8 @@ for region in regions:
 
         assert value('N5') == value('N7') == 4800
         has_tp = 'P22' in cells and value('P22') == 'TP GB/s 输入'
+        loss_col = 'U' if has_tp else 'Q'
+        assert value(f'{loss_col}{region["first"]-1}') == 'Decode throughput\nloss (%)'
         if has_tp:
             assert value('F11') == 4800
             assert value('J11') == value('N11') == 1
@@ -70,6 +72,9 @@ for region in regions:
                 assert math.isclose(value(ref), source['result'][key] * scale, rel_tol=1e-9, abs_tol=1e-9), (ref, value(ref), source['result'][key])
                 checks += 1
             assert math.isclose(value(f'H{r}'), value(f'I{r}') + value(f'J{r}'), abs_tol=1e-8)
+            assert cells[f'{loss_col}{r}'].find('s:f', NS) is not None
+            assert math.isclose(value(f'{loss_col}{r}'), source['result']['decodeThroughputLossFraction'], rel_tol=1e-9, abs_tol=1e-12)
+            checks += 1
             if has_tp:
                 for col, expected_value in [('Q', source['inputs']['decodeTpBytesPerRank'] / 1e9),
                                             ('R', source['result']['tpCommMs']),
