@@ -5,7 +5,7 @@
 ## 从这里开始
 
 - **看结论与场景**：[分析记录](analysis/SESSION.md)。包含范围、模型差异、最终 P/D 拓扑和保留的问题。
-- **PD KV 抢带宽对耗时的影响**：[源码分析与可编辑带宽说明](analysis/PD-CONTENTION.md)、[数值示例](examples/pd-contention/)。七个模型的 P/D 表及 EP32/256 对比表已加入带宽输入、通信/forward 毫秒增量和实测基线输入。黄色带宽可直接填真实 GB/s，公式自动更新。
+- **PD KV 抢带宽对耗时的影响**：[源码分析与可编辑带宽说明](analysis/PD-CONTENTION.md)、[一分钟窗口场景](analysis/PD-MINUTE.md)、[数值示例](examples/pd-contention/)。新增 144 个 TPOT/TTFT/长度/EP 组合，分列部分与全 EP 重叠次数及耗时增量；4800 GB/s 示例可按模型、EP 分别修改，EP 与 KV 带宽独立。原手动覆盖率区域保留。
 - **DeepSeek V4.1 Flash**：[模型及 Excel](models/deepseek-v4.1-flash/)、[VA main 实现分析](analysis/DEEPSEEK-V4.1.md)。独立处理跨层缓存、DSA CP、Engram 和源权重/驻留格式差异。
 - **EP32 / EP256 新规格**：[六模型通信与 KV 存取对比](examples/kv-ep-sweep/)、[公式和源码依据](analysis/KV-EP-SPECS.md)。包含 V4.1 Flash；随 DP 域扩大刷新 Prefill AllToAllV、Decode MC2，分列 Prefill 生成、保留和 P→D 拉取量。V4.1 拉取是固定版本的规划值；新 main 的 PD 可用性未在本次实机验证。
 - **直接使用 Excel**：[模型目录](models/)内每个模型各有一份 Prefill / Decode 工作簿；[256K 通信需求案例](examples/communication-256k/)包含跨模型结果和复算输出。

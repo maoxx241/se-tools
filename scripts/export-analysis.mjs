@@ -6,6 +6,7 @@ import { estimateCollective, estimateAllToAllV, jsonBytes } from "../lib/collect
 import { v41Step, v41Cache, v41Topology, v41EngramRouting } from '../lib/deepseek-v41.mjs';
 import { loadKvEpSpecs } from '../lib/kv-ep-specs.mjs';
 import { loadContentionSweep } from '../lib/pd-contention.mjs';
+import { loadMinuteSweep } from '../lib/pd-minute.mjs';
 
 const [command, input] = process.argv.slice(2);
 if (!command || ["help", "--help", "-h"].includes(command)) {
@@ -14,6 +15,7 @@ if (!command || ["help", "--help", "-h"].includes(command)) {
   node scripts/export-analysis.mjs communication [deepseek-v4.1-flash]
   node scripts/export-analysis.mjs kv-ep
   node scripts/export-analysis.mjs contention
+  node scripts/export-analysis.mjs minute [OPTIONS.json]
   node scripts/export-analysis.mjs engram EVENT.json
   node scripts/export-analysis.mjs collective EVENT.json
 
@@ -52,6 +54,8 @@ MODEL_CONFIG_ROOT optionally selects a directory containing <slug>/config.json.`
   console.log(jsonBytes(await loadKvEpSpecs()));
 } else if (command === 'contention') {
   console.log(jsonBytes(await loadContentionSweep()));
+} else if (command === 'minute') {
+  console.log(jsonBytes(await loadMinuteSweep(input ? JSON.parse(await fs.readFile(input,'utf8')) : {})));
 } else if (command === 'engram') {
   if (!input) throw new Error('engram requires EVENT.json');
   console.log(jsonBytes(v41EngramRouting(JSON.parse(await fs.readFile(input, 'utf8')))));

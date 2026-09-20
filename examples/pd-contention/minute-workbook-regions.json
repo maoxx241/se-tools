@@ -1,0 +1,1934 @@
+[
+  {
+    "file": "examples/kv-ep-sweep/kv-ep32-ep256.xlsx",
+    "sheet": "分钟场景",
+    "first": 40,
+    "last": 183,
+    "parameterFirst": 23,
+    "parameterLast": 34,
+    "buildFirst": 190,
+    "buildLast": 333,
+    "cacheHeader": 339,
+    "cacheLast": 442,
+    "cases": [
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 40
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 41
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 42
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 43
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 44
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 45
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 46
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 47
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 48
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 49
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 50
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 51
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 52
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 53
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 54
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 55
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 56
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 57
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 58
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 59
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 60
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 61
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 62
+      },
+      {
+        "slug": "deepseek-v4-10t",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 63
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 64
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 65
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 66
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 67
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 68
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 69
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 70
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 71
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 72
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 73
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 74
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 75
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 76
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 77
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 78
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 79
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 80
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 81
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 82
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 83
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 84
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 85
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 86
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 87
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 88
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 89
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 90
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 91
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 92
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 93
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 94
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 95
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 96
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 97
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 98
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 99
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 100
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 101
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 102
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 103
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 104
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 105
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 106
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 107
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 108
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 109
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 110
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 111
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 112
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 113
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 114
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 115
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 116
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 117
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 118
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 119
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 120
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 121
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 122
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 123
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 124
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 125
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 126
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 127
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 128
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 129
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 130
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 131
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 132
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 133
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 134
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 135
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 136
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 137
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 138
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 139
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 140
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 141
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 142
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 143
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 144
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 145
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 146
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 147
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 148
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 149
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 150
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 151
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 152
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 153
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 154
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 155
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 156
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 157
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 158
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 159
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 160
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 161
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 162
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 163
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 164
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 165
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 166
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 167
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 168
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 169
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 170
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 171
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 172
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 173
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 174
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 175
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 176
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 177
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 178
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 179
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 180
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 181
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 182
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 183
+      }
+    ]
+  },
+  {
+    "file": "models/deepseek-v4-pro-0813/deepseek-v4-pro-0813-analysis.xlsx",
+    "sheet": "分钟场景",
+    "first": 30,
+    "last": 53,
+    "parameterFirst": 23,
+    "parameterLast": 24,
+    "buildFirst": 60,
+    "buildLast": 83,
+    "cacheHeader": 89,
+    "cacheLast": 114,
+    "cases": [
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 30
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 31
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 32
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 33
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 34
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 35
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 36
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 37
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 38
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 39
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 40
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 41
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 42
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 43
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 44
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 45
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 46
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 47
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 48
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 49
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 50
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 51
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 52
+      },
+      {
+        "slug": "deepseek-v4-pro-0813",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 53
+      }
+    ]
+  },
+  {
+    "file": "models/glm-5.3/glm-5.3-analysis.xlsx",
+    "sheet": "分钟场景",
+    "first": 30,
+    "last": 53,
+    "parameterFirst": 23,
+    "parameterLast": 24,
+    "buildFirst": 60,
+    "buildLast": 83,
+    "cacheHeader": 89,
+    "cacheLast": 99,
+    "cases": [
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 30
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 31
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 32
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 33
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 34
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 35
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 36
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 37
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 38
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 39
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 40
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 41
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 42
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 43
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 44
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 45
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 46
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 47
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 48
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 49
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 50
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 51
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 52
+      },
+      {
+        "slug": "glm-5.3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 53
+      }
+    ]
+  },
+  {
+    "file": "models/kimi-k3/kimi-k3-analysis.xlsx",
+    "sheet": "分钟场景",
+    "first": 30,
+    "last": 53,
+    "parameterFirst": 23,
+    "parameterLast": 24,
+    "buildFirst": 60,
+    "buildLast": 83,
+    "cacheHeader": 89,
+    "cacheLast": 102,
+    "cases": [
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 30
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 31
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 32
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 33
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 34
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 35
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 36
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 37
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 38
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 39
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 40
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 41
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 42
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 43
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 44
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 45
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 46
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 47
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 48
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 49
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 50
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 51
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 52
+      },
+      {
+        "slug": "kimi-k3",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 53
+      }
+    ]
+  },
+  {
+    "file": "models/qwen3.8-2.4t-a95b/qwen3.8-2.4t-a95b-analysis.xlsx",
+    "sheet": "分钟场景",
+    "first": 30,
+    "last": 53,
+    "parameterFirst": 23,
+    "parameterLast": 24,
+    "buildFirst": 60,
+    "buildLast": 83,
+    "cacheHeader": 89,
+    "cacheLast": 102,
+    "cases": [
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 30
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 31
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 32
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 33
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 34
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 35
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 36
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 37
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 38
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 39
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 40
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 41
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 42
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 43
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 44
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 45
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 46
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 47
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 48
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 49
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 50
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 51
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 52
+      },
+      {
+        "slug": "qwen3.8-2.4t-a95b",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 53
+      }
+    ]
+  },
+  {
+    "file": "models/deepseek-v4.1-flash/deepseek-v4.1-flash-analysis.xlsx",
+    "sheet": "分钟场景",
+    "first": 30,
+    "last": 53,
+    "parameterFirst": 23,
+    "parameterLast": 24,
+    "buildFirst": 60,
+    "buildLast": 83,
+    "cacheHeader": 89,
+    "cacheLast": 111,
+    "cases": [
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 30
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 31
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 32
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 33
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 34
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 35
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 36
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 37
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 38
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 39
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 40
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 32,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 41
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 0,
+        "row": 42
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 1,
+        "row": 43
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 2,
+        "row": 44
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 0,
+        "tpotIndex": 3,
+        "row": 45
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 0,
+        "row": 46
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 1,
+        "row": 47
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 2,
+        "row": 48
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 1,
+        "tpotIndex": 3,
+        "row": 49
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 0,
+        "row": 50
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 1,
+        "row": 51
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 2,
+        "row": 52
+      },
+      {
+        "slug": "deepseek-v4.1-flash",
+        "ep": 256,
+        "scenario": 2,
+        "tpotIndex": 3,
+        "row": 53
+      }
+    ]
+  }
+]

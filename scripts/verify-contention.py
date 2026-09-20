@@ -63,7 +63,7 @@ def equal(a, b, context):
 
 
 def preserved(old, new, max_row=None):
-    assert old.keys() == new.keys()
+    assert set(old) <= set(new) and set(new) - set(old) <= {'分钟场景'}
     for name, (cells, features) in old.items():
         actual, new_features = new[name]
         assert features == new_features, (name, 'native features changed')

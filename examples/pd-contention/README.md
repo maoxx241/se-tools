@@ -1,5 +1,7 @@
 # PD 带宽争用示例
 
+最新的[一分钟场景](../../analysis/PD-MINUTE.md)用有限 KV 窗口估算部分 / 全 EP 重叠，共 144 个 TPOT/TTFT/长度/EP 组合。新增「分钟场景」页的 KV / EP 带宽默认均为 **4800 GB/s**，可独立编辑。`minute-results.json` 为公共计算器结果，`minute-workbook-regions.json` 记录六份工作簿的新区域。以下 100 GB/s、全覆盖示例仍保留作对照。
+
 [公式、源码与使用说明](../../analysis/PD-CONTENTION.md) · [EP32/EP256 Excel](../kv-ep-sweep/kv-ep32-ep256.xlsx) · [逐模型 Excel](../../models/)
 
 100 GB/s 是可替换示例。带宽降低 10% 时，受影响带宽项耗时增加 11.111%；完整 forward 百分比需要无争用实测基线。
@@ -13,4 +15,6 @@
 ```sh
 node scripts/export-analysis.mjs contention
 python3 scripts/verify-contention.py
+node scripts/export-analysis.mjs minute
+python3 scripts/verify-minute.py
 ```

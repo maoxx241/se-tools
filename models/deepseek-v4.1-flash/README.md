@@ -6,7 +6,7 @@
 - [config.json](config.json)：官方原始配置。
 - [权重元数据](weight-metadata.json)：48 个分片的 header 哈希、96,085 个 Tensor 的 116 类形状/精度/数量、完整覆盖及大小校验；仅通过 HTTP Range 读取头部，没有下载权重载荷。
 - [通信复算结果](communication-example.json)、[实现分析与公式](../../analysis/DEEPSEEK-V4.1.md)、[来源及哈希](sources.json)。
-- [EP32 / EP256 通信与 KV 存取扩展](../../examples/kv-ep-sweep/)：逐组件生成、保留、P→D 规划量和 DP 域汇总；Excel 公式可编辑。当前 main 未支持迁移，规划量与实际可用路径分开标注。
+- [EP32 / EP256 通信与 KV 存取扩展](../../examples/kv-ep-sweep/)：逐组件生成、保留、P→D 规划量和 DP 域汇总；Excel 公式可编辑。`1933f86` 快照未支持迁移，新 main 的端到端可用性待验证，规划量与实际可用路径分开标注。
 
 模型为 40 层、H=5120、64 个 Attention Head、Head Dim=512；每层 384 个 Routed Expert、TopK=6、1 个 Shared Expert。包含两张 Engram 表、32 层视觉编码器、3 层 DSpark draft（128 Expert、TopK=3）。参数名称、shape、norm、scale 分别建模。
 
@@ -44,3 +44,5 @@ MODEL=deepseek-v4.1-flash node scripts/verify-analysis-workbook.mjs outputs/mode
 Prefill / Decode 原通信区下方已增加耗时评估。黄色 E 列可逐通信事件填写实际有效带宽（GB/s），默认 H 列输入可统一调整；原生公式自动重算。基线 forward 实测耗时未填时只显示毫秒增量。默认 100 GB/s、10% 带宽降幅是示例。
 
 参见[输入位置、源码与公式](../../analysis/PD-CONTENTION.md)。本次保留原有参数、权重、通信量和缓存值；[历史原始文件](../../examples/archive/pre-pd-contention-20260920/)单独留档。
+
+新增「分钟场景」页：本模型 EP32 / EP256 的 24 个 TPOT / 输入长度 / TTFT 组合，按有限 KV 窗口分列部分和全 EP 重叠次数、基线一分钟工作量增加时间。KV 与 EP 带宽在 N5 / N7 独立编辑，初始为 4800 GB/s。批量、P/D 组数、错峰批数和平均产出 token 数也可编辑；相位平均模型和边界见[一分钟场景说明](../../analysis/PD-MINUTE.md)。

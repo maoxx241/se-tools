@@ -14,7 +14,8 @@ def transfer_estimate(row):
     return row['pullBytes'] if row['pullBytes'] is not None else row['plannedPullBytes']
 with zipfile.ZipFile(CASE / 'kv-ep32-ep256.xlsx') as z:
     sheets = ET.fromstring(z.read('xl/workbook.xml')).find('s:sheets', ns)
-    assert [s.attrib['name'] for s in sheets] == ['规格汇总', 'KV明细', 'EP通信']
+    assert [s.attrib['name'] for s in sheets] in [
+        ['规格汇总', 'KV明细', 'EP通信'], ['规格汇总', 'KV明细', 'EP通信', '分钟场景']]
     for name in ('sheet1.xml', 'sheet2.xml', 'sheet3.xml'):
         doc = ET.fromstring(z.read('xl/worksheets/' + name))
         assert not [c.attrib['r'] for c in doc.findall('.//s:c', ns) if c.attrib.get('t') == 'e'], name

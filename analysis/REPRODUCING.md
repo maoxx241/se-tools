@@ -8,6 +8,8 @@
 
 PD 耗时区域的黄色 E 列是逐事件有效带宽输入，单位 GB/s；EP 对比表在「规格汇总」M58:N69 可按模型/EP/P/D 分别填值。[PD-CONTENTION.md](PD-CONTENTION.md)列出所有输入位置、公式、来源和边界。无需脚本，直接改 Excel 即可复算；实测 forward 基线未填时只展示毫秒增量。
 
+新增「分钟场景」页提供 144 档时间窗口组合，详见 [PD-MINUTE.md](PD-MINUTE.md)。`N5/N7` 是独立 KV / EP 有效带宽，初始 4800 GB/s；修改长度、TTFT、TPOT、P/D 组数、批量会重算 KV 字节及部分 / 全 EP 重叠。CLI：`node scripts/export-analysis.mjs minute`。验证：`python3 scripts/verify-minute.py`。新页一阶相位平均结果不能当作离散事件调度仿真。
+
 ## 在普通开发环境复算
 
 Node.js 20+，Python 3 用于读 ZIP/XML 的独立归档检查，不需要 npm install：
