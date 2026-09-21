@@ -5,6 +5,7 @@
 ## 从这里开始
 
 - **看结论与场景**：[分析记录](analysis/SESSION.md)。包含范围、模型差异、最终 P/D 拓扑和保留的问题。
+- **Engram offloading / 前缀池化**：[两页 H2D / RH2D Excel](examples/host-transfers/)、[公式与源码](analysis/HOST-TRANSFERS.md)。V4.1 token lookup 搬运；六模型 EP32/256、100% 前缀命中的 D host→P device 数据量，输入可编辑。
 - **PD KV 抢带宽对耗时的影响**：[源码分析与可编辑带宽说明](analysis/PD-CONTENTION.md)、[一分钟窗口场景](analysis/PD-MINUTE.md)、[数值示例](examples/pd-contention/)。新增 144 个 TPOT/TTFT/长度/EP 组合，分列部分与全 EP 重叠次数及耗时增量；4800 GB/s 示例可按模型、EP 分别修改，EP 与 KV 带宽独立。原手动覆盖率区域保留。
 - **DeepSeek V4.1 Flash**：[模型及 Excel](models/deepseek-v4.1-flash/)、[VA main 实现分析](analysis/DEEPSEEK-V4.1.md)。独立处理跨层缓存、DSA CP、Engram 和源权重/驻留格式差异。
 - **EP32 / EP256 新规格**：[六模型通信与 KV 存取对比](examples/kv-ep-sweep/)、[公式和源码依据](analysis/KV-EP-SPECS.md)。包含 V4.1 Flash；随 DP 域扩大刷新 Prefill AllToAllV、Decode MC2，分列 Prefill 生成、保留和 P→D 拉取量。V4.1 拉取是固定版本的规划值；新 main 的 PD 可用性未在本次实机验证。
@@ -26,6 +27,7 @@ node scripts/export-analysis.mjs weights kimi-k3
 node scripts/export-analysis.mjs communication
 node scripts/export-analysis.mjs kv-ep
 node scripts/export-analysis.mjs contention
+node scripts/export-analysis.mjs host-transfers
 node scripts/export-analysis.mjs weights deepseek-v4.1-flash
 node scripts/export-analysis.mjs communication deepseek-v4.1-flash
 node scripts/export-analysis.mjs engram examples/hccl/engram.json
@@ -64,6 +66,7 @@ analysis/                         结论、方法、证据与扩展指南
 node scripts/build-analysis-workbook.mjs outputs/models
 node scripts/verify-analysis-workbook.mjs outputs/models
 node scripts/build-kv-ep-workbook.mjs outputs/kv-ep
+node scripts/build-host-transfer-workbook.mjs outputs/host-transfers
 MODEL=kimi-k3 node scripts/build-analysis-workbook.mjs outputs/models
 # 使用已有通信需求表布局重新填值；仅写六个模型的 I4:I18
 node scripts/fill-communication-requirement.mjs \

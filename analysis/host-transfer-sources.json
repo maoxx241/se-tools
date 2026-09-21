@@ -1,0 +1,121 @@
+{
+  "asOf": "2026-09-22",
+  "sources": [
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "6bb7aeecf01b660ae14d9adddfc2f7035d3d1305",
+      "path": "vllm_ascend/models/deepseek_v41/engram_hbm.py",
+      "sha256": "17a6a8ca87bc3f977e3ebb2e472a266005add561af0064a2ec2020a794d4ad93",
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/6bb7aeecf01b660ae14d9adddfc2f7035d3d1305/vllm_ascend/models/deepseek_v41/engram_hbm.py",
+      "evidence": "EngramQueryGroup; CPU FP8/MXFP8 lookup/dequant; BF16 H2D; query IDs/order and combined metadata; no dedup"
+    },
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "6bb7aeecf01b660ae14d9adddfc2f7035d3d1305",
+      "path": "vllm_ascend/core/deepseek_v41.py",
+      "sha256": "d0d89cb4a0ef22672e1de92a80a2846ac86f8fd4ec8e7d14ab050bf1539d7acf",
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/6bb7aeecf01b660ae14d9adddfc2f7035d3d1305/vllm_ascend/core/deepseek_v41.py",
+      "evidence": "Unique cache ownership, original-token block sizes, private circular state"
+    },
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "6bb7aeecf01b660ae14d9adddfc2f7035d3d1305",
+      "path": "vllm_ascend/core/kv_cache_interface.py",
+      "sha256": "1283cb2f69ba2cc5a4c1a50d6dacfc5e35396203add971bbe998263939081dc1",
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/6bb7aeecf01b660ae14d9adddfc2f7035d3d1305/vllm_ascend/core/kv_cache_interface.py",
+      "evidence": "Raw token block_size and storage_block_size/compression ratio"
+    },
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "6bb7aeecf01b660ae14d9adddfc2f7035d3d1305",
+      "path": "vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_worker.py",
+      "sha256": "1b0d1d93822ff829c56c466291b0ee703d0079191c17dec484820cebccc840da",
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/6bb7aeecf01b660ae14d9adddfc2f7035d3d1305/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_worker.py",
+      "evidence": "Per-rank get, TP keys, complete last block on full hit; payload block_len vs stride"
+    },
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "6bb7aeecf01b660ae14d9adddfc2f7035d3d1305",
+      "path": "vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_scheduler.py",
+      "sha256": "baa64b7d5aeeee5b507449b76bba30b3d8f911e78ad736f64a549eeb9900af1b",
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/6bb7aeecf01b660ae14d9adddfc2f7035d3d1305/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/pool_scheduler.py",
+      "evidence": "Align-only Mamba support; LCM; full-hit last token recomputation"
+    },
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "6bb7aeecf01b660ae14d9adddfc2f7035d3d1305",
+      "path": "vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/metadata.py",
+      "sha256": "ac15dc49ea7ebbe455f4cc52c6d21a6a84465fc340f825af61ac243f4a3b821c",
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/6bb7aeecf01b660ae14d9adddfc2f7035d3d1305/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/metadata.py",
+      "evidence": "prepare_value exact sizes and chunk filters"
+    },
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "6bb7aeecf01b660ae14d9adddfc2f7035d3d1305",
+      "path": "vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/coordinator.py",
+      "sha256": "c6e060bc1b09878eb42f8d26ed5380b5133e70e79261551811d72bb1b75874e8",
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/6bb7aeecf01b660ae14d9adddfc2f7035d3d1305/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/coordinator.py",
+      "evidence": "load_mask delegates to cache managers using external hit pool"
+    },
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "6bb7aeecf01b660ae14d9adddfc2f7035d3d1305",
+      "path": "vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/backend/mooncake_backend.py",
+      "sha256": "6d235d74b45409d9f9914940148eb6f1b6e545a501e6b044aa97dd7f9a513de4",
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/6bb7aeecf01b660ae14d9adddfc2f7035d3d1305/vllm_ascend/distributed/kv_transfer/kv_pool/ascend_store/backend/mooncake_backend.py",
+      "evidence": "get calls batch_get_into_multi_buffers"
+    },
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "6bb7aeecf01b660ae14d9adddfc2f7035d3d1305",
+      "path": "vllm_ascend/models/deepseek_v4/compressor.py",
+      "sha256": "40eb149a3eee63c60e268733d0635440b7fb29dd4fefc6ce3910fe18dc825b85",
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/6bb7aeecf01b660ae14d9adddfc2f7035d3d1305/vllm_ascend/models/deepseek_v4/compressor.py",
+      "evidence": "DSV4 compressor state layout and head_dim"
+    },
+    {
+      "repository": "https://github.com/GDzhu01/vllm-ascend-v41-private",
+      "revision": "6bb7aeecf01b660ae14d9adddfc2f7035d3d1305",
+      "path": "vllm_ascend/models/layer/attention/layer.py",
+      "sha256": "b70b78a87f08b2ffc6b3beb42fea738eb8fe00028ce30db80dc99c7c656a358d",
+      "url": "https://github.com/GDzhu01/vllm-ascend-v41-private/blob/6bb7aeecf01b660ae14d9adddfc2f7035d3d1305/vllm_ascend/models/layer/attention/layer.py",
+      "evidence": "A3 BF16 block map and C128 raw-token block size"
+    },
+    {
+      "repository": "https://github.com/vllm-project/vllm",
+      "revision": "c8438a3d40168ce1d9eade0dc15ccbe5d27adb68",
+      "path": "vllm/v1/core/single_type_kv_cache_manager.py",
+      "sha256": "dc6d2e64cc4cd8cbb3f4bd77d2d035038658d75b6e52f9ace0cf637a4897f71f",
+      "url": "https://github.com/vllm-project/vllm/blob/c8438a3d40168ce1d9eade0dc15ccbe5d27adb68/vllm/v1/core/single_type_kv_cache_manager.py",
+      "evidence": "SlidingWindowManager ceil((window-1)/block) suffix; MambaManager one endpoint snapshot"
+    }
+  ],
+  "configs": [
+    {
+      "path": "models/deepseek-v4-10t/config.json",
+      "sha256": "d7a89a97df6893b6a64cfb4afbc7caa734a4cafed9ec9a3a9a090185bbf6c096"
+    },
+    {
+      "path": "models/deepseek-v4-pro-0813/config.json",
+      "sha256": "21a1d833f4ac50485d11aca9d36b8ca699b49c2e685218ac1a52dabfd46f88a6"
+    },
+    {
+      "path": "models/glm-5.3/config.json",
+      "sha256": "3ff6b35666c7df108d2fd2734f9ed2c83cf0c7ec08d21018b998a04a368a6b82"
+    },
+    {
+      "path": "models/kimi-k3/config.json",
+      "sha256": "ceb15bb6babc95c3afc948f0887a732b69e8ac126dae36ef7b6aeb1effb2b46f"
+    },
+    {
+      "path": "models/qwen3.8-2.4t-a95b/config.json",
+      "sha256": "9a18a79601529da8f2ff4f90d5cf544095cbbc7fdab6ee757290fbf4476740ac"
+    },
+    {
+      "path": "models/deepseek-v4.1-flash/config.json",
+      "sha256": "8be45ce0476004a3f529fd896115a4a2e800a129ad2d3ec05b16050f52e21879"
+    }
+  ],
+  "v41Config": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/dba1be0a40aa45a94ad051997016db3960a90277/config.json",
+  "scope": "Payload accounting; full-block non-layerwise pool lookup; default BF16 cache and no speculation; no NPU profiling"
+}
