@@ -2,6 +2,8 @@
 
 配套文件：[两页 Excel](../examples/host-transfers/engram-h2d-prefix-rh2d.xlsx)。黄色单元格为输入，结果是 Excel 原生公式；所有行、列和计算区可见，没有工作表保护。
 
+输入位置、逐项字节核算和修改参数后的结果示例，见 [表格使用指南](WORKBOOK-GUIDE.md)。本页源码结论固定于 2026-09-22 的快照。
+
 默认沿用六个模型、P TP8、EP32/EP256，以及每 P DP 16 请求。长度为 16,384 / 262,144 / 1,048,576 tokens，前缀命中比例 100%。EP=TP×DP，因此每 DP 工作量固定时，EP32→256 的整组字节数增加 8 倍，单卡量不变。这是接收端 payload 的数据量，不是实际链路上的协议总量或带宽测量。
 
 ## 1. Engram：按 token lookup 搬运向量
@@ -13,7 +15,7 @@ lookups/token = 2 × (4−1) × 8 = 48
 vector bytes/token = 48 × 256 × 2 = 24,576 B = 24 KiB
 ```
 
-当前 VA main `6bb7aeec` 的 FP8/MXFP8 offload 路径在 CPU 上保存 codes 和 scales，`lookup_local` 在 CPU 解量化并写入 BF16 暂存；随后 `.to(device, dtype=bfloat16)` 才是 H2D。CPU 表的单行 256 codes + 8 E8M0 scales（264 B）不能当作 H2D 的单行字节数（512 B）。BF16/INT8 全表驻设备路径不属于本次 offload 案例。
+2026-09-22 的 VA main 快照 `6bb7aeec` 中，FP8/MXFP8 offload 路径在 CPU 上保存 codes 和 scales，`lookup_local` 在 CPU 解量化并写入 BF16 暂存；随后 `.to(device, dtype=bfloat16)` 才是 H2D。CPU 表的单行 256 codes + 8 E8M0 scales（264 B）不能当作 H2D 的单行字节数（512 B）。BF16/INT8 全表驻设备路径不属于本次 offload 案例。
 
 每个 TP 组只有 leader 提交请求，节点内所有 rank 按 owner 分担返回向量。默认每节点 8 ranks、owner 负载均衡、完整 TP 组在同一节点，所有 DP 持续工作。令 `T` 为每 DP tokens，`Q` 为 lookup/token，`W` 为向量维度，`b` 为 H2D bytes/element，`h` 为 CPU-served vector fraction，`n` 为节点内 ranks，`R` 为调度轮数：
 

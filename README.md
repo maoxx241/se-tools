@@ -4,6 +4,7 @@
 
 ## 从这里开始
 
+- **第一次使用表格**：[参数填写指南与核算例子](analysis/WORKBOOK-GUIDE.md)。包含输入单元格位置、V4.1 逐项字节计算、50% 前缀命中、TP/DP/EP 倍率，以及吞吐降幅的解释。
 - **看结论与场景**：[分析记录](analysis/SESSION.md)。包含范围、模型差异、最终 P/D 拓扑和保留的问题。
 - **Engram offloading / 前缀池化**：[两页 H2D / RH2D Excel](examples/host-transfers/)、[公式与源码](analysis/HOST-TRANSFERS.md)。V4.1 token lookup 搬运；六模型 EP32/256、100% 前缀命中的 D host→P device 数据量，输入可编辑。
 - **PD KV 抢带宽对耗时的影响**：[源码分析与可编辑带宽说明](analysis/PD-CONTENTION.md)、[一分钟窗口场景](analysis/PD-MINUTE.md)、[数值示例](examples/pd-contention/)。新增 144 个 TPOT/TTFT/长度/EP 组合，分列部分与全 EP 重叠次数及耗时增量；4800 GB/s 示例可按模型、EP 分别修改，EP 与 KV 带宽独立。原手动覆盖率区域保留。

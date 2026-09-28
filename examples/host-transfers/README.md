@@ -7,4 +7,13 @@
 
 黄色输入和全部计算区域均可编辑；保留可见网格，未隐藏行列或设置工作表保护。每 P DP 默认 16 请求；支持调整 TP、命中比例、P 本地复用、块对齐、向量与缓存维度。
 
-详细计算和实现边界见 [HOST-TRANSFERS.md](../../analysis/HOST-TRANSFERS.md)。默认字节结果见 [results.json](results.json)；可运行 `node scripts/export-analysis.mjs host-transfers` 复算。
+输入单元格位置、逐项核算和参数变化例子见 [表格使用指南](../../analysis/WORKBOOK-GUIDE.md)。详细公式和实现边界见 [HOST-TRANSFERS.md](../../analysis/HOST-TRANSFERS.md)。
+
+默认字节结果见 [results.json](results.json)。从仓库根目录运行：
+
+```bash
+node scripts/export-analysis.mjs host-transfers
+node scripts/export-analysis.mjs host-transfers examples/host-transfers/half-prefix.json
+```
+
+第二条只将前缀命中比例设为 50%，用于比较历史缓存与固定尾部/递归状态的变化，不会修改 Excel。
