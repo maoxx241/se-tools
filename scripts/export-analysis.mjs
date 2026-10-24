@@ -8,11 +8,15 @@ import { loadKvEpSpecs } from '../lib/kv-ep-specs.mjs';
 import { loadContentionSweep } from '../lib/pd-contention.mjs';
 import { loadMinuteSweep } from '../lib/pd-minute.mjs';
 import { hostTransferReport } from '../lib/host-transfers.mjs';
+import { loadMemoryModel, loadMemoryDescription, memoryModels } from '../lib/model-memory/catalog.mjs';
+import { memoryReport } from './build-memory-workbook.mjs';
 
 const [command, input] = process.argv.slice(2);
 if (!command || ["help", "--help", "-h"].includes(command)) {
   console.log(`Usage:
   node scripts/export-analysis.mjs weights [MODEL_SLUG]
+  node scripts/export-analysis.mjs memory [kimi-k3]
+  node scripts/export-analysis.mjs memory --spec MODEL.json
   node scripts/export-analysis.mjs communication [deepseek-v4.1-flash]
   node scripts/export-analysis.mjs kv-ep
   node scripts/export-analysis.mjs contention
@@ -42,6 +46,14 @@ MODEL_CONFIG_ROOT optionally selects a directory containing <slug>/config.json.`
       scope: "config/code weight model; rank partitioning is editable in Excel; not checkpoint or device residency bytes" });
   }
   console.log(jsonBytes(results));
+} else if (command === 'memory') {
+  if (input === '--spec') {
+    if (!process.argv[4]) throw new Error('memory --spec requires a model-description JSON file');
+    console.log(JSON.stringify([memoryReport(await loadMemoryDescription(process.argv[4]))], null, 2));
+  } else {
+    const selected = input ? [input] : memoryModels;
+    console.log(JSON.stringify(await Promise.all(selected.map(async slug => memoryReport(await loadMemoryModel(slug)))), null, 2));
+  }
 } else if (command === "communication") {
   if (input === 'deepseek-v4.1-flash') {
     const config = await readModelConfig(input);

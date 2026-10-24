@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "defaults": {
+    "tp": 16, "kdaOTP": 16, "attentionTP": 1, "attentionOTP": 16,
+    "lmHeadTP": 16, "embeddingTP": 16, "otherTP": 16, "ep": 128,
+    "sharedTP": 16, "dsaCP": 1, "dcp": 1, "mlaDtype": "BF16", "indexDtype": "BF16",
+    "tokens": 131072, "blockSize": 128, "specTokens": 0, "convBytes": 2, "recurrentBytes": 4
+  },
+  "scenarios": [
+    {
+      "name": "语言模型_Prefill", "phase": "Prefill", "scope": "language", "recipe": "checkpoint",
+      "links": { "kdaOTP": { "key": "tp" }, "attentionOTP": { "key": "tp" }, "lmHeadTP": { "key": "tp" }, "embeddingTP": { "key": "tp" }, "otherTP": { "key": "tp" } }
+    },
+    {
+      "name": "语言模型_Decode", "phase": "Decode", "scope": "language", "recipe": "checkpoint",
+      "links": { "kdaOTP": { "key": "tp" }, "attentionOTP": { "key": "tp" }, "lmHeadTP": { "key": "tp" }, "embeddingTP": { "key": "tp" }, "otherTP": { "key": "tp" } }
+    },
+    {
+      "name": "全量含ViT_Prefill", "phase": "Prefill", "scope": "full", "recipe": "checkpoint",
+      "links": { "kdaOTP": { "key": "tp" }, "attentionOTP": { "key": "tp" }, "lmHeadTP": { "key": "tp" }, "embeddingTP": { "key": "tp" }, "otherTP": { "key": "tp" } }
+    },
+    {
+      "name": "全量含ViT_Decode", "phase": "Decode", "scope": "full", "recipe": "checkpoint",
+      "links": { "kdaOTP": { "key": "tp" }, "attentionOTP": { "key": "tp" }, "lmHeadTP": { "key": "tp" }, "embeddingTP": { "key": "tp" }, "otherTP": { "key": "tp" } }
+    }
+  ]
+}

@@ -1,0 +1,967 @@
+{
+  "schemaVersion": 1,
+  "model": "synthetic-hybrid",
+  "descriptionSha256": "5ecdc76343490e118dbec024f827f80c25747004ad61f862a97a63959c4e6bbb",
+  "presetsSha256": "5ecdc76343490e118dbec024f827f80c25747004ad61f862a97a63959c4e6bbb",
+  "calculationSha256": "e600cf1a1dc018a88112c67de5c544c877b6bcf705bf251cd56df828a1fd9516",
+  "workbookSchemaSha256": "7ea4e0a3a8f5d34c18b7fe9dcf946659a9a06bac38e02d31331688e82a5a7509",
+  "evidence": "Invented small dimensions for software tests; not a real model or deployment recommendation",
+  "scope": "Weights + one request cache + explicitly modeled o_proj buffers; excludes other activations, graph/workspace and allocator/cache-pool reservation",
+  "scenarios": [
+    {
+      "name": "Source_Prefill",
+      "phase": "Prefill",
+      "recipe": "checkpoint",
+      "scope": "full",
+      "inputs": {
+        "tp": 4,
+        "kdaOTP": 4,
+        "attentionTP": 1,
+        "attentionOTP": 4,
+        "lmHeadTP": 4,
+        "embeddingTP": 4,
+        "otherTP": 4,
+        "ep": 12,
+        "sharedTP": 4,
+        "dsaCP": 4,
+        "dcp": 1,
+        "mlaDtype": "INT8",
+        "indexDtype": "INT8",
+        "tokens": 257,
+        "blockSize": 32,
+        "specTokens": 0,
+        "convBytes": 2,
+        "recurrentBytes": 4
+      },
+      "partitions": [
+        6
+      ],
+      "maxTotalGiB": 0.0007804632186889648,
+      "stages": [
+        {
+          "stage": 0,
+          "layers": [
+            1,
+            6
+          ],
+          "kdaLayers": 4,
+          "attentionLayers": 2,
+          "weightGiB": 0.0006072521209716797,
+          "cacheGiB": 0.00008165836334228516,
+          "bufferGiB": 0.000091552734375,
+          "totalGiB": 0.0007804632186889648,
+          "rows": [
+            {
+              "name": "Embedding / Output/embed_tokens.weight",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 131072,
+              "globalBytes": 524288
+            },
+            {
+              "name": "Embedding / Output/lm_head.weight",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 131072,
+              "globalBytes": 524288
+            },
+            {
+              "name": "Decoder common/input_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                256
+              ],
+              "repeat": 6,
+              "bytes": 3072,
+              "globalBytes": 3072
+            },
+            {
+              "name": "Dense MLP/gate_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                128,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 65536,
+              "globalBytes": 262144
+            },
+            {
+              "name": "KDA/q_proj",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                256
+              ],
+              "repeat": 4,
+              "bytes": 65536,
+              "globalBytes": 262144
+            },
+            {
+              "name": "KDA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                32
+              ],
+              "repeat": 4,
+              "bytes": 65536,
+              "globalBytes": 262144
+            },
+            {
+              "name": "DSA MLA/q_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                128,
+                64
+              ],
+              "repeat": 2,
+              "bytes": 32768,
+              "globalBytes": 32768
+            },
+            {
+              "name": "DSA MLA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                32
+              ],
+              "repeat": 2,
+              "bytes": 32768,
+              "globalBytes": 131072
+            },
+            {
+              "name": "DSA Indexer/key.weight",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                256
+              ],
+              "repeat": 2,
+              "bytes": 32768,
+              "globalBytes": 32768
+            },
+            {
+              "name": "MoE/router.weight",
+              "dtype": "BF16",
+              "shape": [
+                10,
+                256
+              ],
+              "repeat": 5,
+              "bytes": 25600,
+              "globalBytes": 25600
+            },
+            {
+              "name": "MoE/experts.*.w1",
+              "dtype": "MXFP4",
+              "shape": [
+                64,
+                128
+              ],
+              "repeat": 5,
+              "bytes": 21760,
+              "globalBytes": 217600
+            },
+            {
+              "name": "MoE/shared_experts.down_proj",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                16
+              ],
+              "repeat": 5,
+              "bytes": 40960,
+              "globalBytes": 163840
+            },
+            {
+              "name": "ViT patch/patch.weight",
+              "dtype": "BF16",
+              "shape": [
+                16,
+                3,
+                4,
+                4
+              ],
+              "repeat": 1,
+              "bytes": 1536,
+              "globalBytes": 1536
+            },
+            {
+              "name": "ViT blocks/blocks.*.weight",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                16
+              ],
+              "repeat": 2,
+              "bytes": 2048,
+              "globalBytes": 2048
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Source_Decode",
+      "phase": "Decode",
+      "recipe": "checkpoint",
+      "scope": "full",
+      "inputs": {
+        "tp": 4,
+        "kdaOTP": 4,
+        "attentionTP": 4,
+        "attentionOTP": 4,
+        "lmHeadTP": 4,
+        "embeddingTP": 4,
+        "otherTP": 4,
+        "ep": 12,
+        "sharedTP": 4,
+        "dsaCP": 1,
+        "dcp": 4,
+        "mlaDtype": "INT8",
+        "indexDtype": "INT8",
+        "tokens": 257,
+        "blockSize": 32,
+        "specTokens": 0,
+        "convBytes": 2,
+        "recurrentBytes": 4
+      },
+      "partitions": [
+        6
+      ],
+      "maxTotalGiB": 0.0006363391876220703,
+      "stages": [
+        {
+          "stage": 0,
+          "layers": [
+            1,
+            6
+          ],
+          "kdaLayers": 4,
+          "attentionLayers": 2,
+          "weightGiB": 0.0005843639373779297,
+          "cacheGiB": 0.000051975250244140625,
+          "bufferGiB": 0,
+          "totalGiB": 0.0006363391876220703,
+          "rows": [
+            {
+              "name": "Embedding / Output/embed_tokens.weight",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 131072,
+              "globalBytes": 524288
+            },
+            {
+              "name": "Embedding / Output/lm_head.weight",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 131072,
+              "globalBytes": 524288
+            },
+            {
+              "name": "Decoder common/input_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                256
+              ],
+              "repeat": 6,
+              "bytes": 3072,
+              "globalBytes": 3072
+            },
+            {
+              "name": "Dense MLP/gate_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                128,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 65536,
+              "globalBytes": 262144
+            },
+            {
+              "name": "KDA/q_proj",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                256
+              ],
+              "repeat": 4,
+              "bytes": 65536,
+              "globalBytes": 262144
+            },
+            {
+              "name": "KDA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                32
+              ],
+              "repeat": 4,
+              "bytes": 65536,
+              "globalBytes": 262144
+            },
+            {
+              "name": "DSA MLA/q_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                64
+              ],
+              "repeat": 2,
+              "bytes": 8192,
+              "globalBytes": 32768
+            },
+            {
+              "name": "DSA MLA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                32
+              ],
+              "repeat": 2,
+              "bytes": 32768,
+              "globalBytes": 131072
+            },
+            {
+              "name": "DSA Indexer/key.weight",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                256
+              ],
+              "repeat": 2,
+              "bytes": 32768,
+              "globalBytes": 32768
+            },
+            {
+              "name": "MoE/router.weight",
+              "dtype": "BF16",
+              "shape": [
+                10,
+                256
+              ],
+              "repeat": 5,
+              "bytes": 25600,
+              "globalBytes": 25600
+            },
+            {
+              "name": "MoE/experts.*.w1",
+              "dtype": "MXFP4",
+              "shape": [
+                64,
+                128
+              ],
+              "repeat": 5,
+              "bytes": 21760,
+              "globalBytes": 217600
+            },
+            {
+              "name": "MoE/shared_experts.down_proj",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                16
+              ],
+              "repeat": 5,
+              "bytes": 40960,
+              "globalBytes": 163840
+            },
+            {
+              "name": "ViT patch/patch.weight",
+              "dtype": "BF16",
+              "shape": [
+                16,
+                3,
+                4,
+                4
+              ],
+              "repeat": 1,
+              "bytes": 1536,
+              "globalBytes": 1536
+            },
+            {
+              "name": "ViT blocks/blocks.*.weight",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                16
+              ],
+              "repeat": 2,
+              "bytes": 2048,
+              "globalBytes": 2048
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MXFP_PP2_Prefill",
+      "phase": "Prefill",
+      "recipe": "mxfp",
+      "scope": "full",
+      "inputs": {
+        "tp": 4,
+        "kdaOTP": 4,
+        "attentionTP": 1,
+        "attentionOTP": 4,
+        "lmHeadTP": 4,
+        "embeddingTP": 4,
+        "otherTP": 4,
+        "ep": 12,
+        "sharedTP": 4,
+        "dsaCP": 4,
+        "dcp": 1,
+        "mlaDtype": "INT8",
+        "indexDtype": "INT8",
+        "tokens": 257,
+        "blockSize": 32,
+        "specTokens": 0,
+        "convBytes": 2,
+        "recurrentBytes": 4
+      },
+      "partitions": [
+        2,
+        4
+      ],
+      "maxTotalGiB": 0.00038433074951171875,
+      "stages": [
+        {
+          "stage": 0,
+          "layers": [
+            1,
+            2
+          ],
+          "kdaLayers": 2,
+          "attentionLayers": 0,
+          "weightGiB": 0.00021505355834960938,
+          "cacheGiB": 0.000004887580871582031,
+          "bufferGiB": 0,
+          "totalGiB": 0.0002199411392211914,
+          "rows": [
+            {
+              "name": "Embedding / Output/embed_tokens.weight",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 131072,
+              "globalBytes": 524288
+            },
+            {
+              "name": "Embedding / Output/lm_head.weight",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                256
+              ],
+              "repeat": 0,
+              "bytes": 0,
+              "globalBytes": 524288
+            },
+            {
+              "name": "Decoder common/input_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                256
+              ],
+              "repeat": 2,
+              "bytes": 1024,
+              "globalBytes": 3072
+            },
+            {
+              "name": "Dense MLP/gate_proj.weight",
+              "dtype": "MXFP8",
+              "shape": [
+                128,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 33792,
+              "globalBytes": 135168
+            },
+            {
+              "name": "KDA/q_proj",
+              "dtype": "MXFP8",
+              "shape": [
+                32,
+                256
+              ],
+              "repeat": 2,
+              "bytes": 16896,
+              "globalBytes": 135168
+            },
+            {
+              "name": "KDA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                32
+              ],
+              "repeat": 2,
+              "bytes": 32768,
+              "globalBytes": 262144
+            },
+            {
+              "name": "DSA MLA/q_b_proj",
+              "dtype": "MXFP8",
+              "shape": [
+                128,
+                64
+              ],
+              "repeat": 0,
+              "bytes": 0,
+              "globalBytes": 16896
+            },
+            {
+              "name": "DSA MLA/o_proj",
+              "dtype": "MXFP8",
+              "shape": [
+                256,
+                32
+              ],
+              "repeat": 0,
+              "bytes": 0,
+              "globalBytes": 67584
+            },
+            {
+              "name": "DSA Indexer/key.weight",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                256
+              ],
+              "repeat": 0,
+              "bytes": 0,
+              "globalBytes": 32768
+            },
+            {
+              "name": "MoE/router.weight",
+              "dtype": "BF16",
+              "shape": [
+                10,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 5120,
+              "globalBytes": 25600
+            },
+            {
+              "name": "MoE/experts.*.w1",
+              "dtype": "MXFP4",
+              "shape": [
+                64,
+                128
+              ],
+              "repeat": 1,
+              "bytes": 4352,
+              "globalBytes": 217600
+            },
+            {
+              "name": "MoE/shared_experts.down_proj",
+              "dtype": "MXFP4",
+              "shape": [
+                256,
+                16
+              ],
+              "repeat": 1,
+              "bytes": 2304,
+              "globalBytes": 43520
+            },
+            {
+              "name": "ViT patch/patch.weight",
+              "dtype": "BF16",
+              "shape": [
+                16,
+                3,
+                4,
+                4
+              ],
+              "repeat": 1,
+              "bytes": 1536,
+              "globalBytes": 1536
+            },
+            {
+              "name": "ViT blocks/blocks.*.weight",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                16
+              ],
+              "repeat": 2,
+              "bytes": 2048,
+              "globalBytes": 2048
+            }
+          ]
+        },
+        {
+          "stage": 1,
+          "layers": [
+            3,
+            6
+          ],
+          "kdaLayers": 2,
+          "attentionLayers": 2,
+          "weightGiB": 0.0002760887145996094,
+          "cacheGiB": 0.00007677078247070312,
+          "bufferGiB": 0.00003147125244140625,
+          "totalGiB": 0.00038433074951171875,
+          "rows": [
+            {
+              "name": "Embedding / Output/embed_tokens.weight",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                256
+              ],
+              "repeat": 0,
+              "bytes": 0,
+              "globalBytes": 524288
+            },
+            {
+              "name": "Embedding / Output/lm_head.weight",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 131072,
+              "globalBytes": 524288
+            },
+            {
+              "name": "Decoder common/input_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                256
+              ],
+              "repeat": 4,
+              "bytes": 2048,
+              "globalBytes": 3072
+            },
+            {
+              "name": "Dense MLP/gate_proj.weight",
+              "dtype": "MXFP8",
+              "shape": [
+                128,
+                256
+              ],
+              "repeat": 0,
+              "bytes": 0,
+              "globalBytes": 135168
+            },
+            {
+              "name": "KDA/q_proj",
+              "dtype": "MXFP8",
+              "shape": [
+                32,
+                256
+              ],
+              "repeat": 2,
+              "bytes": 16896,
+              "globalBytes": 135168
+            },
+            {
+              "name": "KDA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                32
+              ],
+              "repeat": 2,
+              "bytes": 32768,
+              "globalBytes": 262144
+            },
+            {
+              "name": "DSA MLA/q_b_proj",
+              "dtype": "MXFP8",
+              "shape": [
+                128,
+                64
+              ],
+              "repeat": 2,
+              "bytes": 16896,
+              "globalBytes": 16896
+            },
+            {
+              "name": "DSA MLA/o_proj",
+              "dtype": "MXFP8",
+              "shape": [
+                256,
+                32
+              ],
+              "repeat": 2,
+              "bytes": 16896,
+              "globalBytes": 67584
+            },
+            {
+              "name": "DSA Indexer/key.weight",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                256
+              ],
+              "repeat": 2,
+              "bytes": 32768,
+              "globalBytes": 32768
+            },
+            {
+              "name": "MoE/router.weight",
+              "dtype": "BF16",
+              "shape": [
+                10,
+                256
+              ],
+              "repeat": 4,
+              "bytes": 20480,
+              "globalBytes": 25600
+            },
+            {
+              "name": "MoE/experts.*.w1",
+              "dtype": "MXFP4",
+              "shape": [
+                64,
+                128
+              ],
+              "repeat": 4,
+              "bytes": 17408,
+              "globalBytes": 217600
+            },
+            {
+              "name": "MoE/shared_experts.down_proj",
+              "dtype": "MXFP4",
+              "shape": [
+                256,
+                16
+              ],
+              "repeat": 4,
+              "bytes": 9216,
+              "globalBytes": 43520
+            },
+            {
+              "name": "ViT patch/patch.weight",
+              "dtype": "BF16",
+              "shape": [
+                16,
+                3,
+                4,
+                4
+              ],
+              "repeat": 0,
+              "bytes": 0,
+              "globalBytes": 1536
+            },
+            {
+              "name": "ViT blocks/blocks.*.weight",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                16
+              ],
+              "repeat": 0,
+              "bytes": 0,
+              "globalBytes": 2048
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dynamic_Decode",
+      "phase": "Decode",
+      "recipe": "dynamic",
+      "scope": "language",
+      "inputs": {
+        "tp": 4,
+        "kdaOTP": 4,
+        "attentionTP": 4,
+        "attentionOTP": 4,
+        "lmHeadTP": 4,
+        "embeddingTP": 4,
+        "otherTP": 4,
+        "ep": 12,
+        "sharedTP": 4,
+        "dsaCP": 1,
+        "dcp": 4,
+        "mlaDtype": "INT8",
+        "indexDtype": "INT8",
+        "tokens": 257,
+        "blockSize": 32,
+        "specTokens": 0,
+        "convBytes": 2,
+        "recurrentBytes": 4
+      },
+      "partitions": [
+        6
+      ],
+      "maxTotalGiB": 0.000553131103515625,
+      "stages": [
+        {
+          "stage": 0,
+          "layers": [
+            1,
+            6
+          ],
+          "kdaLayers": 4,
+          "attentionLayers": 2,
+          "weightGiB": 0.0005011558532714844,
+          "cacheGiB": 0.000051975250244140625,
+          "bufferGiB": 0,
+          "totalGiB": 0.000553131103515625,
+          "rows": [
+            {
+              "name": "Embedding / Output/embed_tokens.weight",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 131072,
+              "globalBytes": 524288
+            },
+            {
+              "name": "Embedding / Output/lm_head.weight",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 131072,
+              "globalBytes": 524288
+            },
+            {
+              "name": "Decoder common/input_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                256
+              ],
+              "repeat": 6,
+              "bytes": 3072,
+              "globalBytes": 3072
+            },
+            {
+              "name": "Dense MLP/gate_proj.weight",
+              "dtype": "INT8",
+              "shape": [
+                128,
+                256
+              ],
+              "repeat": 1,
+              "bytes": 33792,
+              "globalBytes": 135168
+            },
+            {
+              "name": "KDA/q_proj",
+              "dtype": "INT8",
+              "shape": [
+                32,
+                256
+              ],
+              "repeat": 4,
+              "bytes": 33792,
+              "globalBytes": 135168
+            },
+            {
+              "name": "KDA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                256,
+                32
+              ],
+              "repeat": 4,
+              "bytes": 65536,
+              "globalBytes": 262144
+            },
+            {
+              "name": "DSA MLA/q_b_proj",
+              "dtype": "INT8",
+              "shape": [
+                32,
+                64
+              ],
+              "repeat": 2,
+              "bytes": 4608,
+              "globalBytes": 18432
+            },
+            {
+              "name": "DSA MLA/o_proj",
+              "dtype": "INT8",
+              "shape": [
+                256,
+                32
+              ],
+              "repeat": 2,
+              "bytes": 20480,
+              "globalBytes": 69632
+            },
+            {
+              "name": "DSA Indexer/key.weight",
+              "dtype": "BF16",
+              "shape": [
+                32,
+                256
+              ],
+              "repeat": 2,
+              "bytes": 32768,
+              "globalBytes": 32768
+            },
+            {
+              "name": "MoE/router.weight",
+              "dtype": "BF16",
+              "shape": [
+                10,
+                256
+              ],
+              "repeat": 5,
+              "bytes": 25600,
+              "globalBytes": 25600
+            },
+            {
+              "name": "MoE/experts.*.w1",
+              "dtype": "INT4",
+              "shape": [
+                64,
+                128
+              ],
+              "repeat": 5,
+              "bytes": 25600,
+              "globalBytes": 256000
+            },
+            {
+              "name": "MoE/shared_experts.down_proj",
+              "dtype": "INT8",
+              "shape": [
+                256,
+                16
+              ],
+              "repeat": 5,
+              "bytes": 30720,
+              "globalBytes": 92160
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

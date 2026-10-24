@@ -1,0 +1,47 @@
+{
+  "model": "synthetic-hybrid",
+  "checks": [
+    {
+      "sheet": "Source_Prefill",
+      "stageCount": 1,
+      "weightGiB": 0.0006072521209716797,
+      "cacheGiB": 0.00008165836334228516,
+      "bufferGiB": 0.000091552734375,
+      "totalGiB": 0.0007804632186889648,
+      "maxTotalGiB": 0.0007804632186889648,
+      "inputChecks": 49
+    },
+    {
+      "sheet": "Source_Decode",
+      "stageCount": 1,
+      "weightGiB": 0.0005843639373779297,
+      "cacheGiB": 0.000051975250244140625,
+      "bufferGiB": 0,
+      "totalGiB": 0.0006363391876220703,
+      "maxTotalGiB": 0.0006363391876220703,
+      "inputChecks": 49
+    },
+    {
+      "sheet": "MXFP_PP2_Prefill",
+      "stageCount": 2,
+      "weightGiB": 0.00021505355834960938,
+      "cacheGiB": 0.000004887580871582031,
+      "bufferGiB": 0,
+      "totalGiB": 0.0002199411392211914,
+      "maxTotalGiB": 0.00038433074951171875,
+      "inputChecks": 50
+    },
+    {
+      "sheet": "Dynamic_Decode",
+      "stageCount": 1,
+      "weightGiB": 0.0005011558532714844,
+      "cacheGiB": 0.000051975250244140625,
+      "bufferGiB": 0,
+      "totalGiB": 0.000553131103515625,
+      "maxTotalGiB": 0.000553131103515625,
+      "inputChecks": 47
+    }
+  ],
+  "formulaErrors": 0,
+  "savedFormulasAndCaches": "verified"
+}

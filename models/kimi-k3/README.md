@@ -6,6 +6,12 @@
 
 通信量按[HCCL 校正说明](../../analysis/HCCL.md)解读，历史文件中的通信组总和不代表单链路流量。
 
+## 显存分析工作簿
+
+[显存工作簿](kimi-k3-memory.xlsx)使用本目录已有公开配置生成，包含语言模型和含 ViT 的 Prefill / Decode 四页。独立 TP、EP、共享专家 TP、逐结构重复数及单请求 cache 均可在 Excel 修改复算；它与原有通信工作簿分别保存。
+
+场景定义见 [memory-presets.json](memory-presets.json)，确定性复算结果见 [memory-results.json](memory-results.json)。构建、来源口径和验证命令见[模型显存说明](../../analysis/MODEL-MEMORY.md)。
+
 ## PD 带宽争用耗时（2026-09-20）
 
 Prefill / Decode 原通信区下方已增加耗时评估。黄色 E 列可逐通信事件填写实际有效带宽（GB/s），默认 H 列输入可统一调整；原生公式自动重算。基线 forward 实测耗时未填时只显示毫秒增量。默认 100 GB/s、10% 带宽降幅是示例。

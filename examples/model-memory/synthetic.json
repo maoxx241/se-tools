@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "id": "synthetic-hybrid",
+  "evidence": "Invented small dimensions for software tests; not a real model or deployment recommendation",
+  "recipes": ["checkpoint", "mxfp", "dynamic"],
+  "facts": {
+    "layers": 6, "kdaLayers": [1, 2, 4, 5], "attentionLayers": [3, 6],
+    "denseLayers": [1], "moeLayers": [2, 3, 4, 5, 6],
+    "experts": 10, "sharedExperts": 1, "kdaHeads": 8, "headDim": 16,
+    "attentionHeads": 8, "kvRank": 64, "ropeDim": 16, "indexDim": 32, "indexHeads": 4,
+    "convKernel": 4, "visionLayers": 2, "hasDSA": true, "maxTokens": 4096
+  },
+  "rows": [
+    { "group": "Embedding / Output", "name": "embed_tokens.weight", "shape": [1024, 256], "layerIds": [], "placement": "first", "rule": "Embedding TP", "dtype": "BF16" },
+    { "group": "Embedding / Output", "name": "lm_head.weight", "shape": [1024, 256], "layerIds": [], "placement": "last", "rule": "LM head TP", "dtype": "BF16" },
+    { "group": "Decoder common", "name": "input_layernorm.weight", "shape": [256], "layerIds": [1, 2, 3, 4, 5, 6], "rule": "Replicated", "dtype": "BF16" },
+    { "group": "Dense MLP", "name": "gate_proj.weight", "shape": [512, 256], "layerIds": [1], "rule": "Other TP", "dtype": "BF16", "recipeDtypes": { "mxfp": "MXFP8", "dynamic": "INT8" } },
+    { "group": "KDA", "name": "q_proj", "shape": [128, 256], "layerIds": [1, 2, 4, 5], "rule": "KDA TP", "dtype": "BF16", "recipeDtypes": { "mxfp": "MXFP8", "dynamic": "INT8" } },
+    { "group": "KDA", "name": "o_proj", "shape": [256, 128], "layerIds": [1, 2, 4, 5], "rule": "KDA O TP", "dtype": "BF16" },
+    { "group": "DSA MLA", "name": "q_b_proj", "shape": [128, 64], "layerIds": [3, 6], "rule": "DSA TP", "dtype": "BF16", "recipeDtypes": { "mxfp": "MXFP8", "dynamic": "INT8" } },
+    { "group": "DSA MLA", "name": "o_proj", "shape": [256, 128], "layerIds": [3, 6], "rule": "DSA O TP", "dtype": "BF16", "recipeDtypes": { "mxfp": "MXFP8", "dynamic": "INT8" } },
+    { "group": "DSA Indexer", "name": "key.weight", "shape": [32, 256], "layerIds": [3, 6], "rule": "Replicated", "dtype": "BF16" },
+    { "group": "MoE", "name": "router.weight", "shape": [10, 256], "layerIds": [2, 3, 4, 5, 6], "rule": "Replicated", "dtype": "BF16" },
+    { "group": "MoE", "name": "experts.*.w1", "shape": [64, 128], "layerIds": [2, 3, 4, 5, 6], "rule": "EP", "dtype": "MXFP4", "recipeDtypes": { "dynamic": "INT4" } },
+    { "group": "MoE", "name": "shared_experts.down_proj", "shape": [256, 64], "layerIds": [2, 3, 4, 5, 6], "rule": "Shared TP", "dtype": "BF16", "recipeDtypes": { "mxfp": "MXFP4", "dynamic": "INT8" } },
+    { "group": "ViT patch", "name": "patch.weight", "shape": [16, 3, 4, 4], "layerIds": [], "placement": "first", "rule": "Replicated", "dtype": "BF16" },
+    { "group": "ViT blocks", "name": "blocks.*.weight", "shape": [32, 16], "layerIds": [], "placement": "first", "instances": 2, "rule": "Replicated", "dtype": "BF16" }
+  ],
+  "defaults": {
+    "tp": 4, "kdaOTP": 4, "attentionTP": 1, "attentionOTP": 4, "lmHeadTP": 4,
+    "embeddingTP": 4, "otherTP": 4, "ep": 12, "sharedTP": 4, "dsaCP": 1, "dcp": 1,
+    "mlaDtype": "INT8", "indexDtype": "INT8", "tokens": 257, "blockSize": 32,
+    "specTokens": 0, "convBytes": 2, "recurrentBytes": 4
+  },
+  "scenarios": [
+    {
+      "name": "Source_Prefill", "phase": "Prefill", "scope": "full", "recipe": "checkpoint",
+      "attentionTPFromCP": true, "inputs": { "dsaCP": 4 },
+      "links": { "kdaOTP": { "key": "tp" }, "attentionOTP": { "key": "tp" }, "lmHeadTP": { "key": "tp" }, "embeddingTP": { "key": "tp" }, "otherTP": { "key": "tp" }, "dsaCP": { "key": "tp" } }
+    },
+    {
+      "name": "Source_Decode", "phase": "Decode", "scope": "full", "recipe": "checkpoint",
+      "attentionTPFromCP": true, "inputs": { "dcp": 4 },
+      "links": { "kdaOTP": { "key": "tp" }, "attentionOTP": { "key": "tp" }, "lmHeadTP": { "key": "tp" }, "embeddingTP": { "key": "tp" }, "otherTP": { "key": "tp" }, "dcp": { "key": "tp" } }
+    },
+    {
+      "name": "MXFP_PP2_Prefill", "phase": "Prefill", "scope": "full", "recipe": "mxfp",
+      "partitions": [2, 4], "attentionTPFromCP": true, "inputs": { "dsaCP": 4 },
+      "links": { "kdaOTP": { "key": "tp" }, "attentionOTP": { "key": "tp" }, "lmHeadTP": { "key": "tp" }, "embeddingTP": { "key": "tp" }, "otherTP": { "key": "tp" }, "dsaCP": { "key": "tp" } }
+    },
+    {
+      "name": "Dynamic_Decode", "phase": "Decode", "scope": "language", "recipe": "dynamic",
+      "attentionTPFromCP": true, "inputs": { "dcp": 4 },
+      "links": { "kdaOTP": { "key": "tp" }, "attentionOTP": { "key": "tp" }, "lmHeadTP": { "key": "tp" }, "embeddingTP": { "key": "tp" }, "otherTP": { "key": "tp" }, "dcp": { "key": "tp" } }
+    }
+  ]
+}

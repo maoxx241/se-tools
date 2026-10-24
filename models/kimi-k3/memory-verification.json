@@ -1,0 +1,47 @@
+{
+  "model": "kimi-k3",
+  "checks": [
+    {
+      "sheet": "语言模型_Prefill",
+      "stageCount": 1,
+      "weightGiB": 32.57578741759062,
+      "cacheGiB": 3.4011569023132324,
+      "bufferGiB": 0,
+      "totalGiB": 35.97694431990385,
+      "maxTotalGiB": 35.97694431990385,
+      "inputChecks": 73
+    },
+    {
+      "sheet": "语言模型_Decode",
+      "stageCount": 1,
+      "weightGiB": 32.57578741759062,
+      "cacheGiB": 3.4011569023132324,
+      "bufferGiB": 0,
+      "totalGiB": 35.97694431990385,
+      "maxTotalGiB": 35.97694431990385,
+      "inputChecks": 73
+    },
+    {
+      "sheet": "全量含ViT_Prefill",
+      "stageCount": 1,
+      "weightGiB": 33.409058444201946,
+      "cacheGiB": 3.4011569023132324,
+      "bufferGiB": 0,
+      "totalGiB": 36.81021534651518,
+      "maxTotalGiB": 36.81021534651518,
+      "inputChecks": 84
+    },
+    {
+      "sheet": "全量含ViT_Decode",
+      "stageCount": 1,
+      "weightGiB": 33.409058444201946,
+      "cacheGiB": 3.4011569023132324,
+      "bufferGiB": 0,
+      "totalGiB": 36.81021534651518,
+      "maxTotalGiB": 36.81021534651518,
+      "inputChecks": 84
+    }
+  ],
+  "formulaErrors": 0,
+  "savedFormulasAndCaches": "verified"
+}

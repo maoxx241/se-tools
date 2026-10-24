@@ -1,0 +1,2470 @@
+{
+  "schemaVersion": 1,
+  "model": "kimi-k3",
+  "configSha256": "ceb15bb6babc95c3afc948f0887a732b69e8ac126dae36ef7b6aeb1effb2b46f",
+  "presetsSha256": "5a2fa0060ad3a7e4f1fa42bbe64b59e0a279a20b9049d3e6e4468c82eea1a79c",
+  "calculationSha256": "e600cf1a1dc018a88112c67de5c544c877b6bcf705bf251cd56df828a1fd9516",
+  "workbookSchemaSha256": "7ea4e0a3a8f5d34c18b7fe9dcf946659a9a06bac38e02d31331688e82a5a7509",
+  "evidence": "Public archived model config/code; not checkpoint-header verification",
+  "scope": "Weights + one request cache + explicitly modeled o_proj buffers; excludes other activations, graph/workspace and allocator/cache-pool reservation",
+  "scenarios": [
+    {
+      "name": "语言模型_Prefill",
+      "phase": "Prefill",
+      "recipe": "checkpoint",
+      "scope": "language",
+      "inputs": {
+        "tp": 16,
+        "kdaOTP": 16,
+        "attentionTP": 1,
+        "attentionOTP": 16,
+        "lmHeadTP": 16,
+        "embeddingTP": 16,
+        "otherTP": 16,
+        "ep": 128,
+        "sharedTP": 16,
+        "dsaCP": 1,
+        "dcp": 1,
+        "mlaDtype": "BF16",
+        "indexDtype": "BF16",
+        "tokens": 131072,
+        "blockSize": 128,
+        "specTokens": 0,
+        "convBytes": 2,
+        "recurrentBytes": 4
+      },
+      "partitions": [
+        93
+      ],
+      "maxTotalGiB": 35.97694431990385,
+      "stages": [
+        {
+          "stage": 0,
+          "layers": [
+            1,
+            93
+          ],
+          "kdaLayers": 69,
+          "attentionLayers": 24,
+          "weightGiB": 32.57578741759062,
+          "cacheGiB": 3.4011569023132324,
+          "bufferGiB": 0,
+          "totalGiB": 35.97694431990385,
+          "rows": [
+            {
+              "name": "Embedding / Output/embed_tokens.weight",
+              "dtype": "BF16",
+              "shape": [
+                10240,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 146800640,
+              "globalBytes": 2348810240
+            },
+            {
+              "name": "Embedding / Output/lm_head.weight",
+              "dtype": "BF16",
+              "shape": [
+                10240,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 146800640,
+              "globalBytes": 2348810240
+            },
+            {
+              "name": "Decoder common/input_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/post_attention_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/self_attention_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/mlp_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/self_attention_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/mlp_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/final_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Decoder common/output_attn_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Decoder common/output_attn_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Dense MLP/gate_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                2112,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "Dense MLP/up_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                2112,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "Dense MLP/down_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                2112
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "KDA/q_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/k_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/v_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/q_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/k_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/v_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/A_log",
+              "dtype": "FP32",
+              "shape": [
+                6
+              ],
+              "repeat": 69,
+              "bytes": 1656,
+              "globalBytes": 26496
+            },
+            {
+              "name": "KDA/f_a_proj",
+              "dtype": "BF16",
+              "shape": [
+                128,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 126615552,
+              "globalBytes": 126615552
+            },
+            {
+              "name": "KDA/f_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                128
+              ],
+              "repeat": 69,
+              "bytes": 13565952,
+              "globalBytes": 217055232
+            },
+            {
+              "name": "KDA/dt_bias",
+              "dtype": "FP32",
+              "shape": [
+                768
+              ],
+              "repeat": 69,
+              "bytes": 211968,
+              "globalBytes": 3391488
+            },
+            {
+              "name": "KDA/b_proj",
+              "dtype": "BF16",
+              "shape": [
+                6,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 5935104,
+              "globalBytes": 94961664
+            },
+            {
+              "name": "KDA/g_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/o_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                128
+              ],
+              "repeat": 69,
+              "bytes": 17664,
+              "globalBytes": 17664
+            },
+            {
+              "name": "KDA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                768
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "Gated MLA/q_a_proj",
+              "dtype": "BF16",
+              "shape": [
+                1536,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 528482304,
+              "globalBytes": 528482304
+            },
+            {
+              "name": "Gated MLA/q_a_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                1536
+              ],
+              "repeat": 24,
+              "bytes": 73728,
+              "globalBytes": 73728
+            },
+            {
+              "name": "Gated MLA/q_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                18432,
+                1536
+              ],
+              "repeat": 24,
+              "bytes": 1358954496,
+              "globalBytes": 1358954496
+            },
+            {
+              "name": "Gated MLA/kv_a_proj_with_mqa",
+              "dtype": "BF16",
+              "shape": [
+                576,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 198180864,
+              "globalBytes": 198180864
+            },
+            {
+              "name": "Gated MLA/kv_a_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                512
+              ],
+              "repeat": 24,
+              "bytes": 24576,
+              "globalBytes": 24576
+            },
+            {
+              "name": "Gated MLA/kv_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                24576,
+                512
+              ],
+              "repeat": 24,
+              "bytes": 603979776,
+              "globalBytes": 603979776
+            },
+            {
+              "name": "Gated MLA/g_proj",
+              "dtype": "BF16",
+              "shape": [
+                12288,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 4227858432,
+              "globalBytes": 4227858432
+            },
+            {
+              "name": "Gated MLA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                768
+              ],
+              "repeat": 24,
+              "bytes": 264241152,
+              "globalBytes": 4227858432
+            },
+            {
+              "name": "MoE/router.weight",
+              "dtype": "BF16",
+              "shape": [
+                896,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 1181745152,
+              "globalBytes": 1181745152
+            },
+            {
+              "name": "MoE/e_score_correction_bias",
+              "dtype": "BF16",
+              "shape": [
+                896
+              ],
+              "repeat": 92,
+              "bytes": 164864,
+              "globalBytes": 164864
+            },
+            {
+              "name": "MoE/routed_expert_down_proj",
+              "dtype": "BF16",
+              "shape": [
+                3584,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 4726980608,
+              "globalBytes": 4726980608
+            },
+            {
+              "name": "MoE/routed_expert_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                3584
+              ],
+              "repeat": 92,
+              "bytes": 659456,
+              "globalBytes": 659456
+            },
+            {
+              "name": "MoE/routed_expert_up_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                3584
+              ],
+              "repeat": 92,
+              "bytes": 4726980608,
+              "globalBytes": 4726980608
+            },
+            {
+              "name": "MoE/experts.*.w1",
+              "dtype": "MXFP4",
+              "shape": [
+                3072,
+                3584
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/experts.*.w3",
+              "dtype": "MXFP4",
+              "shape": [
+                3072,
+                3584
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/experts.*.w2",
+              "dtype": "MXFP4",
+              "shape": [
+                3584,
+                3072
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/shared_experts.gate_proj",
+              "dtype": "BF16",
+              "shape": [
+                384,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            },
+            {
+              "name": "MoE/shared_experts.up_proj",
+              "dtype": "BF16",
+              "shape": [
+                384,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            },
+            {
+              "name": "MoE/shared_experts.down_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                384
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "语言模型_Decode",
+      "phase": "Decode",
+      "recipe": "checkpoint",
+      "scope": "language",
+      "inputs": {
+        "tp": 16,
+        "kdaOTP": 16,
+        "attentionTP": 1,
+        "attentionOTP": 16,
+        "lmHeadTP": 16,
+        "embeddingTP": 16,
+        "otherTP": 16,
+        "ep": 128,
+        "sharedTP": 16,
+        "dsaCP": 1,
+        "dcp": 1,
+        "mlaDtype": "BF16",
+        "indexDtype": "BF16",
+        "tokens": 131072,
+        "blockSize": 128,
+        "specTokens": 0,
+        "convBytes": 2,
+        "recurrentBytes": 4
+      },
+      "partitions": [
+        93
+      ],
+      "maxTotalGiB": 35.97694431990385,
+      "stages": [
+        {
+          "stage": 0,
+          "layers": [
+            1,
+            93
+          ],
+          "kdaLayers": 69,
+          "attentionLayers": 24,
+          "weightGiB": 32.57578741759062,
+          "cacheGiB": 3.4011569023132324,
+          "bufferGiB": 0,
+          "totalGiB": 35.97694431990385,
+          "rows": [
+            {
+              "name": "Embedding / Output/embed_tokens.weight",
+              "dtype": "BF16",
+              "shape": [
+                10240,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 146800640,
+              "globalBytes": 2348810240
+            },
+            {
+              "name": "Embedding / Output/lm_head.weight",
+              "dtype": "BF16",
+              "shape": [
+                10240,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 146800640,
+              "globalBytes": 2348810240
+            },
+            {
+              "name": "Decoder common/input_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/post_attention_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/self_attention_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/mlp_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/self_attention_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/mlp_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/final_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Decoder common/output_attn_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Decoder common/output_attn_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Dense MLP/gate_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                2112,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "Dense MLP/up_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                2112,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "Dense MLP/down_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                2112
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "KDA/q_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/k_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/v_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/q_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/k_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/v_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/A_log",
+              "dtype": "FP32",
+              "shape": [
+                6
+              ],
+              "repeat": 69,
+              "bytes": 1656,
+              "globalBytes": 26496
+            },
+            {
+              "name": "KDA/f_a_proj",
+              "dtype": "BF16",
+              "shape": [
+                128,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 126615552,
+              "globalBytes": 126615552
+            },
+            {
+              "name": "KDA/f_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                128
+              ],
+              "repeat": 69,
+              "bytes": 13565952,
+              "globalBytes": 217055232
+            },
+            {
+              "name": "KDA/dt_bias",
+              "dtype": "FP32",
+              "shape": [
+                768
+              ],
+              "repeat": 69,
+              "bytes": 211968,
+              "globalBytes": 3391488
+            },
+            {
+              "name": "KDA/b_proj",
+              "dtype": "BF16",
+              "shape": [
+                6,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 5935104,
+              "globalBytes": 94961664
+            },
+            {
+              "name": "KDA/g_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/o_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                128
+              ],
+              "repeat": 69,
+              "bytes": 17664,
+              "globalBytes": 17664
+            },
+            {
+              "name": "KDA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                768
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "Gated MLA/q_a_proj",
+              "dtype": "BF16",
+              "shape": [
+                1536,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 528482304,
+              "globalBytes": 528482304
+            },
+            {
+              "name": "Gated MLA/q_a_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                1536
+              ],
+              "repeat": 24,
+              "bytes": 73728,
+              "globalBytes": 73728
+            },
+            {
+              "name": "Gated MLA/q_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                18432,
+                1536
+              ],
+              "repeat": 24,
+              "bytes": 1358954496,
+              "globalBytes": 1358954496
+            },
+            {
+              "name": "Gated MLA/kv_a_proj_with_mqa",
+              "dtype": "BF16",
+              "shape": [
+                576,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 198180864,
+              "globalBytes": 198180864
+            },
+            {
+              "name": "Gated MLA/kv_a_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                512
+              ],
+              "repeat": 24,
+              "bytes": 24576,
+              "globalBytes": 24576
+            },
+            {
+              "name": "Gated MLA/kv_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                24576,
+                512
+              ],
+              "repeat": 24,
+              "bytes": 603979776,
+              "globalBytes": 603979776
+            },
+            {
+              "name": "Gated MLA/g_proj",
+              "dtype": "BF16",
+              "shape": [
+                12288,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 4227858432,
+              "globalBytes": 4227858432
+            },
+            {
+              "name": "Gated MLA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                768
+              ],
+              "repeat": 24,
+              "bytes": 264241152,
+              "globalBytes": 4227858432
+            },
+            {
+              "name": "MoE/router.weight",
+              "dtype": "BF16",
+              "shape": [
+                896,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 1181745152,
+              "globalBytes": 1181745152
+            },
+            {
+              "name": "MoE/e_score_correction_bias",
+              "dtype": "BF16",
+              "shape": [
+                896
+              ],
+              "repeat": 92,
+              "bytes": 164864,
+              "globalBytes": 164864
+            },
+            {
+              "name": "MoE/routed_expert_down_proj",
+              "dtype": "BF16",
+              "shape": [
+                3584,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 4726980608,
+              "globalBytes": 4726980608
+            },
+            {
+              "name": "MoE/routed_expert_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                3584
+              ],
+              "repeat": 92,
+              "bytes": 659456,
+              "globalBytes": 659456
+            },
+            {
+              "name": "MoE/routed_expert_up_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                3584
+              ],
+              "repeat": 92,
+              "bytes": 4726980608,
+              "globalBytes": 4726980608
+            },
+            {
+              "name": "MoE/experts.*.w1",
+              "dtype": "MXFP4",
+              "shape": [
+                3072,
+                3584
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/experts.*.w3",
+              "dtype": "MXFP4",
+              "shape": [
+                3072,
+                3584
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/experts.*.w2",
+              "dtype": "MXFP4",
+              "shape": [
+                3584,
+                3072
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/shared_experts.gate_proj",
+              "dtype": "BF16",
+              "shape": [
+                384,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            },
+            {
+              "name": "MoE/shared_experts.up_proj",
+              "dtype": "BF16",
+              "shape": [
+                384,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            },
+            {
+              "name": "MoE/shared_experts.down_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                384
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "全量含ViT_Prefill",
+      "phase": "Prefill",
+      "recipe": "checkpoint",
+      "scope": "full",
+      "inputs": {
+        "tp": 16,
+        "kdaOTP": 16,
+        "attentionTP": 1,
+        "attentionOTP": 16,
+        "lmHeadTP": 16,
+        "embeddingTP": 16,
+        "otherTP": 16,
+        "ep": 128,
+        "sharedTP": 16,
+        "dsaCP": 1,
+        "dcp": 1,
+        "mlaDtype": "BF16",
+        "indexDtype": "BF16",
+        "tokens": 131072,
+        "blockSize": 128,
+        "specTokens": 0,
+        "convBytes": 2,
+        "recurrentBytes": 4
+      },
+      "partitions": [
+        93
+      ],
+      "maxTotalGiB": 36.81021534651518,
+      "stages": [
+        {
+          "stage": 0,
+          "layers": [
+            1,
+            93
+          ],
+          "kdaLayers": 69,
+          "attentionLayers": 24,
+          "weightGiB": 33.409058444201946,
+          "cacheGiB": 3.4011569023132324,
+          "bufferGiB": 0,
+          "totalGiB": 36.81021534651518,
+          "rows": [
+            {
+              "name": "Embedding / Output/embed_tokens.weight",
+              "dtype": "BF16",
+              "shape": [
+                10240,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 146800640,
+              "globalBytes": 2348810240
+            },
+            {
+              "name": "Embedding / Output/lm_head.weight",
+              "dtype": "BF16",
+              "shape": [
+                10240,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 146800640,
+              "globalBytes": 2348810240
+            },
+            {
+              "name": "Decoder common/input_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/post_attention_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/self_attention_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/mlp_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/self_attention_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/mlp_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/final_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Decoder common/output_attn_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Decoder common/output_attn_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Dense MLP/gate_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                2112,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "Dense MLP/up_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                2112,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "Dense MLP/down_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                2112
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "KDA/q_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/k_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/v_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/q_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/k_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/v_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/A_log",
+              "dtype": "FP32",
+              "shape": [
+                6
+              ],
+              "repeat": 69,
+              "bytes": 1656,
+              "globalBytes": 26496
+            },
+            {
+              "name": "KDA/f_a_proj",
+              "dtype": "BF16",
+              "shape": [
+                128,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 126615552,
+              "globalBytes": 126615552
+            },
+            {
+              "name": "KDA/f_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                128
+              ],
+              "repeat": 69,
+              "bytes": 13565952,
+              "globalBytes": 217055232
+            },
+            {
+              "name": "KDA/dt_bias",
+              "dtype": "FP32",
+              "shape": [
+                768
+              ],
+              "repeat": 69,
+              "bytes": 211968,
+              "globalBytes": 3391488
+            },
+            {
+              "name": "KDA/b_proj",
+              "dtype": "BF16",
+              "shape": [
+                6,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 5935104,
+              "globalBytes": 94961664
+            },
+            {
+              "name": "KDA/g_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/o_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                128
+              ],
+              "repeat": 69,
+              "bytes": 17664,
+              "globalBytes": 17664
+            },
+            {
+              "name": "KDA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                768
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "Gated MLA/q_a_proj",
+              "dtype": "BF16",
+              "shape": [
+                1536,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 528482304,
+              "globalBytes": 528482304
+            },
+            {
+              "name": "Gated MLA/q_a_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                1536
+              ],
+              "repeat": 24,
+              "bytes": 73728,
+              "globalBytes": 73728
+            },
+            {
+              "name": "Gated MLA/q_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                18432,
+                1536
+              ],
+              "repeat": 24,
+              "bytes": 1358954496,
+              "globalBytes": 1358954496
+            },
+            {
+              "name": "Gated MLA/kv_a_proj_with_mqa",
+              "dtype": "BF16",
+              "shape": [
+                576,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 198180864,
+              "globalBytes": 198180864
+            },
+            {
+              "name": "Gated MLA/kv_a_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                512
+              ],
+              "repeat": 24,
+              "bytes": 24576,
+              "globalBytes": 24576
+            },
+            {
+              "name": "Gated MLA/kv_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                24576,
+                512
+              ],
+              "repeat": 24,
+              "bytes": 603979776,
+              "globalBytes": 603979776
+            },
+            {
+              "name": "Gated MLA/g_proj",
+              "dtype": "BF16",
+              "shape": [
+                12288,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 4227858432,
+              "globalBytes": 4227858432
+            },
+            {
+              "name": "Gated MLA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                768
+              ],
+              "repeat": 24,
+              "bytes": 264241152,
+              "globalBytes": 4227858432
+            },
+            {
+              "name": "MoE/router.weight",
+              "dtype": "BF16",
+              "shape": [
+                896,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 1181745152,
+              "globalBytes": 1181745152
+            },
+            {
+              "name": "MoE/e_score_correction_bias",
+              "dtype": "BF16",
+              "shape": [
+                896
+              ],
+              "repeat": 92,
+              "bytes": 164864,
+              "globalBytes": 164864
+            },
+            {
+              "name": "MoE/routed_expert_down_proj",
+              "dtype": "BF16",
+              "shape": [
+                3584,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 4726980608,
+              "globalBytes": 4726980608
+            },
+            {
+              "name": "MoE/routed_expert_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                3584
+              ],
+              "repeat": 92,
+              "bytes": 659456,
+              "globalBytes": 659456
+            },
+            {
+              "name": "MoE/routed_expert_up_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                3584
+              ],
+              "repeat": 92,
+              "bytes": 4726980608,
+              "globalBytes": 4726980608
+            },
+            {
+              "name": "MoE/experts.*.w1",
+              "dtype": "MXFP4",
+              "shape": [
+                3072,
+                3584
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/experts.*.w3",
+              "dtype": "MXFP4",
+              "shape": [
+                3072,
+                3584
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/experts.*.w2",
+              "dtype": "MXFP4",
+              "shape": [
+                3584,
+                3072
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/shared_experts.gate_proj",
+              "dtype": "BF16",
+              "shape": [
+                384,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            },
+            {
+              "name": "MoE/shared_experts.up_proj",
+              "dtype": "BF16",
+              "shape": [
+                384,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            },
+            {
+              "name": "MoE/shared_experts.down_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                384
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            },
+            {
+              "name": "ViT patch/patch_embed.proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1024,
+                3,
+                14,
+                14
+              ],
+              "repeat": 1,
+              "bytes": 1204224,
+              "globalBytes": 1204224
+            },
+            {
+              "name": "ViT patch/patch_embed.pos_emb.weight",
+              "dtype": "BF16",
+              "shape": [
+                64,
+                64,
+                1024
+              ],
+              "repeat": 1,
+              "bytes": 8388608,
+              "globalBytes": 8388608
+            },
+            {
+              "name": "ViT blocks/blocks.*.{norm0,norm1}.weight",
+              "dtype": "BF16",
+              "shape": [
+                1024
+              ],
+              "repeat": 54,
+              "bytes": 110592,
+              "globalBytes": 110592
+            },
+            {
+              "name": "ViT blocks/blocks.*.wqkv.weight",
+              "dtype": "BF16",
+              "shape": [
+                4608,
+                1024
+              ],
+              "repeat": 27,
+              "bytes": 254803968,
+              "globalBytes": 254803968
+            },
+            {
+              "name": "ViT blocks/blocks.*.wo.weight",
+              "dtype": "BF16",
+              "shape": [
+                1024,
+                1536
+              ],
+              "repeat": 27,
+              "bytes": 84934656,
+              "globalBytes": 84934656
+            },
+            {
+              "name": "ViT blocks/blocks.*.mlp.fc0.weight",
+              "dtype": "BF16",
+              "shape": [
+                4096,
+                1024
+              ],
+              "repeat": 27,
+              "bytes": 226492416,
+              "globalBytes": 226492416
+            },
+            {
+              "name": "ViT blocks/blocks.*.mlp.fc1.weight",
+              "dtype": "BF16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "repeat": 27,
+              "bytes": 226492416,
+              "globalBytes": 226492416
+            },
+            {
+              "name": "ViT final/encoder.final_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                1024
+              ],
+              "repeat": 1,
+              "bytes": 2048,
+              "globalBytes": 2048
+            },
+            {
+              "name": "MM projector/proj.0.weight",
+              "dtype": "BF16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "repeat": 1,
+              "bytes": 33554432,
+              "globalBytes": 33554432
+            },
+            {
+              "name": "MM projector/proj.2.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                4096
+              ],
+              "repeat": 1,
+              "bytes": 58720256,
+              "globalBytes": 58720256
+            },
+            {
+              "name": "MM projector/post_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "全量含ViT_Decode",
+      "phase": "Decode",
+      "recipe": "checkpoint",
+      "scope": "full",
+      "inputs": {
+        "tp": 16,
+        "kdaOTP": 16,
+        "attentionTP": 1,
+        "attentionOTP": 16,
+        "lmHeadTP": 16,
+        "embeddingTP": 16,
+        "otherTP": 16,
+        "ep": 128,
+        "sharedTP": 16,
+        "dsaCP": 1,
+        "dcp": 1,
+        "mlaDtype": "BF16",
+        "indexDtype": "BF16",
+        "tokens": 131072,
+        "blockSize": 128,
+        "specTokens": 0,
+        "convBytes": 2,
+        "recurrentBytes": 4
+      },
+      "partitions": [
+        93
+      ],
+      "maxTotalGiB": 36.81021534651518,
+      "stages": [
+        {
+          "stage": 0,
+          "layers": [
+            1,
+            93
+          ],
+          "kdaLayers": 69,
+          "attentionLayers": 24,
+          "weightGiB": 33.409058444201946,
+          "cacheGiB": 3.4011569023132324,
+          "bufferGiB": 0,
+          "totalGiB": 36.81021534651518,
+          "rows": [
+            {
+              "name": "Embedding / Output/embed_tokens.weight",
+              "dtype": "BF16",
+              "shape": [
+                10240,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 146800640,
+              "globalBytes": 2348810240
+            },
+            {
+              "name": "Embedding / Output/lm_head.weight",
+              "dtype": "BF16",
+              "shape": [
+                10240,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 146800640,
+              "globalBytes": 2348810240
+            },
+            {
+              "name": "Decoder common/input_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/post_attention_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/self_attention_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/mlp_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/self_attention_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/mlp_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 93,
+              "bytes": 1333248,
+              "globalBytes": 1333248
+            },
+            {
+              "name": "Decoder common/final_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Decoder common/output_attn_res_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Decoder common/output_attn_res_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            },
+            {
+              "name": "Dense MLP/gate_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                2112,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "Dense MLP/up_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                2112,
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "Dense MLP/down_proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                2112
+              ],
+              "repeat": 1,
+              "bytes": 30277632,
+              "globalBytes": 484442112
+            },
+            {
+              "name": "KDA/q_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/k_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/v_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/q_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/k_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/v_conv1d.weight",
+              "dtype": "FP32",
+              "shape": [
+                768,
+                1,
+                4
+              ],
+              "repeat": 69,
+              "bytes": 847872,
+              "globalBytes": 13565952
+            },
+            {
+              "name": "KDA/A_log",
+              "dtype": "FP32",
+              "shape": [
+                6
+              ],
+              "repeat": 69,
+              "bytes": 1656,
+              "globalBytes": 26496
+            },
+            {
+              "name": "KDA/f_a_proj",
+              "dtype": "BF16",
+              "shape": [
+                128,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 126615552,
+              "globalBytes": 126615552
+            },
+            {
+              "name": "KDA/f_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                128
+              ],
+              "repeat": 69,
+              "bytes": 13565952,
+              "globalBytes": 217055232
+            },
+            {
+              "name": "KDA/dt_bias",
+              "dtype": "FP32",
+              "shape": [
+                768
+              ],
+              "repeat": 69,
+              "bytes": 211968,
+              "globalBytes": 3391488
+            },
+            {
+              "name": "KDA/b_proj",
+              "dtype": "BF16",
+              "shape": [
+                6,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 5935104,
+              "globalBytes": 94961664
+            },
+            {
+              "name": "KDA/g_proj",
+              "dtype": "BF16",
+              "shape": [
+                768,
+                7168
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "KDA/o_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                128
+              ],
+              "repeat": 69,
+              "bytes": 17664,
+              "globalBytes": 17664
+            },
+            {
+              "name": "KDA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                768
+              ],
+              "repeat": 69,
+              "bytes": 759693312,
+              "globalBytes": 12155092992
+            },
+            {
+              "name": "Gated MLA/q_a_proj",
+              "dtype": "BF16",
+              "shape": [
+                1536,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 528482304,
+              "globalBytes": 528482304
+            },
+            {
+              "name": "Gated MLA/q_a_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                1536
+              ],
+              "repeat": 24,
+              "bytes": 73728,
+              "globalBytes": 73728
+            },
+            {
+              "name": "Gated MLA/q_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                18432,
+                1536
+              ],
+              "repeat": 24,
+              "bytes": 1358954496,
+              "globalBytes": 1358954496
+            },
+            {
+              "name": "Gated MLA/kv_a_proj_with_mqa",
+              "dtype": "BF16",
+              "shape": [
+                576,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 198180864,
+              "globalBytes": 198180864
+            },
+            {
+              "name": "Gated MLA/kv_a_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                512
+              ],
+              "repeat": 24,
+              "bytes": 24576,
+              "globalBytes": 24576
+            },
+            {
+              "name": "Gated MLA/kv_b_proj",
+              "dtype": "BF16",
+              "shape": [
+                24576,
+                512
+              ],
+              "repeat": 24,
+              "bytes": 603979776,
+              "globalBytes": 603979776
+            },
+            {
+              "name": "Gated MLA/g_proj",
+              "dtype": "BF16",
+              "shape": [
+                12288,
+                7168
+              ],
+              "repeat": 24,
+              "bytes": 4227858432,
+              "globalBytes": 4227858432
+            },
+            {
+              "name": "Gated MLA/o_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                768
+              ],
+              "repeat": 24,
+              "bytes": 264241152,
+              "globalBytes": 4227858432
+            },
+            {
+              "name": "MoE/router.weight",
+              "dtype": "BF16",
+              "shape": [
+                896,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 1181745152,
+              "globalBytes": 1181745152
+            },
+            {
+              "name": "MoE/e_score_correction_bias",
+              "dtype": "BF16",
+              "shape": [
+                896
+              ],
+              "repeat": 92,
+              "bytes": 164864,
+              "globalBytes": 164864
+            },
+            {
+              "name": "MoE/routed_expert_down_proj",
+              "dtype": "BF16",
+              "shape": [
+                3584,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 4726980608,
+              "globalBytes": 4726980608
+            },
+            {
+              "name": "MoE/routed_expert_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                3584
+              ],
+              "repeat": 92,
+              "bytes": 659456,
+              "globalBytes": 659456
+            },
+            {
+              "name": "MoE/routed_expert_up_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                3584
+              ],
+              "repeat": 92,
+              "bytes": 4726980608,
+              "globalBytes": 4726980608
+            },
+            {
+              "name": "MoE/experts.*.w1",
+              "dtype": "MXFP4",
+              "shape": [
+                3072,
+                3584
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/experts.*.w3",
+              "dtype": "MXFP4",
+              "shape": [
+                3072,
+                3584
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/experts.*.w2",
+              "dtype": "MXFP4",
+              "shape": [
+                3584,
+                3072
+              ],
+              "repeat": 644,
+              "bytes": 3766812672,
+              "globalBytes": 482152022016
+            },
+            {
+              "name": "MoE/shared_experts.gate_proj",
+              "dtype": "BF16",
+              "shape": [
+                384,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            },
+            {
+              "name": "MoE/shared_experts.up_proj",
+              "dtype": "BF16",
+              "shape": [
+                384,
+                7168
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            },
+            {
+              "name": "MoE/shared_experts.down_proj",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                384
+              ],
+              "repeat": 92,
+              "bytes": 506462208,
+              "globalBytes": 8103395328
+            },
+            {
+              "name": "ViT patch/patch_embed.proj.weight",
+              "dtype": "BF16",
+              "shape": [
+                1024,
+                3,
+                14,
+                14
+              ],
+              "repeat": 1,
+              "bytes": 1204224,
+              "globalBytes": 1204224
+            },
+            {
+              "name": "ViT patch/patch_embed.pos_emb.weight",
+              "dtype": "BF16",
+              "shape": [
+                64,
+                64,
+                1024
+              ],
+              "repeat": 1,
+              "bytes": 8388608,
+              "globalBytes": 8388608
+            },
+            {
+              "name": "ViT blocks/blocks.*.{norm0,norm1}.weight",
+              "dtype": "BF16",
+              "shape": [
+                1024
+              ],
+              "repeat": 54,
+              "bytes": 110592,
+              "globalBytes": 110592
+            },
+            {
+              "name": "ViT blocks/blocks.*.wqkv.weight",
+              "dtype": "BF16",
+              "shape": [
+                4608,
+                1024
+              ],
+              "repeat": 27,
+              "bytes": 254803968,
+              "globalBytes": 254803968
+            },
+            {
+              "name": "ViT blocks/blocks.*.wo.weight",
+              "dtype": "BF16",
+              "shape": [
+                1024,
+                1536
+              ],
+              "repeat": 27,
+              "bytes": 84934656,
+              "globalBytes": 84934656
+            },
+            {
+              "name": "ViT blocks/blocks.*.mlp.fc0.weight",
+              "dtype": "BF16",
+              "shape": [
+                4096,
+                1024
+              ],
+              "repeat": 27,
+              "bytes": 226492416,
+              "globalBytes": 226492416
+            },
+            {
+              "name": "ViT blocks/blocks.*.mlp.fc1.weight",
+              "dtype": "BF16",
+              "shape": [
+                1024,
+                4096
+              ],
+              "repeat": 27,
+              "bytes": 226492416,
+              "globalBytes": 226492416
+            },
+            {
+              "name": "ViT final/encoder.final_layernorm.weight",
+              "dtype": "BF16",
+              "shape": [
+                1024
+              ],
+              "repeat": 1,
+              "bytes": 2048,
+              "globalBytes": 2048
+            },
+            {
+              "name": "MM projector/proj.0.weight",
+              "dtype": "BF16",
+              "shape": [
+                4096,
+                4096
+              ],
+              "repeat": 1,
+              "bytes": 33554432,
+              "globalBytes": 33554432
+            },
+            {
+              "name": "MM projector/proj.2.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168,
+                4096
+              ],
+              "repeat": 1,
+              "bytes": 58720256,
+              "globalBytes": 58720256
+            },
+            {
+              "name": "MM projector/post_norm.weight",
+              "dtype": "BF16",
+              "shape": [
+                7168
+              ],
+              "repeat": 1,
+              "bytes": 14336,
+              "globalBytes": 14336
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

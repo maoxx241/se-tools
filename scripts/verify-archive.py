@@ -53,16 +53,18 @@ def main():
         for item in json.loads(source_file.read_text()).get('artifacts', []):
             assert hashlib.sha256((ROOT / item['path']).read_bytes()).hexdigest() == item['sha256'], item['path']
             extension_hashes += 1
-    workbooks = list((ROOT / "models").glob("*/*.xlsx"))
+    workbooks = list((ROOT / "models").glob("*/*-analysis.xlsx"))
     for file in workbooks:
-        assert list(sheets(file)) == ["Prefill", "Decode"], file
+        names = list(sheets(file))
+        assert names[:2] == ["Prefill", "Decode"] and names[2:] in ([], ["分钟场景"]), file
     results = json.loads(subprocess.check_output(["node", str(ROOT / "scripts/export-analysis.mjs"), "communication"], cwd=ROOT))
     expected = json.loads((ROOT / "examples/communication-256k/results.json").read_text())
     assert results == expected, "Regenerated communication results differ from the documented case"
     v41_dir = ROOT / 'models/deepseek-v4.1-flash'
     v41 = json.loads(subprocess.check_output(['node', str(ROOT / 'scripts/export-analysis.mjs'), 'communication', 'deepseek-v4.1-flash'], cwd=ROOT))
     assert v41 == json.loads((v41_dir / 'communication-example.json').read_text())
-    for cells in sheets(v41_dir / 'deepseek-v4.1-flash-analysis.xlsx').values():
+    v41_sheets = sheets(v41_dir / 'deepseek-v4.1-flash-analysis.xlsx')
+    for cells in (v41_sheets[phase] for phase in ['Prefill', 'Decode']):
         assert abs(float(cells['J118']) * 2**30 - 510286023000) < .01
         cached_payload = sum(float(cells[f'P{row}']) for row in (49, 50, 51)) * 2**30
         assert abs(cached_payload - int(v41['cache']['batchLogicalBytesPerReplica'])) < .01
