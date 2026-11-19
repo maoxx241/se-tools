@@ -1,0 +1,12 @@
+{
+  "name": "joint-dev",
+  "displayName": "Joint Dev Collaboration Framework",
+  "version": "2.0.0",
+  "description": "Manual-trigger (/joint-dev) multi-agent collaboration framework: clean Coordinator (macro UX/logic + 30m & milestone reports), strength-based routing across subagents, Codex Astra Max, and DSH/Grok, anti-defensive review filtering, and dedicated strong-model documentation.",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "/joint-dev 帮我按联合设计+DSH开发+联合深审推进这个需求",
+    "/joint-dev --grok 系统性重构并清理死代码与历史分支",
+    "/joint-dev review 对当前改动做深度系统性根因review并过滤防御性编程"
+  ]
+}
