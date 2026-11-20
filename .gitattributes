@@ -1,3 +1,5 @@
 # Preserve source snapshots byte-for-byte, including the supplied CRLF config.
 models/**/config.json -text whitespace=cr-at-eol
 *.xlsx binary
+plugins/joint-dev/** text eol=lf
+tests/joint-dev.test.mjs text eol=lf

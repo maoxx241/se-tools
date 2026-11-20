@@ -1,8 +1,8 @@
 {
   "name": "joint-dev",
   "displayName": "Joint Dev Collaboration Framework",
-  "version": "2.0.0",
-  "description": "Manual-trigger (/joint-dev) multi-agent collaboration framework: clean Coordinator (macro UX/logic + 30m & milestone reports), strength-based routing across subagents, Codex Astra Max, and DSH/Grok, anti-defensive review filtering, and dedicated strong-model documentation.",
+  "version": "2.1.0",
+  "description": "Manual-trigger (/joint-dev) multi-agent collaboration framework: clean Coordinator with compaction-proof macro_brief anchor & bounded 30m heartbeats, empirical-first systemic evolution (zero parameter-fitting traps or 1,000-step super-subagents), cross-platform Codex Astra Max + DSH/Grok dispatch, anti-defensive review gatekeeping, and dedicated strong-model documentation.",
   "logo": "assets/logo.svg",
   "suggestedPrompts": [
     "/joint-dev 帮我按联合设计+DSH开发+联合深审推进这个需求",
